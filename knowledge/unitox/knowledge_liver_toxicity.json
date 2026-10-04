@@ -1,0 +1,675 @@
+{
+  "task": "liver toxicity",
+  "task_description": "Liver_toxicity prediction, encompassing hepatocellular necrosis, cholestatic injury, hepatic steatosis, and mixed-pattern hepatotoxicity caused by drug or its reactive metabolites.",
+  "prediction_question": "Does this molecule exhibit liver toxicity? Your final answer should be formatted as either: 'Final answer: Toxicity' or 'Final answer: Non-toxicity'.",
+  "relevant_proteins": {
+    "BSEP": {
+      "pdb_id": "8PM6",
+      "role": "Canalicular bile salt efflux (ATP-binding cassette transporter, ABCB11)",
+      "logic": "An ATP-binding cassette transporter (ABCB11) in the hepatocyte canalicular membrane that extrudes monovalent bile salts into the bile canaliculi against a steep concentration gradient, the rate-limiting step of bile-salt secretion. Intracellular accumulation of bile salts is cytotoxic to hepatocytes, so BSEP activity keeps intrahepatic bile-salt levels low; loss of function from mutation or drug inhibition raises the intrahepatic bile-salt load and underlies progressive familial and drug-induced cholestasis.",
+      "role_cited": "Canalicular bile salt efflux (ATP-binding cassette transporter, ABCB11)[3t][4t]",
+      "logic_cited": "An ATP-binding cassette transporter (ABCB11) in the hepatocyte canalicular membrane[3t] that extrudes monovalent bile salts into the bile canaliculi against a steep concentration gradient[5][6t][7t], the rate-limiting step of bile-salt secretion[8t]. Intracellular accumulation of bile salts is cytotoxic to hepatocytes[7][9], so BSEP activity keeps intrahepatic bile-salt levels low[7t]; loss of function from mutation[11t] or drug inhibition[9t] raises the intrahepatic bile-salt load[10] and underlies progressive familial and drug-induced cholestasis[10t][11t]."
+    },
+    "MRP2": {
+      "pdb_id": "9JCS",
+      "role": "Canalicular efflux of organic-anion conjugates and bilirubin glucuronides (ATP-binding cassette transporter, ABCC2)",
+      "logic": "A polyspecific ATP-binding cassette transporter (ABCC2) in the hepatocyte canalicular membrane that exports organic anions conjugated with glutathione, glucuronide, or sulfate, including bilirubin glucuronides, and contributes to bile-salt-independent bile flow. Loss of MRP2 function retains conjugated bilirubin and other organic anions within the hepatocyte and raises their plasma concentrations, as seen in Dubin-Johnson syndrome and in drug-induced conjugated hyperbilirubinemia.",
+      "role_cited": "Canalicular efflux of organic-anion conjugates and bilirubin glucuronides (ATP-binding cassette transporter, ABCC2)[12c]",
+      "logic_cited": "A polyspecific[13] ATP-binding cassette transporter (ABCC2) in the hepatocyte canalicular membrane[13] that exports organic anions conjugated with glutathione[13], glucuronide[13], or sulfate[13], including bilirubin glucuronides[13][14][15], and contributes to bile-salt-independent bile flow[13][16]. Loss of MRP2 function retains conjugated bilirubin and other organic anions within the hepatocyte and raises their plasma concentrations[13], as seen in Dubin-Johnson syndrome[15t] and in drug-induced conjugated hyperbilirubinemia[13][14t]."
+    },
+    "PXR": {
+      "pdb_id": "1ILH",
+      "role": "Transcriptional regulation of drug metabolism (nuclear receptor, not a metabolic enzyme)",
+      "logic": "A ligand-activated nuclear receptor (NR1I2), not a metabolizing enzyme; on activation by xenobiotics it acts as a transcription factor. It induces expression of drug-metabolizing enzymes and canalicular efflux transporters, thereby shaping downstream hepatic drug-handling capacity.",
+      "role_cited": "Transcriptional regulation of drug metabolism (nuclear receptor, not a metabolic enzyme)[17t]",
+      "logic_cited": "A ligand-activated nuclear receptor (NR1I2)[18t], not a metabolizing enzyme[19t]; on activation by xenobiotics it acts as a transcription factor[19]. It induces expression of drug-metabolizing enzymes and canalicular efflux transporters[20], thereby shaping downstream hepatic drug-handling capacity[21t]."
+    },
+    "FXR": {
+      "pdb_id": "4OIV",
+      "role": "Bile acid homeostasis regulation (nuclear receptor, not a metabolic enzyme)",
+      "logic": "A bile-acid-activated nuclear receptor (NR1H4) that governs bile-acid homeostasis. On agonist activation it represses hepatic bile-acid synthesis and induces the bile salt export pump (BSEP), enhancing canalicular bile-salt export and lowering the intrahepatic bile-acid load.",
+      "role_cited": "Bile acid homeostasis regulation (nuclear receptor, not a metabolic enzyme)[3t][22t]",
+      "logic_cited": "A bile-acid-activated nuclear receptor (NR1H4) that governs bile-acid homeostasis[23t]. On agonist activation it represses hepatic bile-acid synthesis[24t] and induces the bile salt export pump (BSEP)[3], enhancing canalicular bile-salt export and lowering the intrahepatic bile-acid load[25]."
+    }
+  },
+  "pathway_rules": [
+    "BSEP (ABCB11) provides ATP-dependent efflux of monovalent bile salts across the hepatocyte canalicular membrane; reduced BSEP activity raises intracellular bile-salt concentrations, and bile-salt accumulation is directly cytotoxic to hepatocytes.",
+    "MRP2 (ABCC2) exports glutathione, glucuronide, and sulfate conjugates and bilirubin glucuronides into the canaliculus and drives bile flow; impaired MRP2 function retains conjugated bilirubin and organic anions within the hepatocyte.",
+    "Sustained intrahepatic accumulation of bile salts and conjugated organic anions injures hepatocyte membranes and mitochondria, producing the cholestatic pattern of liver injury with associated conjugated hyperbilirubinemia.",
+    "PXR (NR1I2) is a ligand-activated nuclear receptor that, on binding xenobiotics, acts as a transcription factor inducing drug-metabolizing enzymes and canalicular efflux transporters, remodeling hepatic drug-handling capacity.",
+    "FXR (NR1H4) is a bile-acid-activated nuclear receptor that represses hepatic bile-acid synthesis and induces BSEP-mediated canalicular export, lowering the intrahepatic bile-acid load and constraining cholestatic stress.",
+    "Coordinated transcriptional control of BSEP and MRP2 by FXR and PXR sets canalicular export capacity; reduced expression of these transporters lowers biliary excretion and favors intrahepatic retention of bile salts and organic anions."
+  ],
+  "molecular_context": {
+    "yes_features": [
+      "Aromatic amine or aniline, subject to hepatic oxidative metabolism to quinone-imine, hydroxylamine, or nitroso electrophiles that form covalent adducts with cellular proteins.",
+      "Phenol or electron-rich fused aromatic system, oxidizable to quinone and semiquinone intermediates capable of redox cycling and reactive-oxygen-species generation.",
+      "Thioether or sulfide sulfur, susceptible to oxidative S-oxidation to reactive sulfoxide, sulfenic, or sulfinic species.",
+      "Heme-coordinating nitrogen heterocycle (imidazole, triazole) associated with mechanism-based inhibition of hepatic oxidative drug metabolism.",
+      "Secondary or cyclic amine available for N-nitrosation to nitrosamines, which are bioactivated to alkylating, hepatotoxic electrophiles.",
+      "Small lipophilic scaffold undergoing hepatic oxidative metabolism to reactive intermediates and reactive oxygen species."
+    ],
+    "no_features": [
+      "No oxidizable aromatic amine, aniline, or electron-rich phenol susceptible to quinone or quinone-imine bioactivation.",
+      "No thioether, thiocarbonyl, or heme-coordinating azole engaging oxidative S-oxidation or mechanism-based inhibition.",
+      "No secondary or cyclic amine available for N-nitrosation to nitrosamine metabolites.",
+      "Ester or lactone readily hydrolyzed to non-reactive acids and alcohols and cleared without reactive intermediates.",
+      "Ketone as the principal carbonyl, metabolically stable and reduced or conjugated to non-reactive products.",
+      "Compact polar scaffold poorly oxidized in the liver, favoring Phase II conjugation and rapid clearance."
+    ],
+    "yes_features_cited": [
+      "Aromatic amine or aniline, subject to hepatic oxidative metabolism to quinone-imine[33t], hydroxylamine[34t], or nitroso electrophiles[33t][35t] that form covalent adducts with cellular proteins[35t].",
+      "Phenol or electron-rich fused aromatic system, oxidizable to quinone and semiquinone intermediates[33t] capable of redox cycling and reactive-oxygen-species generation[36t].",
+      "Thioether or sulfide sulfur[37c][38t], susceptible to oxidative S-oxidation to reactive sulfoxide[38t], sulfenic, or sulfinic species[37!][38t][39t].",
+      "Heme-coordinating nitrogen heterocycle (imidazole, triazole)[40t][41t][42t] associated with mechanism-based inhibition of hepatic oxidative drug metabolism[40t].",
+      "Secondary or cyclic amine available for N-nitrosation to nitrosamines[43t], which are bioactivated to alkylating, hepatotoxic electrophiles[44].",
+      "Small lipophilic scaffold undergoing hepatic oxidative metabolism to reactive intermediates and reactive oxygen species[1t][36t][44t]."
+    ],
+    "no_features_cited": [
+      "No oxidizable aromatic amine, aniline, or electron-rich phenol susceptible to quinone or quinone-imine bioactivation.",
+      "No thioether, thiocarbonyl, or heme-coordinating azole engaging oxidative S-oxidation or mechanism-based inhibition.",
+      "No secondary or cyclic amine available for N-nitrosation to nitrosamine metabolites.",
+      "Ester or lactone readily hydrolyzed[45t] to non-reactive acids and alcohols[45t] and cleared without reactive intermediates.",
+      "Ketone as the principal carbonyl, metabolically stable and reduced or conjugated to non-reactive products[46t].",
+      "Compact polar scaffold poorly oxidized in the liver, favoring Phase II conjugation and rapid clearance[47t]."
+    ]
+  },
+  "target_names": [
+    "Toxicity=0 (Non-toxicity)",
+    "Toxicity=1 (Toxicity)"
+  ],
+  "task_description_cited": "Liver_toxicity prediction, encompassing hepatocellular necrosis, cholestatic injury, hepatic steatosis, and mixed-pattern hepatotoxicity caused by drug or its reactive metabolites[1t][2t].",
+  "pathway_rules_cited": [
+    "BSEP (ABCB11) provides ATP-dependent efflux of monovalent bile salts across the hepatocyte canalicular membrane[3t][4t]; reduced BSEP activity raises intracellular bile-salt concentrations[26], and bile-salt accumulation is directly cytotoxic[27t] to hepatocytes[27].",
+    "MRP2 (ABCC2) exports glutathione, glucuronide, and sulfate conjugates[12c] and bilirubin glucuronides[28c] into the canaliculus[12c][28c] and drives bile flow[29]; impaired MRP2 function retains conjugated bilirubin and organic anions within the hepatocyte[12!][28!].",
+    "Sustained intrahepatic accumulation[30t] of bile salts and conjugated organic anions injures hepatocyte membranes and mitochondria[27t][30t], producing the cholestatic pattern of liver injury[9t] with associated conjugated hyperbilirubinemia[28c].",
+    "PXR (NR1I2) is a ligand-activated nuclear receptor[17] that, on binding xenobiotics, acts as a transcription factor[17] inducing drug-metabolizing enzymes[17t] and canalicular efflux transporters[17t][31t], remodeling hepatic drug-handling capacity[17t].",
+    "FXR (NR1H4) is a bile-acid-activated nuclear receptor[3][22] that represses hepatic bile-acid synthesis[22t][32t] and induces BSEP-mediated canalicular export[3], lowering the intrahepatic bile-acid load and constraining cholestatic stress[22t].",
+    "Coordinated transcriptional control of BSEP and MRP2 by FXR and[3t][31t] PXR[31t] sets canalicular export capacity[3][31]; reduced expression of these transporters lowers biliary excretion[30] and favors intrahepatic retention of bile salts and organic anions[30t]."
+  ],
+  "references": {
+    "1": {
+      "mla": "Tang, Wei. \"Drug Metabolite Profiling and Elucidation of Drug-Induced Hepatotoxicity.\" Expert Opinion on Drug Metabolism & Toxicology, vol. 3, no. 3, 2007, pp. 407-20. PubMed, https://doi.org/10.1517/17425255.3.3.407.",
+      "pmid": "17539747",
+      "doi": "10.1517/17425255.3.3.407",
+      "url": "https://doi.org/10.1517/17425255.3.3.407",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:17539747",
+      "caveat": "[caused by drug or its reactive metabolites] supports only “Formation of electrophilic drug metabolites is conceptualized as triggering covalent protein modification and subsequent organ toxicity.”; verifier note: The span frames reactive-metabolite causation as a working concept with an explicit caveat, and never covers injury caused by the drug itself.; [Liver_toxicity prediction, encompassing hepatocellular ...] supports only “Hepatic necrosis, microvesicular steatosis and cholestasis are drug-induced liver injury patterns exemplified respectively by ...”; verifier note: Three of the four injury patterns appear as worked examples, but neither the fourth pattern nor any predictive claim is established.; [Small lipophilic scaffold undergoing hepatic oxidative ...] supports only “Small lipophilic scaffold undergoing hepatic oxidative metabolism to reactive intermediates.”; source does not evidence: reactive oxygen species"
+    },
+    "2": {
+      "mla": "Kalgutkar, Amit S., et al. \"A Comprehensive Listing of Bioactivation Pathways of Organic Functional Groups.\" Current Drug Metabolism, vol. 6, no. 3, 2005, pp. 161-225. PubMed, https://doi.org/10.2174/1389200054021799.",
+      "pmid": "15975040",
+      "doi": "10.2174/1389200054021799",
+      "url": "https://doi.org/10.2174/1389200054021799",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:15975040",
+      "caveat": "[caused by drug or its reactive metabolites] supports only “Metabolic activation of inert functional groups to reactive electrophilic intermediates is considered an obligatory event in the etiology ...”; verifier note: The span supports the reactive-metabolite half of the atom only as a widely held concept and says nothing about injury caused by the parent drug."
+    },
+    "3": {
+      "mla": "Ananthanarayanan, M., et al. \"Human Bile Salt Export Pump Promoter Is Transactivated by the Farnesoid X Receptor/bile Acid Receptor.\" The Journal of Biological Chemistry, vol. 276, no. 31, 2001, pp. 28857-65. PubMed, https://doi.org/10.1074/jbc.M011610200.",
+      "pmid": "11387316",
+      "doi": "10.1074/jbc.M011610200",
+      "url": "https://doi.org/10.1074/jbc.M011610200",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:11387316",
+      "caveat": "[and induces BSEP-mediated canalicular export,] supports only “In HepG2 cells, bile acids acting through FXR/RXRalpha heterodimers bound to the IR-1 element transactivate the human BSEP promoter.”; evidence is cell_line; [FXR (NR1H4) is a bile-acid-activated nuclear receptor] supports only “FXR (farnesoid X receptor) is a nuclear receptor for bile acids that, heterodimerized with RXRalpha and bound by bile acids, regulates ...”; evidence is cell_line; [Canalicular bile salt efflux (ATP-binding cassette ...] evidence is cell_line; [and induces the bile salt export pump (BSEP),] supports only “In HepG2 cells, bile acids acting through co-transfected FXR and RXRalpha transactivate the human BSEP promoter.”; evidence is cell_line; [FXR transcriptional control of BSEP and MRP2] supports only “FXR transcriptional control of BSEP”; evidence is cell_line; source does not evidence: MRP2; [Bile acid homeostasis regulation (nuclear receptor, not a ...] evidence is cell_line; [Coordinated transcriptional control of BSEP and MRP2 by FXR ...] supports only “Coordinated transcriptional control of BSEP by FXR sets canalicular export capacity;”; evidence is cell_line; source does not evidence: MRP2; [An ATP-binding cassette transporter (ABCB11) in the ...] The source is a transcriptional-regulation study in HepG2 hepatoma cells plus cell-free gel-shift assays; the canalicular ATP-dependent bile-salt transport that the claim asserts appears only as the abstract's opening background sentence, with no transport measured in hepatocytes or canalicular membrane vesicles.; [BSEP (ABCB11) provides ATP-dependent efflux of monovalent ...] supports only “BSEP (ABCB11) provides ATP-dependent efflux of bile salts across the hepatocyte canalicular membrane”; The paper measured FXR/RXRalpha-driven transcription of the BSEP promoter in HepG2 cells, not bile-salt efflux; it also says 'bile acids' generally, so the claim's restriction to monovalent bile salts goes beyond the source, and no canalicular membrane or hepatocyte transport assay was performed."
+    },
+    "4": {
+      "mla": "Stieger, Bruno. \"The Role of the Sodium-Taurocholate Cotransporting Polypeptide (NTCP) and of the Bile Salt Export Pump (BSEP) in Physiology and Pathophysiology of Bile Formation.\" Handbook of Experimental Pharmacology, no. 201, 2011, pp. 205-59. PubMed, https://doi.org/10.1007/978-3-642-14541-4_5.",
+      "pmid": "21103971",
+      "doi": "10.1007/978-3-642-14541-4_5",
+      "url": "https://doi.org/10.1007/978-3-642-14541-4_5",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:21103971",
+      "caveat": "[BSEP (ABCB11) provides ATP-dependent efflux of monovalent ...] supports only “Canalicular export of bile salts is mediated by the ATP-binding cassette transporter bile salt export pump BSEP (ABCB11).”; verifier note: ABC identity, ATP-dependent canalicular export and ABCB11 are all supported; only the 'monovalent' restriction and explicit membrane wording are missing."
+    },
+    "5": {
+      "mla": "Meier, Peter J., and B. Stieger. \"Bile Salt Transporters.\" Annual Review of Physiology, vol. 64, 2002, pp. 635-61. PubMed, https://doi.org/10.1146/annurev.physiol.64.082201.100300.",
+      "pmid": "11826283",
+      "doi": "10.1146/annurev.physiol.64.082201.100300",
+      "url": "https://doi.org/10.1146/annurev.physiol.64.082201.100300",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:11826283",
+      "caveat": "[that extrudes monovalent bile salts into the bile ...] supports only “Monoanionic bile salts are secreted into bile canaliculi by the bile salt export pump Bsep (rodents) or BSEP (humans).”; verifier note: Extrusion of monovalent (monoanionic) bile salts into the canaliculi is supported verbatim, but the concentration-gradient qualifier is nowhere established."
+    },
+    "6": {
+      "mla": "Nishida, T., et al. \"Rat Liver Canalicular Membrane Vesicles Contain an ATP-dependent Bile Acid Transport System.\" Proceedings of the National Academy of Sciences of the United States of America, vol. 88, no. 15, 1991, pp. 6590-4. PubMed, https://doi.org/10.1073/pnas.88.15.6590.",
+      "pmid": "1862084",
+      "doi": "10.1073/pnas.88.15.6590",
+      "url": "https://doi.org/10.1073/pnas.88.15.6590",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:1862084",
+      "caveat": "[against a steep concentration gradient] evidence is rat, claim is stated for humans; evidence is cell_free"
+    },
+    "7": {
+      "mla": "Wang, Renxue, et al. \"ABC Transporters, Bile Acids, and Inflammatory Stress in Liver Cancer.\" Current Pharmaceutical Biotechnology, vol. 12, no. 4, 2011, pp. 636-46. PubMed, https://doi.org/10.2174/138920111795163986.",
+      "pmid": "21118090",
+      "doi": "10.2174/138920111795163986",
+      "url": "https://doi.org/10.2174/138920111795163986",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "mixed",
+      "ref_id": "pmid:21118090",
+      "caveat": "[so BSEP activity keeps intrahepatic bile-salt levels low;] verifier note: Export function and avoidance of over-accumulation are stated; converting that to 'keeps levels low' takes one step, and no concentrations are given.; [Intracellular accumulation of bile salts is cytotoxic to ...] verifier note: Hepatocyte toxicity from bile acid over-accumulation is stated, and only the intracellular localisation needs one step."
+    },
+    "8": {
+      "mla": "Green, R. M., et al. \"Molecular Cloning and Characterization of the Murine Bile Salt Export Pump.\" Gene, vol. 241, no. 1, 2000, pp. 117-23. PubMed, https://doi.org/10.1016/s0378-1119(99)00460-6.",
+      "pmid": "10607905",
+      "doi": "10.1016/s0378-1119(99)00460-6",
+      "url": "https://doi.org/10.1016/s0378-1119(99)00460-6",
+      "source_type": "pubmed",
+      "verdict": "DIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:10607905",
+      "caveat": "[the rate-limiting step of bile-salt secretion] evidence is mouse, claim is stated for humans; evidence is cell_line; [the rate-limiting step of bile-salt secretion.] evidence is mouse, claim is stated for humans"
+    },
+    "9": {
+      "mla": "Kullak-Ublick, G. A., and P. J. Meier. \"Mechanisms of Cholestasis.\" Clinics in Liver Disease, vol. 4, no. 2, 2000, pp. 357-85. PubMed, https://doi.org/10.1016/s1089-3261(05)70114-8.",
+      "pmid": "11232196",
+      "doi": "10.1016/s1089-3261(05)70114-8",
+      "url": "https://doi.org/10.1016/s1089-3261(05)70114-8",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:11232196",
+      "caveat": "[Intracellular accumulation of bile salts is cytotoxic to ...] supports only “The cytotoxic action of bile salts is pivotal to the liver injury seen in all forms of cholestasis.”; verifier note: Bile-salt cytotoxicity in cholestasis is asserted, but the span does not tie it to intracellular accumulation or to hepatocytes specifically.; [the cholestatic pattern of liver injury] supports only “In the sequence of events that leads to liver injury, the cytotoxic action of bile salts is pivotal to all forms of cholestasis.”; verifier note: Cholestasis is linked to liver injury via bile-salt cytotoxicity, but the atom's notion of a distinguishable injury pattern is not established."
+    },
+    "10": {
+      "mla": "Yu, Jinghua, et al. \"Lithocholic Acid Decreases Expression of Bile Salt Export Pump Through Farnesoid X Receptor Antagonist Activity.\" The Journal of Biological Chemistry, vol. 277, no. 35, 2002, pp. 31441-7. PubMed, https://doi.org/10.1074/jbc.M200474200.",
+      "pmid": "12052824",
+      "doi": "10.1074/jbc.M200474200",
+      "url": "https://doi.org/10.1074/jbc.M200474200",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:12052824",
+      "caveat": "[loss of function from mutation or drug inhibition raises ...] verifier note: The span covers mutation and drug inhibition and their consequence of bile acid retention; one step equates retention with a raised intrahepatic load.; [drug-induced cholestasis] supports only “Inhibition or down-regulation of BSEP by drugs may result in bile acid retention and intrahepatic cholestasis.”; verifier note: The span supports a narrower, BSEP-mechanism-specific and hedged version of drug-induced cholestasis.; [and underlies progressive familial and drug-induced ...] supports only “Mutations in BSEP result in progressive intrahepatic cholestasis, and inhibition or down-regulation of BSEP by drugs may result in bile ...”; verifier note: Both arms of the atom are present in weakened form: the familial qualifier is missing and the drug-induced arm is stated only as a possibility."
+    },
+    "11": {
+      "mla": "Srivastava, Anshu. \"Progressive Familial Intrahepatic Cholestasis.\" Journal of Clinical and Experimental Hepatology, vol. 4, no. 1, 2014, pp. 25-36. PubMed, https://doi.org/10.1016/j.jceh.2013.10.005.",
+      "pmid": "25755532",
+      "doi": "10.1016/j.jceh.2013.10.005",
+      "url": "https://doi.org/10.1016/j.jceh.2013.10.005",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:25755532",
+      "caveat": "[loss of function from mutation] verifier note: Causal gene defects with impaired secretion are stated; calling them loss-of-function mutations takes exactly one step."
+    },
+    "12": {
+      "mla": "Nies, Anne T., and Dietrich Keppler. \"The Apical Conjugate Efflux Pump ABCC2 (MRP2).\" Pflugers Archiv, vol. 453, no. 5, 2007, pp. 643-59. PubMed, https://doi.org/10.1007/s00424-006-0109-y.",
+      "pmid": "16847695",
+      "doi": "10.1007/s00424-006-0109-y",
+      "url": "https://doi.org/10.1007/s00424-006-0109-y",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "mixed",
+      "ref_id": "pmid:16847695",
+      "caveat": "ALSO CONTRADICTS: impaired MRP2 function retains conjugated bilirubin and organic anions within the hepatocyte.; [Canalicular efflux of organic-anion conjugates and ...] verifier note: Every substrate element of the atom is in the span; only the apical-to-canalicular identification requires one step.; [MRP2 (ABCC2) exports glutathione, glucuronide, and sulfate ...] verifier note: The span asserts unidirectional apical efflux of glutathione, glucuronate and sulfate conjugates including bilirubin glucuronosides; one anatomical step supplies 'into the canaliculus'."
+    },
+    "13": {
+      "mla": "Keppler, D., and J. Konig. \"Hepatic Canalicular Membrane 5: Expression and Localization of the Conjugate Export Pump Encoded by the MRP2 (cMRP/cMOAT) Gene in Liver.\" FASEB Journal, vol. 11, no. 7, 1997, pp. 509-16. PubMed, https://doi.org/10.1096/fasebj.11.7.9212074.",
+      "pmid": "9212074",
+      "doi": "10.1096/fasebj.11.7.9212074",
+      "url": "https://doi.org/10.1096/fasebj.11.7.9212074",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:9212074",
+      "caveat": "[exports anions conjugated with glucuronide] A glucuronate conjugate and a glucuronide are the same species, and the review names them in the same sentence as canalicular export into bile, so this atom sits on exactly the footing of its glutathione and sulfate siblings; DIRECT agreed.; source does not establish: the exact token 'glucuronide' - the review writes conjugates with 'glucuronate' (chemically the same conjugate class); the exporter's identity as MRP2/ABCC2 inside this span; species attribution; ATP dependence inside this span; [that exports organic anions conjugated with glutathione, ...] supports only “that exports organic anions conjugated with glutathione, glucuronide, or sulfate”; The review states all three conjugate classes and their export across the canalicular membrane into bile by the single 190 kDa pump, but never names bilirubin glucuronides as a transported substrate, so the supported claim is strictly narrower; I agree with SCOPE_LIMITED and with primary_support.; source does not establish: bilirubin glucuronides as a named substrate - bilirubin appears only as hyperbilirubinemia in Mrp2-deficient rats; the token 'glucuronide' (the review writes 'glucuronate' conjugates); the exporter's identity as MRP2/ABCC2 inside this span - it is 'a 190 kDa membrane glycoprotein', named MRP2 in the next sentence; species attribution; any exclusivity (that MRP2 is the only exporter of these conjugates); [Loss of MRP2 function retains conjugated bilirubin and ...] supports only “Loss of MRP2 function raises bilirubin plasma concentrations”; On the first disputed question: no - the abstract does not state intracellular retention; in the two Mrp2-null mutant rat strains it reports hyperbilirubinemia plus failed ATP-dependent transport of conjugates from hepatocytes into bile, which is an export defect, and the Dubin-Johnson sentence likewise reports deficient biliary secretion, not intracellular accumulation. Only the plasma rise, for bilirubin and in rats, survives, so SCOPE_LIMITED is correct.; source does not establish: retention 'within the hepatocyte' - the review reports deficient ATP-dependent transport of conjugates out of hepatocytes into bile, never an intracellular measurement; that the retained/raised bilirubin is conjugated; raised plasma levels of 'other organic anions'; the human case for the plasma rise (the hyperbilirubinemia is in two Mrp2-deficient mutant rat strains); any plasma concentration value; [polyspecific] In this review one synonym step ('multispecific organic anion transporter' -> polyspecific) plus the statement that a single 190 kDa canalicular pump carries glutathione-, glucuronate- and sulfate-conjugates gives the atom, so INDIRECT is right. Role corrected to primary_support, because the three substrate classes for one pump are asserted, not merely named.; source does not establish: the word 'polyspecific' - only 'multispecific', and only inside the name canalicular multispecific organic anion transporter (cMOAT); any number of substrates or measured substrate breadth; kinetic or affinity data for distinct substrate classes; that polyspecificity was demonstrated here rather than taken from the cMOAT name and MRP1 sequence similarity; [exports anions conjugated with glutathione] One sentence pair in the review states that glutathione conjugates are anionic and that these conjugates are transported across the canalicular membrane into bile, which is the atom's subject-free predicate; DIRECT and primary_support agreed.; source does not establish: the exporter's identity as MRP2/ABCC2 inside this span; species attribution; ATP dependence inside this span (stated later for the rat mutants); any rate, capacity or number; [exports anions conjugated with sulfate] The review states that sulfate conjugates are anionic and are transported across the canalicular membrane into bile by the 190 kDa pump, which is the atom verbatim in substance; DIRECT and primary_support agreed.; source does not establish: the exporter's identity as MRP2/ABCC2 inside this span; species attribution; ATP dependence inside this span; any rate, capacity or number; [A polyspecific ATP-binding cassette transporter (ABCC2) in ...] supports only “A transporter in the hepatocyte canalicular membrane”; This 1997 FASEB review states that human MRP2 is predominantly expressed in hepatocytes and localised to apical membrane domains, and elsewhere writes 'canalicular (apical) membrane', so the localisation half of the atom is established while the ABC/ABCC2 designation and 'polyspecific' are absent; SCOPE_LIMITED stands. I disagree with the recorded terminology_confirmation: the review substantively establishes the hepatocyte canalicular localisation, so the role is primary_support.; source does not establish: the ATP-binding cassette family assignment - the review calls it an ATPase, a 190 kDa membrane glycoprotein and cMRP/cMOAT/MRP2, never ABC; the gene symbol ABCC2; 'polyspecific'; the word 'canalicular' inside this span (the equivalence apical = canalicular is stated in a different sentence); species of the localisation data in this sentence (human MRP2 named one sentence earlier, rat homolog discussed separately); [as seen in Dubin-Johnson syndrome and in drug-induced ...] supports only “as seen in Dubin-Johnson syndrome”; The review states that MRP2 is not expressed in human Dubin-Johnson syndrome, so that half of the conjunction is established, while the drug-induced half is entirely absent from the abstract; SCOPE_LIMITED agreed, but the role is primary_support rather than terminology_confirmation because the MRP2-Dubin-Johnson link is asserted as a finding.; source does not establish: drug-induced conjugated hyperbilirubinemia - drugs and drug-induced phenotypes are never mentioned; plasma hyperbilirubinemia in Dubin-Johnson syndrome (the phenotype is given as deficient biliary secretion of amphiphilic anionic conjugates); the 'conjugated' qualifier on the hyperbilirubinemia; any patient numbers or plasma values; [and contributes to bile-salt-independent bile flow.] supports only “and contributes to bile flow.”; The review asserts verbatim that MRP2 contributes to bile flow as an important driving force, but nothing in it assigns that contribution to the bile-salt-independent component; SCOPE_LIMITED with the narrowed atom agreed.; source does not establish: the restriction to the bile-salt-independent fraction - bile salts are never mentioned in the abstract; the size of MRP2's contribution to bile flow; that the contribution operates through conjugate export; species attribution"
+    },
+    "14": {
+      "mla": "Tátrai, Péter, and Péter Krajcsi. \"Prediction of Drug-Induced Hyperbilirubinemia by in Vitro Testing.\" Pharmaceutics, vol. 12, no. 8, 2020, p. 755. PubMed, https://doi.org/10.3390/pharmaceutics12080755.",
+      "pmid": "32796590",
+      "doi": "10.3390/pharmaceutics12080755",
+      "url": "https://doi.org/10.3390/pharmaceutics12080755",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:32796590",
+      "caveat": "[drug-induced conjugated hyperbilirubinemia] supports only “Several pharmaceutical compounds are known to cause hyperbilirubinemia via inhibition of OATP1B transporters, UGT1A1, or BSEP.”; verifier note: The span supports drug-induced hyperbilirubinemia in general but not the conjugated form, and its named mechanisms point to the unconjugated form.; [as seen in Dubin-Johnson syndrome and in drug-induced ...] supports only “Several pharmaceutical compounds are known to cause hyperbilirubinemia via inhibition of OATP1B1, UGT1A1, or BSEP.”; verifier note: Drug-induced hyperbilirubinemia is supported but attributed to uptake/conjugation/BSEP inhibition, and the Dubin-Johnson half of the atom is entirely absent."
+    },
+    "15": {
+      "mla": "Borst, P., et al. \"Do cMOAT (MRP2), Other MRP Homologues, and LRP Play a Role in MDR?.\" Seminars in Cancer Biology, vol. 8, no. 3, 1997, pp. 205-13. PubMed, https://doi.org/10.1006/scbi.1997.0071.",
+      "pmid": "9441949",
+      "doi": "10.1006/scbi.1997.0071",
+      "url": "https://doi.org/10.1006/scbi.1997.0071",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "mixed",
+      "ref_id": "pmid:9441949",
+      "caveat": "[Dubin-Johnson syndrome] verifier note: The atom is a bare disease name and the span names Dubin-Johnson syndrome and attributes it to absence of the canalicular conjugate transporter in humans, so nothing is left unestablished.; [exports bilirubin glucuronides] evidence is rat, claim is stated for humans"
+    },
+    "16": {
+      "mla": "Ban, Daisuke, et al. \"Decreased Mrp2-dependent Bile Flow in the Post-Warm Ischemic Rat Liver.\" The Journal of Surgical Research, vol. 153, no. 2, 2009, pp. 310-6. PubMed, https://doi.org/10.1016/j.jss.2008.02.064.",
+      "pmid": "18662814",
+      "doi": "10.1016/j.jss.2008.02.064",
+      "url": "https://doi.org/10.1016/j.jss.2008.02.064",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "proposition",
+      "ref_id": "pmid:18662814",
+      "caveat": "[and contributes to bile-salt-independent bile flow.] evidence is rat, claim is stated for humans"
+    },
+    "17": {
+      "mla": "Kliewer, Steven A., et al. \"The Nuclear Pregnane X Receptor: a Key Regulator of Xenobiotic Metabolism.\" Endocrine Reviews, vol. 23, no. 5, 2002, pp. 687-702. PubMed, https://doi.org/10.1210/er.2001-0038.",
+      "pmid": "12372848",
+      "doi": "10.1210/er.2001-0038",
+      "url": "https://doi.org/10.1210/er.2001-0038",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:12372848",
+      "caveat": "[Transcriptional regulation of drug metabolism (nuclear ...] verifier note: The DNA-binding span supports transcriptional regulation of drug-metabolism genes; one step converts that into the atom's receptor-versus-enzyme contrast.; [PXR (NR1I2) is a ligand-activated nuclear receptor] verifier note: Identity, NR1I2 nomenclature and activation by chemicals are all in the span; only the chemical-to-ligand mapping requires a step.; [that, on binding xenobiotics, acts as a transcription factor] verifier note: Xenobiotic sensing plus response-element binding in target gene regulatory regions yields the atom in a single definitional step.; [inducing drug-metabolizing enzymes] verifier note: One step from response-element occupancy at drug-metabolizing-enzyme genes to induction yields the atom.; [remodeling hepatic drug-handling capacity.] verifier note: Response-element-driven regulation of metabolism and elimination genes yields the atom in one step from gene regulation to handling capacity.; [inducing drug-metabolizing enzymes and canalicular efflux ...] supports only “inducing drug-metabolizing enzymes,”; source does not evidence: canalicular efflux transporters"
+    },
+    "18": {
+      "mla": "Tirona, Rommel G., et al. \"The Orphan Nuclear Receptor HNF4alpha Determines PXR- and CAR-mediated Xenobiotic Induction of CYP3A4.\" Nature Medicine, vol. 9, no. 2, 2003, pp. 220-4. PubMed, https://doi.org/10.1038/nm815.",
+      "pmid": "12514743",
+      "doi": "10.1038/nm815",
+      "url": "https://doi.org/10.1038/nm815",
+      "source_type": "pubmed",
+      "verdict": "DIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:12514743",
+      "caveat": "[A ligand-activated nuclear receptor (NR1I2),] evidence is cell_line"
+    },
+    "19": {
+      "mla": "Zhang, H., et al. \"Rat Pregnane X Receptor: Molecular Cloning, Tissue Distribution, and Xenobiotic Regulation.\" Archives of Biochemistry and Biophysics, vol. 368, no. 1, 1999, pp. 14-22. PubMed, https://doi.org/10.1006/abbi.1999.1307.",
+      "pmid": "10415106",
+      "doi": "10.1006/abbi.1999.1307",
+      "url": "https://doi.org/10.1006/abbi.1999.1307",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "mixed",
+      "ref_id": "pmid:10415106",
+      "caveat": "[on activation by xenobiotics it acts as a transcription ...] evidence is rat, claim is stated for humans; [not a metabolizing enzyme;] evidence is rat, claim is stated for humans"
+    },
+    "20": {
+      "mla": "Teng, Shirley, and Micheline Piquette-Miller. \"The Involvement of the Pregnane X Receptor in Hepatic Gene Regulation During Inflammation in Mice.\" The Journal of Pharmacology and Experimental Therapeutics, vol. 312, no. 2, 2005, pp. 841-8. PubMed, https://doi.org/10.1124/jpet.104.076141.",
+      "pmid": "15456840",
+      "doi": "10.1124/jpet.104.076141",
+      "url": "https://doi.org/10.1124/jpet.104.076141",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:15456840",
+      "caveat": "[It induces expression of drug-metabolizing enzymes and ...] supports only “In mice, PXR activation increases hepatic mRNA levels of the canalicular efflux transporters bsep, mdr1a and mrp2 and of the ...”; evidence is mouse, claim is stated for humans"
+    },
+    "21": {
+      "mla": "Dresser, George K., et al. \"Coordinate Induction of Both Cytochrome P4503A and MDR1 by St John's Wort in Healthy Subjects.\" Clinical Pharmacology and Therapeutics, vol. 73, no. 1, 2003, pp. 41-50. PubMed, https://doi.org/10.1067/mcp.2003.10.",
+      "pmid": "12545142",
+      "doi": "10.1067/mcp.2003.10",
+      "url": "https://doi.org/10.1067/mcp.2003.10",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:12545142",
+      "caveat": "[thereby shaping downstream hepatic drug-handling capacity.] supports only “Twelve days of St John's wort pretreatment raised estimated hepatic and intestinal midazolam extraction ratios by approximately 1.2- to ...”; verifier note: A modest, phenotypically measured increase in hepatic extraction is supported, far narrower than a general claim about shaping hepatic drug-handling capacity."
+    },
+    "22": {
+      "mla": "Liu, Yaping, et al. \"Hepatoprotection by the Farnesoid X Receptor Agonist GW4064 in Rat Models of Intra- and Extrahepatic Cholestasis.\" The Journal of Clinical Investigation, vol. 112, no. 11, 2003, pp. 1678-87. PubMed, https://doi.org/10.1172/JCI18945.",
+      "pmid": "14623915",
+      "doi": "10.1172/JCI18945",
+      "url": "https://doi.org/10.1172/JCI18945",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "mixed",
+      "ref_id": "pmid:14623915",
+      "caveat": "[FXR (NR1H4) is a bile-acid-activated nuclear receptor] evidence is rat, claim is stated for humans; [Bile acid homeostasis regulation (nuclear receptor, not a ...] evidence is rat, claim is stated for humans; [lowering the intrahepatic bile-acid load and constraining ...] evidence is rat, claim is stated for humans; [that represses hepatic bile-acid synthesis] evidence is rat, claim is stated for humans"
+    },
+    "23": {
+      "mla": "Ding, Lili, et al. \"Bile Acid Nuclear Receptor FXR and Digestive System Diseases.\" Acta Pharmaceutica Sinica. B, vol. 5, no. 2, 2015, pp. 135-44. PubMed, https://doi.org/10.1016/j.apsb.2015.01.004.",
+      "pmid": "26579439",
+      "doi": "10.1016/j.apsb.2015.01.004",
+      "url": "https://doi.org/10.1016/j.apsb.2015.01.004",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:26579439",
+      "caveat": "[A bile-acid-activated nuclear receptor (NR1H4) that governs ...] supports only “The bile-acid-activated nuclear receptor farnesoid X receptor (FXR) plays a pivotal role in regulating bile acid homeostasis.”; verifier note: Bile-acid activation, nuclear-receptor identity and bile-acid homeostasis are all supported; only the NR1H4 gene symbol is absent from the span."
+    },
+    "24": {
+      "mla": "Makishima, M., et al. \"Identification of a Nuclear Receptor for Bile Acids.\" Science (New York, N.Y.), vol. 284, no. 5418, 1999, pp. 1362-5. PubMed, https://doi.org/10.1126/science.284.5418.1362.",
+      "pmid": "10334992",
+      "doi": "10.1126/science.284.5418.1362",
+      "url": "https://doi.org/10.1126/science.284.5418.1362",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:10334992",
+      "caveat": "[On agonist activation it represses hepatic bile-acid ...] evidence is cell_line"
+    },
+    "25": {
+      "mla": "Liu, Yunhuan, et al. \"Probiotic Lactobacillus Rhamnosus GG Prevents Liver Fibrosis Through Inhibiting Hepatic Bile Acid Synthesis and Enhancing Bile Acid Excretion in Mice.\" Hepatology (Baltimore, Md.), vol. 71, no. 6, 2020, pp. 2050-2066. PubMed, https://doi.org/10.1002/hep.30975.",
+      "pmid": "31571251",
+      "doi": "10.1002/hep.30975",
+      "url": "https://doi.org/10.1002/hep.30975",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:31571251",
+      "caveat": "[enhancing canalicular bile-salt export and lowering the ...] supports only “lowering the intrahepatic bile-acid load.”; evidence is mouse, claim is stated for humans; source does not evidence: enhancing canalicular bile-salt export"
+    },
+    "26": {
+      "mla": "Cheng, Yaofeng, et al. \"In vitro Model Systems to Investigate Bile Salt Export Pump (BSEP) Activity and Drug Interactions: a Review.\" Chemico-Biological Interactions, vol. 255, 2016, pp. 23-30. PubMed, https://doi.org/10.1016/j.cbi.2015.11.029.",
+      "pmid": "26683212",
+      "doi": "10.1016/j.cbi.2015.11.029",
+      "url": "https://doi.org/10.1016/j.cbi.2015.11.029",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:26683212",
+      "caveat": "[reduced BSEP activity raises intracellular bile-salt ...] supports only “Inhibition of BSEP transport activity can lead to an increase in intracellular bile salt levels and liver injury.”; verifier note: The source states the mechanism only as a possible consequence of BSEP inhibition, which is strictly weaker than the atom's unhedged causal claim."
+    },
+    "27": {
+      "mla": "Palmeira, Carlos M., and Anabela P. Rolo. \"Mitochondrially-Mediated Toxicity of Bile Acids.\" Toxicology, vol. 203, no. 1-3, 2004, pp. 1-15. PubMed, https://doi.org/10.1016/j.tox.2004.06.001.",
+      "pmid": "15363577",
+      "doi": "10.1016/j.tox.2004.06.001",
+      "url": "https://doi.org/10.1016/j.tox.2004.06.001",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:15363577",
+      "caveat": "[directly cytotoxic] supports only “Bile acids induce hepatocyte apoptosis and necrosis by damaging mitochondria, once their concentration exceeds the cytosolic ...”; verifier note: Cytotoxicity of bile acids to hepatocytes is supported but only above a binding-capacity threshold and via mitochondria, so 'directly' overstates the source.; [Sustained intrahepatic accumulation of bile salts and ...] supports only “Sustained intrahepatic accumulation of bile salts injures hepatocyte membranes and mitochondria,”; source does not evidence: conjugated organic anions; [and bile-salt accumulation is directly cytotoxic to ...] supports only “When the hepatocyte's cytosolic bile-acid binding capacity is exceeded, bile acids induce apoptosis and necrosis by damaging mitochondria.”; verifier note: Hepatocyte cytotoxicity of accumulated bile acids is supported, but only above a binding-capacity threshold and via mitochondrial injury, so the unconditional 'directly cytotoxic' is narrower in the source."
+    },
+    "28": {
+      "mla": "Keppler, Dietrich. \"The Roles of MRP2, MRP3, OATP1B1, and OATP1B3 in Conjugated Hyperbilirubinemia.\" Drug Metabolism and Disposition: the Biological Fate of Chemicals, vol. 42, no. 4, 2014, pp. 561-5. PubMed, https://doi.org/10.1124/dmd.113.055772.",
+      "pmid": "24459177",
+      "doi": "10.1124/dmd.113.055772",
+      "url": "https://doi.org/10.1124/dmd.113.055772",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:24459177",
+      "caveat": "ALSO CONTRADICTS: impaired MRP2 function retains conjugated bilirubin and organic anions within the hepatocyte.; [MRP2 (ABCC2) exports glutathione, glucuronide, and sulfate ...] supports only “MRP2 (ABCC2) exports bilirubin glucuronides into the canaliculus”; source does not evidence: sulfate conjugates; [producing the cholestatic pattern of liver injury with ...] supports only “Under cholestatic liver injury or MRP2 inhibition, basolateral MRP3 efflux of bilirubin glucuronides is responsible for conjugated ...”; verifier note: The association between cholestatic injury and conjugated hyperbilirubinemia with its transporter mechanism is supported, but the atom's productive causal claim is not."
+    },
+    "29": {
+      "mla": "Keppler, D. \"Cholestasis and the Role of Basolateral Efflux Pumps.\" Zeitschrift Fur Gastroenterologie, vol. 49, no. 12, 2011, pp. 1553-7. PubMed, https://doi.org/10.1055/s-0031-1281755.",
+      "pmid": "22139880",
+      "doi": "10.1055/s-0031-1281755",
+      "url": "https://doi.org/10.1055/s-0031-1281755",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:22139880",
+      "caveat": "[and drives bile flow;] supports only “MRP2 (ABCC2) and BSEP (ABCB11) are major contributors to bile acid-independent and bile acid-dependent bile flow, respectively.”; verifier note: The source supports a split, attributed, 'major contributor' claim that is strictly narrower than the unqualified 'drives bile flow'."
+    },
+    "30": {
+      "mla": "Baghdasaryan, Anna, et al. \"Clinical Application of Transcriptional Activators of Bile Salt Transporters.\" Molecular Aspects of Medicine, vol. 37, no. 100, 2014, pp. 57-76. PubMed, https://doi.org/10.1016/j.mam.2013.12.001.",
+      "pmid": "24333169",
+      "doi": "10.1016/j.mam.2013.12.001",
+      "url": "https://doi.org/10.1016/j.mam.2013.12.001",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:24333169",
+      "caveat": "[reduced expression of these transporters lowers biliary ...] supports only “Genetic or acquired dysfunction of hepatobiliary bile salt transport systems causes intrahepatic and systemic retention of potentially ...”; verifier note: The span supports retention on transporter dysfunction but does not connect reduced expression specifically to reduced biliary excretion.; [and favors intrahepatic retention of bile salts and organic ...] supports only “and favors intrahepatic retention of bile salts.”; source does not evidence: organic anions; [Sustained intrahepatic accumulation of bile salts and ...] supports only “Sustained intrahepatic accumulation of bile salts injures hepatocyte membranes and mitochondria,”; source does not evidence: conjugated organic anions; [Sustained intrahepatic accumulation] supports only “Genetic or acquired dysfunction of specific bile salt transport systems causes intrahepatic retention of potentially cytotoxic bile salts.”; verifier note: Intrahepatic accumulation is supported, but the atom's 'sustained' qualifier has no counterpart in the span."
+    },
+    "31": {
+      "mla": "Kast, Heidi R., et al. \"Regulation of Multidrug Resistance-Associated Protein 2 (ABCC2) by the Nuclear Receptors Pregnane X Receptor, Farnesoid X-Activated Receptor, and Constitutive Androstane Receptor.\" The Journal of Biological Chemistry, vol. 277, no. 4, 2002, pp. 2908-15. PubMed, https://doi.org/10.1074/jbc.M109326200.",
+      "pmid": "11706036",
+      "doi": "10.1074/jbc.M109326200",
+      "url": "https://doi.org/10.1074/jbc.M109326200",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:11706036",
+      "caveat": "[FXR transcriptional control of BSEP and MRP2] supports only “FXR transcriptional control of MRP2”; source does not evidence: BSEP; [Coordinated transcriptional control of BSEP and MRP2 by FXR ...] supports only “Coordinated transcriptional control of MRP2 by FXR and PXR sets canalicular export capacity;”; source does not evidence: BSEP; [inducing drug-metabolizing enzymes and canalicular efflux ...] supports only “inducing canalicular efflux transporters,”; evidence is rat, claim is stated for humans; source does not evidence: drug-metabolizing enzymes; [PXR transcriptional control of BSEP and MRP2] supports only “PXR transcriptional control of MRP2”; evidence is rat, claim is stated for humans; evidence is cell_line; source does not evidence: BSEP; [inducing canalicular efflux transporters] supports only “PXR or CAR agonists induce mRNA of the canalicular efflux transporter MRP2 in rodent hepatocytes.”; evidence is rat, claim is stated for humans"
+    },
+    "32": {
+      "mla": "Goodwin, B., et al. \"A Regulatory Cascade of the Nuclear Receptors FXR, SHP-1, and LRH-1 Represses Bile Acid Biosynthesis.\" Molecular Cell, vol. 6, no. 3, 2000, pp. 517-26. PubMed, https://doi.org/10.1016/s1097-2765(00)00051-4.",
+      "pmid": "11030332",
+      "doi": "10.1016/s1097-2765(00)00051-4",
+      "url": "https://doi.org/10.1016/s1097-2765(00)00051-4",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:11030332",
+      "caveat": "[that represses hepatic bile-acid synthesis] evidence is rat, claim is stated for humans"
+    },
+    "33": {
+      "mla": "Kalgutkar, Amit S., et al. \"Bioactivation of the Nontricyclic Antidepressant Nefazodone to a Reactive Quinone-Imine Species in Human Liver Microsomes and Recombinant Cytochrome P450 3A4.\" Drug Metabolism and Disposition: the Biological Fate of Chemicals, vol. 33, no. 2, 2005, pp. 243-53. PubMed, https://doi.org/10.1124/dmd.104.001735.",
+      "pmid": "15523046",
+      "doi": "10.1124/dmd.104.001735",
+      "url": "https://doi.org/10.1124/dmd.104.001735",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:15523046",
+      "caveat": "[Aromatic amine or aniline, subject to hepatic oxidative ...] supports only “The 3-chlorophenylpiperazine moiety of nefazodone undergoes CYP3A4-mediated oxidative metabolism in human liver microsomes to a reactive ...”; evidence is cell_free; [oxidative metabolism to quinone-imine] evidence is cell_free; [Phenol or electron-rich fused aromatic system, oxidizable ...] supports only “Phenol, oxidizable to quinone”; source does not evidence: electron-rich fused aromatic system, semiquinone intermediates"
+    },
+    "34": {
+      "mla": "Sanderson, Joseph P., et al. \"Sulfamethoxazole and Its Metabolite Nitroso Sulfamethoxazole Stimulate Dendritic Cell Costimulatory Signaling.\" Journal of Immunology, vol. 178, no. 9, 2007, pp. 5533-42. PubMed, https://doi.org/10.4049/jimmunol.178.9.5533.",
+      "pmid": "17442935",
+      "doi": "10.4049/jimmunol.178.9.5533",
+      "url": "https://doi.org/10.4049/jimmunol.178.9.5533",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:17442935",
+      "caveat": "[oxidative metabolism to hydroxylamine] verifier note: Enzymatic formation of the hydroxylamine is directly reported; only labelling that chemistry 'oxidative' requires a step."
+    },
+    "35": {
+      "mla": "Castrejon, J. Luis, et al. \"Metabolic and Chemical Origins of Cross-Reactive Immunological Reactions to Arylamine Benzenesulfonamides: T-Cell Responses to Hydroxylamine and Nitroso Derivatives.\" Chemical Research in Toxicology, vol. 23, no. 1, 2010, pp. 184-92. PubMed, https://doi.org/10.1021/tx900329b.",
+      "pmid": "19954178",
+      "doi": "10.1021/tx900329b",
+      "url": "https://doi.org/10.1021/tx900329b",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:19954178",
+      "caveat": "[oxidative metabolism to nitroso electrophiles] supports only “Nitroso sulfamethoxazole, a putative metabolite of sulfamethoxazole, binds irreversibly to protein and stimulates T cells.”; evidence is mouse, claim is stated for humans; [that form covalent adducts with cellular proteins.] evidence is mouse, claim is stated for humans"
+    },
+    "36": {
+      "mla": "Vasiliou, Vasilis, et al. \"Update of the NAD(P)H:quinone Oxidoreductase (NQO) Gene Family.\" Human Genomics, vol. 2, no. 5, 2006, pp. 329-35. PubMed, https://doi.org/10.1186/1479-7364-2-5-329.",
+      "pmid": "16595077",
+      "doi": "10.1186/1479-7364-2-5-329",
+      "url": "https://doi.org/10.1186/1479-7364-2-5-329",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:16595077",
+      "caveat": "[capable of redox cycling and reactive-oxygen-species ...] verifier note: The predicate maps almost verbatim onto the span; one step is needed to attach it to the atom's elided subject and to convert an occurrence into a capability.; [reactive oxygen species] verifier note: The atom is a bare term and the span states it verbatim together with its generative mechanism, so nothing the atom asserts is left unestablished."
+    },
+    "37": {
+      "mla": "Henderson, Marilyn C., et al. \"S-Oxygenation of the Thioether Organophosphate Insecticides Phorate and Disulfoton by Human Lung Flavin-Containing Monooxygenase 2.\" Biochemical Pharmacology, vol. 68, no. 5, 2004, pp. 959-67. PubMed, https://doi.org/10.1016/j.bcp.2004.05.051.",
+      "pmid": "15294458",
+      "doi": "10.1016/j.bcp.2004.05.051",
+      "url": "https://doi.org/10.1016/j.bcp.2004.05.051",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:15294458",
+      "caveat": "ALSO CONTRADICTS: susceptible to oxidative S-oxidation to reactive sulfoxide, sulfenic, or sulfinic species.; [Thioether or sulfide sulfur,] supports only “The thioether sulfur of the organophosphate insecticides phorate and disulfoton is S-oxygenated by expressed human FMO2.1 to the ...”; evidence is cell_free"
+    },
+    "38": {
+      "mla": "Dansette, Patrick M., et al. \"Thiolactone Sulfoxides as New Reactive Metabolites Acting as Bis-Electrophiles: Implication in Clopidogrel and Prasugrel Bioactivation.\" Chemical Research in Toxicology, vol. 26, no. 5, 2013, pp. 794-802. PubMed, https://doi.org/10.1021/tx400083b.",
+      "pmid": "23527615",
+      "doi": "10.1021/tx400083b",
+      "url": "https://doi.org/10.1021/tx400083b",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:23527615",
+      "caveat": "[sulfenic species] supports only “P450-dependent oxidation of the thiolactone metabolites of clopidogrel and prasugrel yields a reactive thiolactone sulfoxide and, via water ...”; evidence is cell_free; [susceptible to oxidative S-oxidation to reactive sulfoxide, ...] supports only “The thiolactone metabolites of clopidogrel and prasugrel undergo P450-dependent S-oxidation to a highly reactive thiolactone sulfoxide and ...”; evidence is cell_free; [Thioether or sulfide sulfur,] supports only “The thiolactone sulfur of clopidogrel and prasugrel undergoes cytochrome P450-dependent oxidation to a reactive thiolactone sulfoxide that ...”; evidence is cell_free; [reactive sulfoxide] evidence is cell_free"
+    },
+    "39": {
+      "mla": "Zabel, Robert, and Günther Weber. \"Comparative Study of the Oxidation Behavior of Sulfur-Containing Amino Acids and Glutathione by Electrochemistry-Mass Spectrometry in the Presence and Absence of Cisplatin.\" Analytical and Bioanalytical Chemistry, vol. 408, no. 4, 2016, pp. 1237-47. PubMed, https://doi.org/10.1007/s00216-015-9233-x.",
+      "pmid": "26670772",
+      "doi": "10.1007/s00216-015-9233-x",
+      "url": "https://doi.org/10.1007/s00216-015-9233-x",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:26670772",
+      "caveat": "[sulfinic species] supports only “Reagentless electrochemical oxidation of cysteine, N-acetylcysteine, methionine and glutathione produces detectable sulfinic acid ...”; evidence is cell_free"
+    },
+    "40": {
+      "mla": "Hutzler, J. Matthew, et al. \"Inhibition of Cytochrome P450 3A4 by a Pyrimidineimidazole: Evidence for Complex Heme Interactions.\" Chemical Research in Toxicology, vol. 19, no. 12, 2006, pp. 1650-9. PubMed, https://doi.org/10.1021/tx060198m.",
+      "pmid": "17173379",
+      "doi": "10.1021/tx060198m",
+      "url": "https://doi.org/10.1021/tx060198m",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:17173379",
+      "caveat": "[Heme-coordinating nitrogen heterocycle (imidazole, triazole)] supports only “The imidazole moiety of PH-302 inhibits human CYP3A4 by type II coordination to the P450 heme.”; evidence is cell_free; [associated with mechanism-based inhibition of hepatic ...] supports only “Metabolism of the methylenedioxyphenyl group of PH-302 forms a metabolite-inhibitory complex that causes time-dependent inhibition of ...”; evidence is cell_free"
+    },
+    "41": {
+      "mla": "Chai, Xiaoyun, et al. \"Design, Synthesis, and Biological Evaluation of Novel Triazole Derivatives as Inhibitors of Cytochrome P450 14alpha-demethylase.\" European Journal of Medicinal Chemistry, vol. 44, no. 5, 2009, pp. 1913-20. PubMed, https://doi.org/10.1016/j.ejmech.2008.11.007.",
+      "pmid": "19097674",
+      "doi": "10.1016/j.ejmech.2008.11.007",
+      "url": "https://doi.org/10.1016/j.ejmech.2008.11.007",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:19097674",
+      "caveat": "[Heme-coordinating nitrogen heterocycle (imidazole, triazole)] supports only “Computational docking indicates that triazole antifungals inhibit fungal cytochrome P450 14alpha-demethylase (CYP51) through a coordination ...”; evidence is non_mammal, claim is stated for humans; [triazole] supports only “A 1,2,4-triazole ring, as in fluconazole analogs, is docked to inhibit the cytochrome P450 14alpha-demethylase (CYP51) through a ...”; evidence is non_mammal, claim is stated for humans"
+    },
+    "42": {
+      "mla": "Montemiglio, Linda Celeste, et al. \"Azole Drugs Trap Cytochrome P450 EryK in Alternative Conformational States.\" Biochemistry, vol. 49, no. 43, 2010, pp. 9199-206. PubMed, https://doi.org/10.1021/bi101062v.",
+      "pmid": "20845962",
+      "doi": "10.1021/bi101062v",
+      "url": "https://doi.org/10.1021/bi101062v",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:20845962",
+      "caveat": "[imidazole] supports only “The imidazole moieties of ketoconazole and clotrimazole coordinate the heme iron of the bacterial cytochrome P450 EryK in co-crystal ...”; evidence is non_mammal, claim is stated for humans; evidence is cell_free"
+    },
+    "43": {
+      "mla": "Vogel, Matthias, et al. \"Quantitative Investigation of Nitrosamine Drug Substance-Related Impurities (NDSRIs) Under Artificial Gastric Conditions by Liquid Chromatography-Tandem Mass Spectrometry and Structure-Activity Relationship Analysis.\" Drug Testing and Analysis, vol. 17, no. 9, 2025, pp. 1772-1784. PubMed, https://doi.org/10.1002/dta.3874.",
+      "pmid": "40075515",
+      "doi": "10.1002/dta.3874",
+      "url": "https://doi.org/10.1002/dta.3874",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:40075515",
+      "caveat": "[Secondary or cyclic amine available for N-nitrosation to ...] supports only “Active pharmaceutical ingredients bearing secondary amine groups undergo direct N-nitrosation to nitrosamine drug substance-related ...”; evidence is cell_free"
+    },
+    "44": {
+      "mla": "Janmeda, Pracheta, et al. \"A Systematic Review on Multipotent Carcinogenic Agent, N-Nitrosodiethylamine (NDEA), Its Major Risk Assessment, and Precautions.\" Journal of Applied Toxicology, vol. 44, no. 8, 2024, pp. 1108-1128. PubMed, https://doi.org/10.1002/jat.4574.",
+      "pmid": "38212177",
+      "doi": "10.1002/jat.4574",
+      "url": "https://doi.org/10.1002/jat.4574",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:38212177",
+      "caveat": "[which are bioactivated to alkylating, hepatotoxic ...] supports only “N-nitrosodiethylamine requires bioactivation by CYP450 to form DNA adducts by an alkylation mechanism.”; verifier note: Bioactivation to an alkylating species is supported for NDEA, but the span neither names electrophiles nor ties the alkylating species to hepatotoxicity."
+    },
+    "45": {
+      "mla": "Umehara, Ken-Ichi, et al. \"Esterase Phenotyping in Human Liver in Vitro: Specificity of Carboxylesterase Inhibitors.\" Xenobiotica; the Fate of Foreign Compounds in Biological Systems, vol. 46, no. 10, 2016, pp. 862-7. PubMed, https://doi.org/10.3109/00498254.2015.1133867.",
+      "pmid": "26887925",
+      "doi": "10.3109/00498254.2015.1133867",
+      "url": "https://doi.org/10.3109/00498254.2015.1133867",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:26887925",
+      "caveat": "[Ester or lactone readily hydrolyzed to non-reactive acids ...] supports only “Ester hydrolyzed”; The abstract supports only that ester-containing drugs are subject to esterase-mediated hydrolytic clearance in human liver; it addresses neither lactones, nor the rate, nor the identity or reactivity of the products. The narrowed atom therefore cannot retain 'readily', 'non-reactive', 'acids and alcohols' or 'lactone'.; source does not establish: 'lactone' as a substrate: the abstract names esters/ester prodrugs and 'functional groups amenable to hydrolysis' only; lactone never appears; 'readily': no rate or extent of hydrolysis; the products 'acids and alcohols': the abstract never identifies any hydrolysis product; 'non-reactive': the abstract makes no statement of any kind about the chemical reactivity of hydrolysis products; hedging: 'may play a major role' is weaker than the atom's flat assertion; [readily hydrolyzed] supports only “hydrolyzed”; The abstract states that drugs bearing hydrolysable functional groups (notably ester prodrugs) are cleared by esterases and then characterises CES1/CES2 inhibitor selectivity in human liver in vitro. It supplies no kinetics, so the atom's 'readily' is not established; only the bare fact of hydrolytic clearance survives.; source does not establish: quantifier 'readily': no rate, half-life, intrinsic clearance or extent of hydrolysis is reported anywhere in the abstract; the predicate itself is hedged ('may play a major role'), and the sentence is framing for a phenotyping-tool study, not a result; no hydrolysis product is named, so nothing about what the substrate is hydrolyzed to"
+    },
+    "46": {
+      "mla": "Malátková, Petra, et al. \"Human Carbonyl Reductases.\" Current Drug Metabolism, vol. 11, no. 8, 2010, pp. 639-58. PubMed, https://doi.org/10.2174/138920010794233530.",
+      "pmid": "20942781",
+      "doi": "10.2174/138920010794233530",
+      "url": "https://doi.org/10.2174/138920010794233530",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:20942781",
+      "caveat": "[metabolically stable and reduced or conjugated to ...] supports only “Carbonyl reduction of xenobiotics is generally a one-way detoxification reaction, since the resulting alcohol is easier to conjugate and to ...”; verifier note: Detoxifying reduction to a readily conjugated alcohol is supported as a general rule, but metabolic stability is not and is in tension with the same sentence."
+    },
+    "47": {
+      "mla": "Radominska-Pandya, A., et al. \"Human UDP-glucuronosyltransferase 2B7.\" Current Drug Metabolism, vol. 2, no. 3, 2001, pp. 283-98. PubMed, https://doi.org/10.2174/1389200013338379.",
+      "pmid": "11513331",
+      "doi": "10.2174/1389200013338379",
+      "url": "https://doi.org/10.2174/1389200013338379",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:11513331",
+      "caveat": "[favoring Phase II conjugation and rapid clearance.] supports only “Glucuronidation converts hydrophobic compounds into hydrophilic derivatives, facilitating their detoxification and excretion.”; verifier note: The hydrophilization-and-excretion function is supported, but 'rapid' clearance is unquantified and the source itself qualifies the detoxification claim."
+    }
+  },
+  "contradiction_flags": [
+    {
+      "json_path": "pathway_rules[1]",
+      "segment_id": "C-3989288d95#s3",
+      "segment_text": "impaired MRP2 function retains conjugated bilirubin and organic anions within the hepatocyte.",
+      "pmid": "16847695",
+      "doi": "10.1007/s00424-006-0109-y",
+      "mla": "Nies, Anne T., and Dietrich Keppler. \"The Apical Conjugate Efflux Pump ABCC2 (MRP2).\" Pflugers Archiv, vol. 453, no. 5, 2007, pp. 643-59. PubMed, https://doi.org/10.1007/s00424-006-0109-y.",
+      "contradicting_quote": "Acquired or hereditary deficiency of ABCC2, the latter known as Dubin-Johnson syndrome in humans, causes an increased concentration of bilirubin glucuronosides in blood because of their efflux from hepatocytes via the basolateral ABCC3, which compensates for the deficiency in ABCC2-mediated apical efflux.",
+      "note": "Basolateral export to blood is incompatible with intracellular retention; here the compensating pump is not a side note but the source's stated mechanism replacing the retention the clause asserts. The evidence is explicit for bilirubin glucuronosides, the first substrate the clause names. (Impaired MRP2 (ABCC2) function retains conjugated bilirubin and organic anions inside the hepatocyte.; In acquired or hereditary ABCC2 deficiency (Dubin-Johnson syndrome) bilirubin glucuronosides leave the hepatocyte across the basolateral membrane via ABCC3, raising their blood concentration.)",
+      "source_species": "human (review, human and rodent data)",
+      "source_system": "review",
+      "origin": "blind_verification",
+      "scope": "whole atom"
+    },
+    {
+      "json_path": "pathway_rules[1]",
+      "segment_id": "C-3989288d95#s3",
+      "segment_text": "impaired MRP2 function retains conjugated bilirubin and organic anions within the hepatocyte.",
+      "pmid": "24459177",
+      "doi": "10.1124/dmd.113.055772",
+      "mla": "Keppler, Dietrich. \"The Roles of MRP2, MRP3, OATP1B1, and OATP1B3 in Conjugated Hyperbilirubinemia.\" Drug Metabolism and Disposition: the Biological Fate of Chemicals, vol. 42, no. 4, 2014, pp. 561-5. PubMed, https://doi.org/10.1124/dmd.113.055772.",
+      "contradicting_quote": "Under pathophysiological conditions such as cholestatic liver injury and MRP2 inhibition, the basolateral efflux pump multidrug resistance protein 3 (MRP3 or ABCC3) is responsible for the occurrence of conjugated hyperbilirubinemia.",
+      "note": "The clause's mechanism is hepatocellular retention; the source attributes the raised plasma conjugates to basolateral efflux, which is the opposite of retention. Upregulation of MRP3 precisely under MRP2 deficiency makes this a replacement of the mechanism, not merely a limitation of it. (Impaired MRP2 function retains conjugated bilirubin and organic anions inside the hepatocyte.; Under cholestatic injury and MRP2 inhibition the basolateral pump MRP3, strongly upregulated in MRP2 deficiency, is what produces conjugated hyperbilirubinemia, i.e. the conjugates exit the hepatocyte.)",
+      "source_species": "human and rat (review)",
+      "source_system": "review",
+      "origin": "blind_verification",
+      "scope": "whole atom"
+    },
+    {
+      "json_path": "molecular_context.yes_features[2]",
+      "segment_id": "C-e46ed8161b#s2",
+      "segment_text": "susceptible to oxidative S-oxidation to reactive sulfoxide, sulfenic, or sulfinic species.",
+      "pmid": "15294458",
+      "doi": "10.1016/j.bcp.2004.05.051",
+      "mla": "Henderson, Marilyn C., et al. \"S-Oxygenation of the Thioether Organophosphate Insecticides Phorate and Disulfoton by Human Lung Flavin-Containing Monooxygenase 2.\" Biochemical Pharmacology, vol. 68, no. 5, 2004, pp. 959-67. PubMed, https://doi.org/10.1016/j.bcp.2004.05.051.",
+      "contradicting_quote": "MS/MS analysis confirmed the metabolites to be the respective sulfoxides. Co-incubations with glutathione did not reduce yield, suggesting they are not highly electrophilic.",
+      "note": "The recorded quote EXEMPLIFIES the clause - it confirms S-oxidation to a sulfoxide - and its 'no sulfone' point concerns a species the clause never names. Only the glutathione co-incubation sentence contradicts the word 'reactive', and it does so for two thioether organophosphates with one FMO isoform. (Thioether/sulfide sulfur is susceptible to oxidative S-oxidation to REACTIVE sulfoxide, sulfenic or sulfinic species.; Expressed human FMO2.1 oxygenates the thioether of phorate and disulfoton to the sulfoxide only, and those sulfoxides did not consume glutathione, indicating they are not highly electrophilic.)",
+      "source_species": "human (heterologously expressed human FMO2.1; mouse/rabbit microsomes referenced)",
+      "source_system": "cell_free",
+      "origin": "blind_verification",
+      "scope": "whole atom"
+    }
+  ],
+  "citation_meta": {
+    "pipeline_version": "1.2",
+    "marker_legend": {
+      "[n]": "the source supports this assertion",
+      "[nt]": "the source confirms the terminology only; it does not establish the assertion",
+      "[nc]": "the source supports this assertion but contradicts something else in this file; see contradiction_flags and the reference's caveat",
+      "[n!]": "the source DISPUTES this assertion. It is not support. The refuting quote is in contradiction_flags"
+    },
+    "source_file": "unitox_cliff/knowledge_liver_V3.json",
+    "attribution": "Bibliographic metadata retrieved from PubMed (U.S. National Library of Medicine). Each reference resolves through its DOI link.",
+    "coverage": {
+      "segments": 107,
+      "cited": 93,
+      "uncited": 14,
+      "cited_factual": 29,
+      "cited_terminology_only": 64,
+      "contradictions": 3,
+      "references": 47,
+      "note": "`cited` counts every atom with an admissible reference. `cited_factual` excludes atoms that are bare terms rather than propositions, where the citation confirms vocabulary rather than a finding."
+    },
+    "duplicate_of": "TDC/knowledge_dili_reasoning_V3.json carries an identical claim body (only task_description differs). Do not count both when aggregating."
+  }
+}

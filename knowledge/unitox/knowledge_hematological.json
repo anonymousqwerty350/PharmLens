@@ -1,0 +1,685 @@
+{
+  "task": "hematological toxicity",
+  "task_description": "Drug-induced hematological toxicity prediction, including myelosuppression (neutropenia, thrombocytopenia, anemia, pancytopenia), coagulopathy (bleeding, hemorrhage), hemolytic anemia, agranulocytosis, aplastic anemia, methemoglobinemia, and other blood-related adverse effects.",
+  "prediction_question": "Does this molecule exhibit hematological toxicity? Your final answer should be formatted as either: 'Final answer: Toxicity' or 'Final answer: Non-toxicity'.",
+  "relevant_proteins": {
+    "DHFR": {
+      "pdb_id": "1KMS",
+      "role": "Folate metabolism and de novo nucleotide biosynthesis in hematopoietic progenitor cells",
+      "logic": "Dihydrofolate reductase reduces dihydrofolate to tetrahydrofolate, the one-carbon carrier required for de novo thymidylate and purine synthesis. Depletion of tetrahydrofolate stalls DNA replication in rapidly dividing bone-marrow hematopoietic progenitors, producing myelosuppression; this is the mechanism of antifolates such as methotrexate.",
+      "role_cited": "Folate metabolism and de novo nucleotide biosynthesis in hematopoietic progenitor cells[3t]",
+      "logic_cited": "Dihydrofolate reductase reduces dihydrofolate to tetrahydrofolate[3], the one-carbon carrier required for de novo thymidylate and purine synthesis[3t]. Depletion of tetrahydrofolate stalls DNA replication in rapidly dividing bone-marrow hematopoietic progenitors[4t][8!], producing myelosuppression[5t]; this is the mechanism of antifolates such as methotrexate[6]."
+    },
+    "TYMS": {
+      "pdb_id": "1HVY",
+      "role": "De novo thymidylate synthesis essential for DNA replication in hematopoietic lineages",
+      "logic": "Thymidylate synthase catalyzes the sole de novo route to thymidylate (dTMP), using a folate cofactor to methylate dUMP. Loss of this activity depletes the thymidine pool needed for DNA synthesis in hematopoietic lineages, producing myelosuppression; this is the mechanism of fluoropyrimidines and antifolate TS inhibitors.",
+      "role_cited": "De novo thymidylate synthesis essential for DNA replication in hematopoietic lineages[7t][8c]",
+      "logic_cited": "Thymidylate synthase catalyzes the sole de novo route to thymidylate[7t] (dTMP)[7], using a folate cofactor to methylate dUMP[7t]. Loss of this activity depletes the thymidine pool needed for DNA synthesis in hematopoietic lineages[8c], producing myelosuppression[9t]; this is the mechanism of fluoropyrimidines and antifolate TS inhibitors[10][11]."
+    },
+    "VKORC1": {
+      "pdb_id": "6WV3",
+      "role": "Vitamin K cycle and synthesis of coagulation factors II, VII, IX, and X in hepatocytes",
+      "logic": "Vitamin K epoxide reductase regenerates reduced vitamin K, the cofactor for gamma-carboxylation of coagulation factors II, VII, IX, and X in hepatocytes. Depletion of functional vitamin K-dependent clotting factors prolongs coagulation and produces bleeding; this is the mechanism of coumarin, 4-hydroxycoumarin, and indanedione anticoagulants.",
+      "role_cited": "Vitamin K cycle[12t] and synthesis of coagulation factors II, VII, IX, and X in hepatocytes[13t][14t]",
+      "logic_cited": "Vitamin K epoxide reductase regenerates reduced vitamin K[12t], the cofactor for gamma-carboxylation of coagulation factors II, VII, IX, and X in hepatocytes[13t][14t]. Depletion of functional vitamin K-dependent clotting factors prolongs coagulation[12t] and produces bleeding[13]; this is the mechanism of coumarin, 4-hydroxycoumarin, and indanedione anticoagulants[13]."
+    },
+    "PSMB5": {
+      "pdb_id": "5LF3",
+      "role": "Chymotrypsin-like proteolytic subunit of the 20S proteasome governing protein turnover in megakaryocytes",
+      "logic": "PSMB5 carries the chymotrypsin-like active site that drives the rate-limiting proteolysis of the proteasome, degrading ubiquitinated proteins such as IkB and thereby permitting NF-kB activation. In megakaryocytes this NF-kB activity is required for proplatelet formation and platelet release without affecting megakaryocyte proliferation; its loss lowers circulating platelets. This is the mechanism of proteasome inhibitors such as bortezomib.",
+      "role_cited": "Chymotrypsin-like proteolytic subunit of the 20S proteasome[15t][16t] governing protein turnover in megakaryocytes[17c]",
+      "logic_cited": "PSMB5 carries the chymotrypsin-like active site[15][16] that drives the rate-limiting proteolysis of the proteasome, degrading ubiquitinated proteins such as IkB[18] and thereby permitting NF-kB activation[18]. In megakaryocytes this NF-kB activity is required for proplatelet formation[17!] and platelet release[17!] without affecting megakaryocyte proliferation[19]; its loss lowers circulating platelets[17c]. This is the mechanism of proteasome inhibitors such as bortezomib[16][17!]."
+    },
+    "DHODH": {
+      "pdb_id": "1D3G",
+      "role": "De novo pyrimidine biosynthesis supplying nucleotides for DNA and RNA synthesis in proliferating cells",
+      "logic": "Dihydroorotate dehydrogenase is a flavin enzyme on the inner mitochondrial membrane that oxidizes dihydroorotate to orotate, the rate-limiting step of de novo pyrimidine biosynthesis coupled to the respiratory chain. Depletion of uridine and cytidine nucleotides limits DNA and RNA synthesis in rapidly dividing bone-marrow progenitors, producing cytopenias; this is the mechanism of DHODH inhibitors such as leflunomide and teriflunomide.",
+      "role_cited": "De novo pyrimidine biosynthesis supplying nucleotides for DNA and RNA synthesis in proliferating cells[20t][21t]",
+      "logic_cited": "Dihydroorotate dehydrogenase is a flavin enzyme[22] on the inner mitochondrial membrane[23t][24t] that oxidizes dihydroorotate to orotate[22t], the rate-limiting step of de novo pyrimidine biosynthesis[23t][25t] coupled to the respiratory chain[24t]. Depletion of uridine and cytidine nucleotides limits DNA and RNA synthesis in rapidly dividing bone-marrow progenitors[20t], producing cytopenias[25t]; this is the mechanism of DHODH inhibitors such as leflunomide and teriflunomide[23]."
+    }
+  },
+  "pathway_rules": [
+    "Inhibition of DHFR or TYMS interrupts folate-dependent regeneration of tetrahydrofolate and de novo thymidylate synthesis, depleting the dTMP and purine nucleotides required for DNA replication in bone-marrow progenitors and producing myelosuppression.",
+    "Inhibition of DHODH halts de novo pyrimidine biosynthesis, depleting uridine and cytidine nucleotides needed for DNA and RNA synthesis in rapidly dividing hematopoietic progenitors and producing cytopenias.",
+    "Inhibition of VKORC1 blocks regeneration of reduced vitamin K, impairing gamma-carboxylation of vitamin K-dependent clotting factors and prolonging coagulation, which increases hemorrhagic risk.",
+    "Inhibition of PSMB5 suppresses proteasomal proteolysis and downstream NF-kB signaling in megakaryocytes, blocking proplatelet formation and platelet release and producing thrombocytopenia.",
+    "Hematotoxic drugs act either by carrying a DNA-reactive or antimetabolite pharmacophore that damages dividing progenitors, or by potently inhibiting the nucleotide, coagulation, or proteasome targets above; the majority of therapeutic agents carry neither liability and spare the marrow at clinical exposure."
+  ],
+  "molecular_context": {
+    "yes_features": [
+      "Aromatic amine in which an amino, hydroxylamino, or nitroso nitrogen is bonded directly to an aromatic ring carbon; oxidative bioactivation to nitrenium and nitroso species covalently modifies marrow progenitors and neutrophils, linked to agranulocytosis and hemolytic anemia.",
+      "Aryl sulfonamide bearing a sulfonyl S(=O)(=O) group joined to an amine on an aromatic ring; bioactivated to reactive hydroxylamine and nitroso metabolites associated with idiosyncratic agranulocytosis and aplastic anemia.",
+      "Nitro group attached directly to an aromatic ring; nitroreduction yields nitroso and hydroxylamino intermediates that damage hematopoietic progenitors, the archetype being chloramphenicol-associated aplastic anemia.",
+      "Alkylating warhead such as a nitrogen mustard, aziridine, epoxide, or alkyl sulfonate ester that covalently crosslinks DNA and arrests division of hematopoietic progenitors.",
+      "Nucleoside or nucleotide analog in which a purine or pyrimidine base is attached to a ribose, deoxyribose, or acyclic sugar-mimetic linker; it is incorporated into or blocks nucleic acid synthesis in dividing hematopoietic cells.",
+      "Antifolate pharmacophore built on a 2,4-diaminopteridine or 2,4-diaminopyrimidine that inhibits DHFR or TYMS and blocks folate-dependent nucleotide biosynthesis.",
+      "Planar polycyclic system of three or more fused fully aromatic rings such as acridine, anthracene, or an anthracycline aglycone that intercalates DNA and disrupts replication in dividing hematopoietic cells.",
+      "Coumarin, 4-hydroxycoumarin, or indanedione motif that antagonizes vitamin K-dependent coagulation and increases hemorrhagic risk."
+    ],
+    "no_features": [
+      "Endogenous or nutrient-like small metabolite such as an amino acid, sugar or polyol, short-chain alcohol, or simple carboxylic acid that is processed by normal intermediary metabolism.",
+      "Fused non-aromatic sterane nucleus of a corticosteroid, glucocorticoid, mineralocorticoid, sterol, or bile acid; its saturated rings cannot intercalate DNA and it acts through nuclear-hormone-receptor signaling rather than marrow injury.",
+      "Secosteroid or vitamin-D-like scaffold with an opened, flexible seco ring that is non-aromatic and cannot intercalate DNA.",
+      "Single benzene ring carrying only metabolically stable substituents such as ethers, alcohols, aliphatic amines, simple amides, or aliphatic halogens, with no aromatic amine, aryl sulfonamide, or aromatic nitro group.",
+      "Benzodiazepine, GABAergic, or local-anesthetic-type central-nervous-system scaffold lacking any DNA-reactive or redox-active substituent.",
+      "Selective aminergic G-protein-coupled-receptor ligand of the adrenergic, serotonergic, or muscarinic classes built on a phenethylamine or arylpiperidine core without an alkylating or redox-active group.",
+      "Saturated cage or aliphatic hydrocarbon amine such as an adamantane derivative that has no aromatic ring and none of the reactive alerts above.",
+      "Highly polar, high-TPSA, zwitterionic, or peptide-like molecule with poor passive membrane permeability that limits bone-marrow and progenitor exposure."
+    ],
+    "yes_features_cited": [
+      "Aromatic amine in which an amino, hydroxylamino, or nitroso nitrogen is bonded directly to an aromatic ring carbon[26c][27]; oxidative bioactivation to nitrenium and nitroso species covalently modifies marrow progenitors and neutrophils[28t], linked to agranulocytosis and hemolytic anemia[29t].",
+      "Aryl sulfonamide bearing a sulfonyl S(=O)(=O) group joined to an amine on an aromatic ring[26!]; bioactivated to reactive hydroxylamine and nitroso metabolites[26c][30t] associated with idiosyncratic agranulocytosis and aplastic anemia[29t][31t].",
+      "Nitro group attached directly to an aromatic ring[32t]; nitroreduction yields nitroso and hydroxylamino intermediates[32t] that damage hematopoietic progenitors[33t], the archetype being chloramphenicol-associated aplastic anemia[33].",
+      "Alkylating warhead such as a nitrogen mustard, aziridine, epoxide, or alkyl sulfonate ester[34t][35t] that covalently crosslinks DNA[36t] and arrests division of hematopoietic progenitors[35t][36t].",
+      "Nucleoside or nucleotide analog in which a purine or pyrimidine base is attached to a ribose, deoxyribose, or acyclic sugar-mimetic linker[37]; it is incorporated into or blocks nucleic acid synthesis in dividing hematopoietic cells[38].",
+      "Antifolate pharmacophore built on a 2,4-diaminopteridine or 2,4-diaminopyrimidine[39t] that inhibits DHFR or TYMS[6][39] and blocks folate-dependent nucleotide biosynthesis[3].",
+      "Planar polycyclic system of three or more fused fully aromatic rings[40t] such as acridine, anthracene, or an anthracycline aglycone[40t] that intercalates DNA[40t] and disrupts replication in dividing hematopoietic cells[41t].",
+      "Coumarin, 4-hydroxycoumarin, or indanedione motif that antagonizes vitamin K-dependent coagulation[13t] and increases hemorrhagic risk[13]."
+    ],
+    "no_features_cited": [
+      "Endogenous or nutrient-like small metabolite such as an amino acid, sugar or polyol, short-chain alcohol, or simple carboxylic acid that is processed by normal intermediary metabolism.",
+      "Fused non-aromatic sterane nucleus of a corticosteroid, glucocorticoid, mineralocorticoid, sterol, or bile acid; its saturated rings cannot intercalate DNA and it acts through nuclear-hormone-receptor signaling rather than marrow injury.",
+      "Secosteroid or vitamin-D-like scaffold with an opened, flexible seco ring that is non-aromatic[42] and cannot intercalate DNA.",
+      "Single benzene ring carrying only metabolically stable substituents such as ethers, alcohols, aliphatic amines, simple amides, or aliphatic halogens, with no aromatic amine, aryl sulfonamide, or aromatic nitro group.",
+      "Benzodiazepine, GABAergic, or local-anesthetic-type central-nervous-system scaffold lacking any DNA-reactive or redox-active substituent.",
+      "Selective aminergic G-protein-coupled-receptor ligand of the adrenergic, serotonergic, or muscarinic classes built on a phenethylamine or arylpiperidine core without an alkylating or redox-active group.",
+      "Saturated cage or aliphatic hydrocarbon amine such as an adamantane derivative that has no aromatic ring and none of the reactive alerts above.",
+      "Highly polar, high-TPSA, zwitterionic, or peptide-like molecule with poor passive membrane permeability[43c] that limits bone-marrow and progenitor exposure."
+    ]
+  },
+  "target_names": [
+    "Toxicity=0 (Non-toxicity)",
+    "Toxicity=1 (Toxicity)"
+  ],
+  "task_description_cited": "Drug-induced hematological toxicity prediction, including myelosuppression (neutropenia, thrombocytopenia, anemia, pancytopenia), coagulopathy (bleeding, hemorrhage), hemolytic anemia, agranulocytosis, aplastic anemia, methemoglobinemia, and other blood-related adverse effects[1t][2t].",
+  "pathway_rules_cited": [
+    "Inhibition of DHFR or TYMS interrupts folate-dependent regeneration of tetrahydrofolate[3] and de novo thymidylate synthesis[6t], depleting the dTMP and purine nucleotides required for DNA replication in bone-marrow progenitors[3t] and producing myelosuppression[5t].",
+    "Inhibition of DHODH halts de novo pyrimidine biosynthesis[23t], depleting uridine and cytidine nucleotides needed for DNA and RNA synthesis in rapidly dividing hematopoietic progenitors[20t] and producing cytopenias[25t].",
+    "Inhibition of VKORC1 blocks regeneration of reduced vitamin K[12][13], impairing gamma-carboxylation of vitamin K-dependent clotting factors[12t][14t] and prolonging coagulation[13t], which increases hemorrhagic risk[13].",
+    "Inhibition of PSMB5 suppresses proteasomal proteolysis and downstream NF-kB signaling in megakaryocytes[17!][18], blocking proplatelet formation and platelet release[19t] and producing thrombocytopenia[17c].",
+    "Hematotoxic drugs act either by carrying a DNA-reactive or antimetabolite pharmacophore that damages dividing progenitors, or by potently inhibiting the nucleotide, coagulation, or proteasome targets above; the majority of therapeutic agents carry neither liability and spare the marrow at clinical exposure."
+  ],
+  "references": {
+    "1": {
+      "mla": "Zhang, Hui, et al. \"In Silico Prediction of Drug-Induced Myelotoxicity by Using Naïve Bayes Method.\" Molecular Diversity, vol. 19, no. 4, 2015, pp. 945-53. PubMed, https://doi.org/10.1007/s11030-015-9613-3.",
+      "pmid": "26162532",
+      "doi": "10.1007/s11030-015-9613-3",
+      "url": "https://doi.org/10.1007/s11030-015-9613-3",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:26162532",
+      "caveat": "[Drug-induced hematological toxicity prediction, including ...] supports only “Drug-induced hematological toxicity prediction, including myelosuppression (neutropenia, thrombocytopenia, anemia, pancytopenia).”; source does not evidence: coagulopathy (bleeding, hemorrhage), hemolytic anemia, agranulocytosis, aplastic anemia, methemoglobinemia, other blood-related adverse effects"
+    },
+    "2": {
+      "mla": "Pattanaik, Smita, et al. \"Evolving Role of Pharmacogenetic Biomarkers to Predict Drug-Induced Hematological Disorders.\" Therapeutic Drug Monitoring, vol. 43, no. 2, 2021, pp. 201-220. PubMed, https://doi.org/10.1097/FTD.0000000000000842.",
+      "pmid": "33235023",
+      "doi": "10.1097/FTD.0000000000000842",
+      "url": "https://doi.org/10.1097/FTD.0000000000000842",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:33235023",
+      "caveat": "[Drug-induced hematological toxicity prediction, including ...] supports only “Drug-induced hematological toxicity prediction, including myelosuppression (neutropenia, thrombocytopenia, anemia, pancytopenia), hemolytic ...”; source does not evidence: coagulopathy (bleeding, hemorrhage), methemoglobinemia"
+    },
+    "3": {
+      "mla": "Abali, Emine Ercikan, et al. \"Regulation of Human Dihydrofolate Reductase Activity and Expression.\" Vitamins and Hormones, vol. 79, 2008, pp. 267-92. PubMed, https://doi.org/10.1016/S0083-6729(08)00409-3.",
+      "pmid": "18804698",
+      "doi": "10.1016/S0083-6729(08)00409-3",
+      "url": "https://doi.org/10.1016/S0083-6729(08)00409-3",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:18804698",
+      "caveat": "[Folate metabolism and de novo nucleotide biosynthesis in ...] supports only “Folate metabolism through dihydrofolate reductase supplies the tetrahydrofolate required for de novo purine and thymidylate biosynthesis.”; verifier note: The enzymology is directly stated, but nothing localises it to hematopoietic progenitor cells as the atom's target role requires.; [depleting the dTMP and purine nucleotides required for DNA ...] supports only “DHFR inhibition disrupts purine and thymidylate biosynthesis and DNA replication, leading to cell death.”; verifier note: The nucleotide-depletion mechanism is stated plainly, but the cell type the atom specifies is absent.; [interrupts folate-dependent regeneration of tetrahydrofolate] The abstract states that DHFR catalyses tetrahydrofolate regeneration and that DHFR inhibition disrupts purine and thymidylate biosynthesis, so 'inhibition interrupts folate-dependent regeneration of tetrahydrofolate' follows in one stated step. The TYMS half of the parent rule and the bone-marrow outcome are not in this abstract."
+    },
+    "4": {
+      "mla": "Pessina, Augusto, et al. \"Hematotoxicity Testing by Cell Clonogenic Assay in Drug Development and Preclinical Trials.\" Current Pharmaceutical Design, vol. 11, no. 8, 2005, pp. 1055-65. PubMed, https://doi.org/10.2174/1381612053381648.",
+      "pmid": "15777255",
+      "doi": "10.2174/1381612053381648",
+      "url": "https://doi.org/10.2174/1381612053381648",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:15777255",
+      "caveat": "[rapidly dividing bone-marrow hematopoietic progenitors] verifier note: Progenitor proliferation is the assay's premise, which supports the atom's descriptor only by inference and without the 'rapidly' qualifier."
+    },
+    "5": {
+      "mla": "Howard, Scott C., et al. \"Preventing and Managing Toxicities of High-Dose Methotrexate.\" The Oncologist, vol. 21, no. 12, 2016, pp. 1471-1482. PubMed, https://doi.org/10.1634/theoncologist.2015-0164.",
+      "pmid": "27496039",
+      "doi": "10.1634/theoncologist.2015-0164",
+      "url": "https://doi.org/10.1634/theoncologist.2015-0164",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:27496039",
+      "caveat": "[and producing myelosuppression.] verifier note: Myelosuppression is named as a methotrexate toxicity, but the folate/thymidylate mechanism that the atom asserts is nowhere established in this text.; [producing myelosuppression;] supports only “High-dose methotrexate causes myelosuppression among its toxicities, exacerbated when renal injury delays drug clearance.”; verifier note: Myelosuppression is named as an HDMTX toxicity, but only in the context of impaired excretion, with no mechanistic marrow data."
+    },
+    "6": {
+      "mla": "Purcell, W. Thomas, and David S. Ettinger. \"Novel Antifolate Drugs.\" Current Oncology Reports, vol. 5, no. 2, 2003, pp. 114-25. PubMed, https://doi.org/10.1007/s11912-003-0098-3.",
+      "pmid": "12583828",
+      "doi": "10.1007/s11912-003-0098-3",
+      "url": "https://doi.org/10.1007/s11912-003-0098-3",
+      "source_type": "pubmed",
+      "verdict": "DIRECT",
+      "supports": "mixed",
+      "ref_id": "pmid:12583828",
+      "caveat": ""
+    },
+    "7": {
+      "mla": "Nilaweera, Thushani D., et al. \"Targeting the De Novo Biosynthesis of Thymidylate for the Development of a PET Probe for Pancreatic Cancer Imaging.\" Biochemistry, vol. 54, no. 5, 2015, pp. 1287-93. PubMed, https://doi.org/10.1021/bi501481n.",
+      "pmid": "25581782",
+      "doi": "10.1021/bi501481n",
+      "url": "https://doi.org/10.1021/bi501481n",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:25581782",
+      "caveat": "[using a folate cofactor to methylate dUMP.] evidence is cell_line; [Thymidylate synthase catalyzes the sole de novo route to ...] evidence is cell_line; [De novo thymidylate synthesis essential for DNA replication ...] supports only “Thymidylate synthase is the only enzyme in humans responsible for de novo biosynthesis of dTMP.”; evidence is cell_line; [the sole de novo route to thymidylate] evidence is cell_line"
+    },
+    "8": {
+      "mla": "Koury, M. J., and D. W. Horne. \"Apoptosis Mediates and Thymidine Prevents Erythroblast Destruction in Folate Deficiency Anemia.\" Proceedings of the National Academy of Sciences of the United States of America, vol. 91, no. 9, 1994, pp. 4067-71. PubMed, https://doi.org/10.1073/pnas.91.9.4067.",
+      "pmid": "8171036",
+      "doi": "10.1073/pnas.91.9.4067",
+      "url": "https://doi.org/10.1073/pnas.91.9.4067",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:8171036",
+      "caveat": "ALSO CONTRADICTS: Depletion of tetrahydrofolate stalls DNA replication in rapidly dividing bone-marrow hematopoietic ...; [Loss of this activity depletes the thymidine pool needed ...] evidence is mouse, claim is stated for humans; [De novo thymidylate synthesis essential for DNA replication ...] supports only “Decreased thymidylate synthesis contributes to apoptosis of late-stage erythroblasts and to anemia in folate-deficient mice.”; evidence is mouse, claim is stated for humans"
+    },
+    "9": {
+      "mla": "Wang, Bo, et al. \"Pancytopenia and Severe Gastrointestinal Toxicities Associated with 5-Fluorouracil in a Patient with Thymidylate Synthase (TYMS) Polymorphism.\" Cureus, vol. 8, no. 9, 2016, p. e798. PubMed, https://doi.org/10.7759/cureus.798.",
+      "pmid": "27774364",
+      "doi": "10.7759/cureus.798",
+      "url": "https://doi.org/10.7759/cureus.798",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:27774364",
+      "caveat": "[producing myelosuppression;] verifier note: Pancytopenia in a TYMS-variant patient on 5-FU supports the atom only inferentially and with substantial confounding."
+    },
+    "10": {
+      "mla": "Goldman, I. David, and Rongbao Zhao. \"Molecular, Biochemical, and Cellular Pharmacology of Pemetrexed.\" Seminars in Oncology, vol. 29, no. 6 Suppl 18, 2002, pp. 3-17. PubMed, https://doi.org/10.1053/sonc.2002.37461.",
+      "pmid": "12571805",
+      "doi": "10.1053/sonc.2002.37461",
+      "url": "https://doi.org/10.1053/sonc.2002.37461",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:12571805",
+      "caveat": "[this is the mechanism of fluoropyrimidines and antifolate ...] supports only “this is the mechanism of antifolate TS inhibitors.”; source does not evidence: mechanism of fluoropyrimidines"
+    },
+    "11": {
+      "mla": "Wigmore, Peter M., et al. \"Effects of 5-FU.\" Advances in Experimental Medicine and Biology, vol. 678, 2010, pp. 157-64. PubMed, https://doi.org/10.1007/978-1-4419-6306-2_20.",
+      "pmid": "20738018",
+      "doi": "10.1007/978-1-4419-6306-2_20",
+      "url": "https://doi.org/10.1007/978-1-4419-6306-2_20",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:20738018",
+      "caveat": "[this is the mechanism of fluoropyrimidines and antifolate ...] supports only “this is the mechanism of fluoropyrimidines.”; source does not evidence: antifolate TS inhibitors"
+    },
+    "12": {
+      "mla": "Garcia, Andrea A., and Pieter H. Reitsma. \"VKORC1 and the Vitamin K Cycle.\" Vitamins and Hormones, vol. 78, 2008, pp. 23-33. PubMed, https://doi.org/10.1016/S0083-6729(07)00002-7.",
+      "pmid": "18374188",
+      "doi": "10.1016/S0083-6729(07)00002-7",
+      "url": "https://doi.org/10.1016/S0083-6729(07)00002-7",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "mixed",
+      "ref_id": "pmid:18374188",
+      "caveat": "[Inhibition of VKORC1 blocks regeneration of reduced vitamin ...] verifier note: Only genetic evidence is offered, so the atom's pharmacological-inhibition claim requires a genotype-to-drug inference.; [Depletion of functional vitamin K-dependent clotting ...] verifier note: Prolonged coagulation is not measured, so the atom's physiological consequence follows only by inference from the clotting-factor defect and bleeding risk.; [impairing gamma-carboxylation of vitamin K-dependent ...] verifier note: The review connects VKOR loss to defective vitamin K-dependent clotting factors but leaves the carboxylation step implicit."
+    },
+    "13": {
+      "mla": "Watt, Barbara E., et al. \"Anticoagulant Rodenticides.\" Toxicological Reviews, vol. 24, no. 4, 2005, pp. 259-69. PubMed, https://doi.org/10.2165/00139709-200524040-00005.",
+      "pmid": "16499407",
+      "doi": "10.2165/00139709-200524040-00005",
+      "url": "https://doi.org/10.2165/00139709-200524040-00005",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:16499407",
+      "caveat": "[Coumarin, 4-hydroxycoumarin, or indanedione motif that ...] supports only “Second-generation 4-hydroxycoumarin and indanedione rodenticides inhibit vitamin K epoxide reductase and thereby the production of clotting ...”; verifier note: The review supports the mechanism for 4-hydroxycoumarins and indanediones but not for plain coumarin, and offers no structural analysis of the motif.; [the cofactor for gamma-carboxylation of coagulation factors ...] verifier note: Correct factor set and correct pathway, but the specific assertions the atom makes (cofactor for gamma-carboxylation, in hepatocytes) are absent.; [this is the mechanism of coumarin, 4-hydroxycoumarin, and ...] supports only “4-Hydroxycoumarin and indanedione anticoagulant rodenticides act by inhibiting vitamin K epoxide reductase.”; verifier note: Mechanism confirmed for the 4-hydroxycoumarin and indanedione members only, within a rodenticide-poisoning review.; [and synthesis of coagulation factors II, VII, IX, and X in ...] supports only “Inhibition of vitamin K epoxide reductase reduces the synthesis of clotting factors II, VII, IX and X.”; verifier note: All four factors are named as dependent on vitamin K recycling, but the hepatocyte site of synthesis is not stated in this source."
+    },
+    "14": {
+      "mla": "Azuma, Kotaro, et al. \"Liver-Specific γ-glutamyl Carboxylase-Deficient Mice Display Bleeding Diathesis and Short Life Span.\" PloS One, vol. 9, no. 2, 2014, p. e88643. PubMed, https://doi.org/10.1371/journal.pone.0088643.",
+      "pmid": "24520408",
+      "doi": "10.1371/journal.pone.0088643",
+      "url": "https://doi.org/10.1371/journal.pone.0088643",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:24520408",
+      "caveat": "[the cofactor for gamma-carboxylation of coagulation factors ...] supports only “the cofactor for gamma-carboxylation of coagulation factors II and IX in hepatocytes.”; evidence is mouse, claim is stated for humans; source does not evidence: VII, X; [impairing gamma-carboxylation of vitamin K-dependent ...] evidence is mouse, claim is stated for humans; [and synthesis of coagulation factors II, VII, IX, and X in ...] supports only “and synthesis of coagulation factors II and IX in hepatocytes”; evidence is mouse, claim is stated for humans; source does not evidence: VII, X"
+    },
+    "15": {
+      "mla": "Oerlemans, Ruud, et al. \"Molecular Basis of Bortezomib Resistance: Proteasome Subunit beta5 (PSMB5) Gene Mutation and Overexpression of PSMB5 Protein.\" Blood, vol. 112, no. 6, 2008, pp. 2489-99. PubMed, https://doi.org/10.1182/blood-2007-08-104950.",
+      "pmid": "18565852",
+      "doi": "10.1182/blood-2007-08-104950",
+      "url": "https://doi.org/10.1182/blood-2007-08-104950",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:18565852",
+      "caveat": "[Chymotrypsin-like proteolytic subunit of the 20S proteasome] supports only “PSMB5, the proteasome beta5 subunit, carries the bortezomib-binding pocket, and its mutation or overexpression confers bortezomib ...”; evidence is cell_line; [PSMB5 carries the chymotrypsin-like active site] evidence is cell_line"
+    },
+    "16": {
+      "mla": "Tan, Carlyn Rose C., et al. \"Clinical Pharmacokinetics and Pharmacodynamics of Bortezomib.\" Clinical Pharmacokinetics, vol. 58, no. 2, 2019, pp. 157-168. PubMed, https://doi.org/10.1007/s40262-018-0679-9.",
+      "pmid": "29802543",
+      "doi": "10.1007/s40262-018-0679-9",
+      "url": "https://doi.org/10.1007/s40262-018-0679-9",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "mixed",
+      "ref_id": "pmid:29802543",
+      "caveat": "[This is the mechanism of proteasome inhibitors such as ...] verifier note: Bortezomib's chymotrypsin-like site inhibition is stated, so the general mechanism claim holds; the megakaryocyte/NF-kB specifics do not.; [PSMB5 carries the chymotrypsin-like active site] verifier note: Confirms the chymotrypsin-like site as bortezomib's target without attributing it to PSMB5, which is the atom's specific claim."
+    },
+    "17": {
+      "mla": "Shi, Dallas S., et al. \"Proteasome Function Is Required for Platelet Production.\" The Journal of Clinical Investigation, vol. 124, no. 9, 2014, pp. 3757-66. PubMed, https://doi.org/10.1172/JCI75247.",
+      "pmid": "25061876",
+      "doi": "10.1172/JCI75247",
+      "url": "https://doi.org/10.1172/JCI75247",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "mixed",
+      "ref_id": "pmid:25061876",
+      "caveat": "ALSO CONTRADICTS: In megakaryocytes this NF-kB activity is required for proplatelet formation and platelet release; NF-kB activity is required for proplatelet formation; This is the mechanism of proteasome inhibitors such as bortezomib.; Inhibition of PSMB5 suppresses proteasomal proteolysis and downstream NF-kB signaling in megakaryocytes,; [governing protein turnover in megakaryocytes] evidence is mouse, claim is stated for humans; [its loss lowers circulating platelets.] the reviewer's framing is only partly right. 25061876 does give a genetic loss-of-proteasome-function result (severe thrombocytopenia) and 24750292 the pharmacologic one ('platelet counts significantly decreased on days 2-4'), but neither removes PSMB5: the knockout is PSMC1, and bortezomib is described as a proteasome inhibitor, not a PSMB5-selective one. So the atom holds for proteasome function and reaches PSMB5 only by the one step that PSMB5 is likewise an essential subunit - INDIRECT, not DIRECT.; source does not establish: PSMB5 itself: the gene deleted is PSMC1, an essential 26S proteasome ATPase subunit, not the beta5 catalytic subunit that is the atom's subject; human in vivo platelet counts: the genetic result is mouse (Pf4-Cre and Pdgf-Cre-ER); human data are in vitro megakaryocyte proplatelet formation; the magnitude of the fall: 'severe thrombocytopenia' with no platelet count or unit; loss in the adult steady state without conditional or tamoxifen induction; cell type specificity beyond megakaryocytes and platelets"
+    },
+    "18": {
+      "mla": "Haas, M., et al. \"Effect of Proteasome Inhibitors on Monocytic IkappaB-alpha and -Beta Depletion, NF-kappaB Activation, and Cytokine Production.\" Journal of Leukocyte Biology, vol. 63, no. 3, 1998, pp. 395-404. PubMed, https://doi.org/10.1002/jlb.63.3.395.",
+      "pmid": "9500529",
+      "doi": "10.1002/jlb.63.3.395",
+      "url": "https://doi.org/10.1002/jlb.63.3.395",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:9500529",
+      "caveat": "[degrading ubiquitinated proteins such as IkB] In the human monocytic THP-1 cell line (confirmed in primary human blood monocytes) proteasome inhibitors prevented LPS-induced IkappaB-alpha and -beta degradation while calpain inhibitors did not, which gives proteasomal degradation of IkappaB in one loss-of-function step; INDIRECT agreed. Role changed to mechanistic_support: the evidence is at the whole-proteasome level and never touches the PSMB5 subunit, and ubiquitination is not addressed at all.; source does not establish: 'ubiquitinated' - ubiquitin and ubiquitination are never mentioned in the abstract; PSMB5 or any single proteasome subunit - the agents are the broad inhibitors ALLN, Mu873 and PSI; direct proteolysis of IkappaB by the proteasome (inferred from inhibitor blockade of LPS-induced degradation); other ubiquitinated substrates implied by 'such as'; cell types beyond the human monocytic THP-1 line and primary human blood monocytes; [and thereby permitting NF-kB activation.] I change DIRECT to INDIRECT: in LPS-stimulated THP-1 cells the abstract states an association ('was accompanied by') between prevented IkappaB degradation and loss of nuclear NF-kappaB binding and transcriptional activity, so the atom's causal 'thereby permitting' takes one inference step and the paper's own conclusion is hedged; the earlier reader read an explicitly associative sentence as a causal one.; source does not establish: the causal 'thereby permitting' - the abstract reports only that blocked IkappaB degradation 'was accompanied by' inhibition of NF-kappaB binding and transcriptional activation, and hedges the conclusion as 'may be selectively controlled by the proteasome'; PSMB5 or any specific subunit; ubiquitination of IkappaB; cell types beyond the THP-1 monocytic line and primary human blood monocytes; quantification of NF-kappaB activation; [Inhibition of PSMB5 suppresses proteasomal proteolysis and ...] supports only “Inhibition of proteasomal proteolysis suppresses downstream NF-kB signaling”; On the third disputed question: the cells are the human monocytic THP-1 line plus primary human blood monocytes, not megakaryocytes, and that substitution is what limits the pathway rule; the LPS-stimulated monocytic data do establish that proteasome inhibition blocks IkappaB degradation and NF-kappaB activation. SCOPE_LIMITED agreed, with the cell substitution and the absence of any PSMB5-specific evidence now written out in words instead of an 'evidence is cell_line' tag.; source does not establish: megakaryocytes - the experiments used the human monocytic THP-1 cell line and primary human blood monocytes; no megakaryocyte, platelet precursor or bone-marrow cell appears in the abstract; PSMB5 - only broad proteasome inhibitors (ALLN, Mu873, PSI) were used, with no subunit-selective agent; 'proteasomal proteolysis' as a general measure - the readouts are IkappaB-alpha/-beta degradation, NF-kappaB binding and cytokine expression; any effect outside LPS stimulation; quantification of the suppression"
+    },
+    "19": {
+      "mla": "Murai, Kazunori, et al. \"Bortezomib Induces Thrombocytopenia by the Inhibition of Proplatelet Formation of Megakaryocytes.\" European Journal of Haematology, vol. 93, no. 4, 2014, pp. 290-6. PubMed, https://doi.org/10.1111/ejh.12342.",
+      "pmid": "24750292",
+      "doi": "10.1111/ejh.12342",
+      "url": "https://doi.org/10.1111/ejh.12342",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "mixed",
+      "ref_id": "pmid:24750292",
+      "caveat": "[without affecting megakaryocyte proliferation;] The abstract shows that in mice bortezomib left CFU-Mk and marrow megakaryocyte numbers intact while proplatelet formation fell, which supports 'without affecting megakaryocyte proliferation' only after one step from unchanged colony and cell numbers to unchanged proliferation. The recorded DIRECT overstates this, and the abstract's own mechanism is Rho/Rho kinase rather than the NF-kB pathway the parent claim asserts.; source does not establish: the word proliferation - CFU-Mk colony number and bone-marrow megakaryocyte number are surrogates, no proliferation index (BrdU, Ki-67, ploidy in vivo) is reported in the span; NF-kB as the agent - the intervention is the drug bortezomib, and this abstract attributes the effect to the Rho/Rho kinase pathway, not to NF-kB; the parent claim's causal chain from PSMB5 / IkB degradation to NF-kB activity; species - the experiment is mouse, the parent claim is stated generally; dose relevance of 2.5 mg/kg to human exposure; [blocking proplatelet formation and platelet release] evidence is mouse, claim is stated for humans"
+    },
+    "20": {
+      "mla": "Madak, Joseph T., et al. \"Revisiting the Role of Dihydroorotate Dehydrogenase as a Therapeutic Target for Cancer.\" Pharmacology & Therapeutics, vol. 195, 2019, pp. 111-131. PubMed, https://doi.org/10.1016/j.pharmthera.2018.10.012.",
+      "pmid": "30347213",
+      "doi": "10.1016/j.pharmthera.2018.10.012",
+      "url": "https://doi.org/10.1016/j.pharmthera.2018.10.012",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:30347213",
+      "caveat": "[rapidly dividing hematopoietic progenitors] supports only “DHODH inhibition depletes pyrimidine nucleotide pools and arrests the cell cycle in S phase in rapidly proliferating cancer cells, ...”; verifier note: Rapid proliferation and S-phase arrest are established for malignant cells, not for the normal bone-marrow progenitors the atom names.; [depleting uridine and cytidine nucleotides needed for DNA ...] supports only “DHODH inhibition depletes intracellular pyrimidine nucleotide pools and arrests rapidly proliferating cells, including AML blasts, in S ...”; verifier note: Pyrimidine depletion and proliferation arrest are supported, but the specific nucleotides, RNA synthesis and the normal hematopoietic progenitor compartment are not.; [Depletion of uridine and cytidine nucleotides limits DNA ...] supports only “DHODH inhibition depletes intracellular pyrimidine nucleotide pools and arrests proliferating cells, including AML blasts, in S phase.”; verifier note: Pyrimidine depletion limiting proliferation is supported, but the specific nucleotides, RNA synthesis and the normal bone-marrow compartment are not."
+    },
+    "21": {
+      "mla": "Boschi, Donatella, et al. \"Dihydroorotate Dehydrogenase Inhibitors in Anti-Infective Drug Research.\" European Journal of Medicinal Chemistry, vol. 183, 2019, p. 111681. PubMed, https://doi.org/10.1016/j.ejmech.2019.111681.",
+      "pmid": "31557612",
+      "doi": "10.1016/j.ejmech.2019.111681",
+      "url": "https://doi.org/10.1016/j.ejmech.2019.111681",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:31557612",
+      "caveat": "[De novo pyrimidine biosynthesis supplying nucleotides for ...] supports only “Human cells obtain pyrimidine building blocks from both de novo biosynthesis and an effective salvage pathway.”; verifier note: It confirms the de novo pathway exists in human cells but emphasises salvage redundancy and host sparing, so it does not support the atom as a statement about vulnerable proliferating cells."
+    },
+    "22": {
+      "mla": "Reis, Renata A. G., et al. \"The Dihydroorotate Dehydrogenases: Past and Present.\" Archives of Biochemistry and Biophysics, vol. 632, 2017, pp. 175-191. PubMed, https://doi.org/10.1016/j.abb.2017.06.019.",
+      "pmid": "28666740",
+      "doi": "10.1016/j.abb.2017.06.019",
+      "url": "https://doi.org/10.1016/j.abb.2017.06.019",
+      "source_type": "pubmed",
+      "verdict": "DIRECT",
+      "supports": "mixed",
+      "ref_id": "pmid:28666740",
+      "caveat": ""
+    },
+    "23": {
+      "mla": "Alamri, Raghad D., et al. \"Leflunomide an Immunomodulator with Antineoplastic and Antiviral Potentials but Drug-Induced Liver Injury: a Comprehensive Review.\" International Immunopharmacology, vol. 93, 2021, p. 107398. PubMed, https://doi.org/10.1016/j.intimp.2021.107398.",
+      "pmid": "33571819",
+      "doi": "10.1016/j.intimp.2021.107398",
+      "url": "https://doi.org/10.1016/j.intimp.2021.107398",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:33571819",
+      "caveat": "[the rate-limiting step of de novo pyrimidine biosynthesis] supports only “The conversion of dihydroorotate to orotate by DHODH is a rate-limiting step in de novo pyrimidine nucleotide synthesis.”; verifier note: The source supports 'a rate-limiting step' but not the atom's exclusive 'the rate-limiting step', and sibling sources in this corpus describe the reaction without that designation.; [this is the mechanism of DHODH inhibitors such as ...] supports only “this is the mechanism of DHODH inhibitors such as leflunomide.”; source does not evidence: teriflunomide"
+    },
+    "24": {
+      "mla": "Dubisova, Maria, et al. \"Mitochondrial Transfer Rescues Respiration to Support De Novo Pyrimidine Biosynthesis and Tumor Progression.\" Cancer Research, vol. 86, no. 4, 2026, pp. 925-939. PubMed, https://doi.org/10.1158/0008-5472.CAN-24-0737.",
+      "pmid": "41248423",
+      "doi": "10.1158/0008-5472.CAN-24-0737",
+      "url": "https://doi.org/10.1158/0008-5472.CAN-24-0737",
+      "source_type": "pubmed",
+      "verdict": "DIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:41248423",
+      "caveat": "[on the inner mitochondrial membrane] evidence is mouse, claim is stated for humans; [coupled to the respiratory chain.] evidence is mouse, claim is stated for humans"
+    },
+    "25": {
+      "mla": "Peters, Godefridus J. \"Re-Evaluation of Brequinar Sodium, a Dihydroorotate Dehydrogenase Inhibitor.\" Nucleosides, Nucleotides & Nucleic Acids, vol. 37, no. 12, 2018, pp. 666-678. PubMed, https://doi.org/10.1080/15257770.2018.1508692.",
+      "pmid": "30663496",
+      "doi": "10.1080/15257770.2018.1508692",
+      "url": "https://doi.org/10.1080/15257770.2018.1508692",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:30663496",
+      "caveat": "[producing cytopenias;] supports only “DHODH inhibition and plasma uridine depletion by brequinar at the maximum tolerated dose were related to severe myelosuppression in ...”; verifier note: The span ties DHODH inhibition to severe myelosuppression in one drug's trials but does not document the range of cytopenias the atom asserts.; [and producing cytopenias.] supports only “DHODH inhibition and plasma uridine depletion by brequinar were associated with severe myelosuppression in patients at the maximum ...”; verifier note: Myelosuppression linked to DHODH inhibition is documented for one agent, but the atom's plural cytopenias are not individually reported.; [the rate-limiting step of de novo pyrimidine biosynthesis] supports only “DHODH is a rate-limiting enzyme in de novo pyrimidine nucleotide synthesis.”; verifier note: Supports DHODH as a rate-limiting enzyme of the de novo pathway but not as uniquely rate-limiting, and salvage via uridine is shown to circumvent it."
+    },
+    "26": {
+      "mla": "Lehmann, David F. \"The Metabolic Rationale for a Lack of Cross-Reactivity Between Sulfonamide Antimicrobials and Other Sulfonamide-Containing Drugs.\" Drug Metabolism Letters, vol. 6, no. 2, 2012, pp. 129-33. PubMed, https://doi.org/10.2174/187231212804096664.",
+      "pmid": "23157194",
+      "doi": "10.2174/187231212804096664",
+      "url": "https://doi.org/10.2174/187231212804096664",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:23157194",
+      "caveat": "ALSO CONTRADICTS: Aryl sulfonamide bearing a sulfonyl S(=O)(=O) group joined to an amine on an aromatic ring;; [Aromatic amine in which an amino, hydroxylamino, or nitroso ...] supports only “Sulfonamide antimicrobials contain an arylamine group that is oxidised by CYP2C9 to a hydroxylamine and then to a reactive nitroso ...”; verifier note: Supports arylamine-to-hydroxylamine-to-nitroso chemistry for sulfonamide antimicrobials but not the general structural definition or any haematological endpoint."
+    },
+    "27": {
+      "mla": "Kuhnke, Lara, et al. \"Mechanistic Reactivity Descriptors for the Prediction of Ames Mutagenicity of Primary Aromatic Amines.\" Journal of Chemical Information and Modeling, vol. 59, no. 2, 2019, pp. 668-672. PubMed, https://doi.org/10.1021/acs.jcim.8b00758.",
+      "pmid": "30694664",
+      "doi": "10.1021/acs.jcim.8b00758",
+      "url": "https://doi.org/10.1021/acs.jcim.8b00758",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:30694664",
+      "caveat": "[Aromatic amine in which an amino, hydroxylamino, or nitroso ...] supports only “Primary aromatic amines are treated as a mutagenic alert class whose activity is rationalised by reactive nitrenium electrophiles binding ...”; verifier note: Confirms primary aromatic amines as a recognised reactive alert class in silico, without the hydroxylamino/nitroso members or any blood endpoint."
+    },
+    "28": {
+      "mla": "Williams, D. P., et al. \"Neutrophil Cytotoxicity of the Chemically Reactive Metabolite(s) of Clozapine: Possible Role in Agranulocytosis.\" The Journal of Pharmacology and Experimental Therapeutics, vol. 283, no. 3, 1997, pp. 1375-82. PubMed, pubmed.ncbi.nlm.nih.gov/9400013/.",
+      "pmid": "9400013",
+      "doi": "",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/9400013/",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:9400013",
+      "caveat": "[oxidative bioactivation to nitrenium and nitroso species ...] supports only “oxidative bioactivation to nitrenium species covalently modifies marrow progenitors and neutrophils,”; source does not evidence: nitroso species covalently modifies"
+    },
+    "29": {
+      "mla": "Garbe, Edeltraut. \"Non-Chemotherapy Drug-Induced Agranulocytosis.\" Expert Opinion on Drug Safety, vol. 6, no. 3, 2007, pp. 323-35. PubMed, https://doi.org/10.1517/14740338.6.3.323.",
+      "pmid": "17480181",
+      "doi": "10.1517/14740338.6.3.323",
+      "url": "https://doi.org/10.1517/14740338.6.3.323",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:17480181",
+      "caveat": "[associated with idiosyncratic agranulocytosis and aplastic ...] supports only “associated with idiosyncratic agranulocytosis.”; source does not evidence: aplastic anemia; [linked to agranulocytosis and hemolytic anemia.] supports only “linked to agranulocytosis.”; source does not evidence: hemolytic anemia"
+    },
+    "30": {
+      "mla": "Manchanda, Tarang, et al. \"Haptenation of Sulfonamide Reactive Metabolites to Cellular Proteins.\" Molecular Pharmacology, vol. 62, no. 5, 2002, pp. 1011-26. PubMed, https://doi.org/10.1124/mol.62.5.1011.",
+      "pmid": "12391263",
+      "doi": "10.1124/mol.62.5.1011",
+      "url": "https://doi.org/10.1124/mol.62.5.1011",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:12391263",
+      "caveat": "[bioactivated to reactive hydroxylamine and nitroso ...] evidence is cell_line"
+    },
+    "31": {
+      "mla": "Ip, Julia, and Jack P. Uetrecht. \"In Vitro and Animal Models of Drug-Induced Blood Dyscrasias.\" Environmental Toxicology and Pharmacology, vol. 21, no. 2, 2006, pp. 135-40. PubMed, https://doi.org/10.1016/j.etap.2005.07.003.",
+      "pmid": "21783650",
+      "doi": "10.1016/j.etap.2005.07.003",
+      "url": "https://doi.org/10.1016/j.etap.2005.07.003",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:21783650",
+      "caveat": "[associated with idiosyncratic agranulocytosis and aplastic ...] verifier note: The association of reactive-metabolite-forming drugs with idiosyncratic agranulocytosis and aplastic anemia is stated generically, so the atom's substructure-specific claim requires an inferential step."
+    },
+    "32": {
+      "mla": "Li, Hui, et al. \"Electron Deficiency of Nitro Group Determines Hepatic Cytotoxicity of Nitrofurantoin.\" Chemical Research in Toxicology, vol. 32, no. 4, 2019, pp. 681-690. PubMed, https://doi.org/10.1021/acs.chemrestox.8b00362.",
+      "pmid": "30779552",
+      "doi": "10.1021/acs.chemrestox.8b00362",
+      "url": "https://doi.org/10.1021/acs.chemrestox.8b00362",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:30779552",
+      "caveat": "[Nitro group attached directly to an aromatic ring;] supports only “An aromatic nitro group is required for glutathione depletion and cytotoxicity by nitrofurantoin analogues in rat liver microsomes and ...”; evidence is rat, claim is stated for humans; [nitroreduction yields nitroso and hydroxylamino ...] evidence is rat, claim is stated for humans"
+    },
+    "33": {
+      "mla": "Yunis, A. A., et al. \"Nitroso-Chloramphenicol: Possible Mediator in Chloramphenicol-Induced Aplastic Anemia.\" The Journal of Laboratory and Clinical Medicine, vol. 96, no. 1, 1980, pp. 36-46. PubMed, pubmed.ncbi.nlm.nih.gov/7391656/.",
+      "pmid": "7391656",
+      "doi": "",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/7391656/",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "mixed",
+      "ref_id": "pmid:7391656",
+      "caveat": "[the archetype being chloramphenicol-associated aplastic ...] verifier note: The in vitro data support a nitroso-metabolite mechanism as a postulate; the atom's status of chloramphenicol as the class archetype is not a testable finding here.; [the archetype being chloramphenicol-associated aplastic ...] verifier note: The nitroso-metabolite mechanism is supported as a postulate; chloramphenicol's status as the class archetype is a framing claim outside what this paper can show."
+    },
+    "34": {
+      "mla": "Bignold, Leon P. \"Alkylating Agents and DNA Polymerases.\" Anticancer Research, vol. 26, no. 2B, 2006, pp. 1327-36. PubMed, pubmed.ncbi.nlm.nih.gov/16619541/.",
+      "pmid": "16619541",
+      "doi": "",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/16619541/",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:16619541",
+      "caveat": "[Alkylating warhead such as a nitrogen mustard, aziridine, ...] supports only “Alkylating warhead such as a nitrogen mustard”; source does not evidence: aziridine, epoxide, alkyl sulfonate ester"
+    },
+    "35": {
+      "mla": "Murnane, J. P., and J. E. Byfield. \"Irreparable DNA Cross-Links and Mammalian Cell Lethality with Bifunctional Alkylating Agents.\" Chemico-Biological Interactions, vol. 38, no. 1, 1981, pp. 75-86. PubMed, https://doi.org/10.1016/0009-2797(81)90154-x.",
+      "pmid": "7326808",
+      "doi": "10.1016/0009-2797(81)90154-x",
+      "url": "https://doi.org/10.1016/0009-2797(81)90154-x",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:7326808",
+      "caveat": "[and arrests division of hematopoietic progenitors.] supports only “Bifunctional alkylating agents leave residual DNA interstrand and DNA-protein crosslinks that correlate with loss of colony-forming ability ...”; evidence is mouse, claim is stated for humans; evidence is cell_line; [Alkylating warhead such as a nitrogen mustard, aziridine, ...] supports only “Alkylating warhead such as a nitrogen mustard”; evidence is mouse, claim is stated for humans; evidence is cell_line; source does not evidence: aziridine, epoxide, alkyl sulfonate ester"
+    },
+    "36": {
+      "mla": "Xie, Jingping, et al. \"Overexpression of GSTA2 Protects Against Cell Cycle Arrest and Apoptosis Induced by the DNA Inter-Strand Crosslinking Nitrogen Mustard, Mechlorethamine.\" Journal of Cellular Biochemistry, vol. 95, no. 2, 2005, pp. 339-51. PubMed, https://doi.org/10.1002/jcb.20440.",
+      "pmid": "15778998",
+      "doi": "10.1002/jcb.20440",
+      "url": "https://doi.org/10.1002/jcb.20440",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:15778998",
+      "caveat": "[and arrests division of hematopoietic progenitors.] supports only “The bifunctional nitrogen mustard mechlorethamine causes transient late S/G2 cell cycle arrest in human hematopoietic HL-60 cells.”; evidence is cell_line; [that covalently crosslinks DNA] evidence is cell_line"
+    },
+    "37": {
+      "mla": "Peters, H. L., et al. \"Flexibility as a Strategy in Nucleoside Antiviral Drug Design.\" Current Medicinal Chemistry, vol. 22, no. 34, 2015, pp. 3910-21. PubMed, https://doi.org/10.2174/0929867322666150818103624.",
+      "pmid": "26282942",
+      "doi": "10.2174/0929867322666150818103624",
+      "url": "https://doi.org/10.2174/0929867322666150818103624",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:26282942",
+      "caveat": "[Nucleoside or nucleotide analog in which a purine or ...] supports only “Flexible nucleoside analogues with acyclic sugar-mimetic linkers, such as acyclovir and tenofovir, are an established antiviral drug design ...”; verifier note: The review confirms that acyclic sugar-mimetic nucleoside analogues exist as approved antivirals but never states the structural definition the atom gives, and has no haematological content."
+    },
+    "38": {
+      "mla": "Huang, P., and W. Plunkett. \"Fludarabine- and Gemcitabine-Induced Apoptosis: Incorporation of Analogs into DNA Is a Critical Event.\" Cancer Chemotherapy and Pharmacology, vol. 36, no. 3, 1995, pp. 181-8. PubMed, https://doi.org/10.1007/BF00685844.",
+      "pmid": "7781136",
+      "doi": "10.1007/BF00685844",
+      "url": "https://doi.org/10.1007/BF00685844",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:7781136",
+      "caveat": "[it is incorporated into or blocks nucleic acid synthesis in ...] supports only “Fludarabine and gemcitabine are incorporated into DNA in S-phase human T-lymphoblastoid cells, and that incorporation is critical for their ...”; evidence is cell_line"
+    },
+    "39": {
+      "mla": "McGuire, John J. \"Anticancer Antifolates: Current Status and Future Directions.\" Current Pharmaceutical Design, vol. 9, no. 31, 2003, pp. 2593-613. PubMed, https://doi.org/10.2174/1381612033453712.",
+      "pmid": "14529544",
+      "doi": "10.2174/1381612033453712",
+      "url": "https://doi.org/10.2174/1381612033453712",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:14529544",
+      "caveat": "[Antifolate pharmacophore built on a 2,4-diaminopteridine or ...] supports only “Antifolate pharmacophore built on a 2,4-diaminopteridine”; source does not evidence: 2,4-diaminopyrimidine"
+    },
+    "40": {
+      "mla": "Ferguson, L. R., and W. A. Denny. \"The Genetic Toxicology of Acridines.\" Mutation Research, vol. 258, no. 2, 1991, pp. 123-60. PubMed, https://doi.org/10.1016/0165-1110(91)90006-h.",
+      "pmid": "1881402",
+      "doi": "10.1016/0165-1110(91)90006-h",
+      "url": "https://doi.org/10.1016/0165-1110(91)90006-h",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:1881402",
+      "caveat": "[that intercalates DNA] evidence is cell_free; [Planar polycyclic system of three or more fused fully ...] supports only “Acridine and its derivatives are planar polycyclic aromatic molecules that bind DNA by reversible intercalation.”; verifier note: Only the acridine member of the atom's list is supported, and the ring-count criterion and anthracycline extension have no basis in this review.; [fully aromatic rings] supports only “Acridine and its derivatives are planar polycyclic aromatic molecules that intercalate DNA.”; verifier note: Planar polycyclic aromaticity is stated for acridines, but the atom's specific structural criterion is not."
+    },
+    "41": {
+      "mla": "Hu, Wenyue, et al. \"Mechanistic Investigation of Bone Marrow Suppression Associated with Palbociclib and Its Differentiation from Cytotoxic Chemotherapies.\" Clinical Cancer Research, vol. 22, no. 8, 2016, pp. 2000-8. PubMed, https://doi.org/10.1158/1078-0432.CCR-15-1421.",
+      "pmid": "26631614",
+      "doi": "10.1158/1078-0432.CCR-15-1421",
+      "url": "https://doi.org/10.1158/1078-0432.CCR-15-1421",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:26631614",
+      "caveat": "[and disrupts replication in dividing hematopoietic cells.] verifier note: Doxorubicin caused DNA damage and apoptosis in marrow cells, but replication disruption is inferred, and the paper's central finding is a non-genotoxic route to marrow suppression."
+    },
+    "42": {
+      "mla": "Pérez-López, Faustino R. \"Vitamin D: the Secosteroid Hormone and Human Reproduction.\" Gynecological Endocrinology, vol. 23, no. 1, 2007, pp. 13-24. PubMed, https://doi.org/10.1080/09513590601045629.",
+      "pmid": "17484507",
+      "doi": "10.1080/09513590601045629",
+      "url": "https://doi.org/10.1080/09513590601045629",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:17484507",
+      "caveat": "[Secosteroid or vitamin-D-like scaffold with an opened, ...] supports only “Vitamin D is a secosteroid hormone with an endocrine mechanism of action, synthesized sequentially in skin, liver and kidney.”; verifier note: The source confirms vitamin D is a secosteroid but establishes nothing about ring geometry, aromaticity or intercalation, and addresses reproduction rather than hematotoxicity."
+    },
+    "43": {
+      "mla": "Veber, Daniel F., et al. \"Molecular Properties that Influence the Oral Bioavailability of Drug Candidates.\" Journal of Medicinal Chemistry, vol. 45, no. 12, 2002, pp. 2615-23. PubMed, https://doi.org/10.1021/jm020017n.",
+      "pmid": "12036371",
+      "doi": "10.1021/jm020017n",
+      "url": "https://doi.org/10.1021/jm020017n",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:12036371",
+      "caveat": "[poor passive membrane permeability] evidence is rat, claim is stated for humans; evidence is cell_free; [Highly polar, high-TPSA, zwitterionic, or peptide-like ...] supports only “Molecules with polar surface area above 140 A2 or more than 10 rotatable bonds have a low probability of good oral bioavailability in the ...”; evidence is rat, claim is stated for humans; evidence is cell_free"
+    }
+  },
+  "contradiction_flags": [
+    {
+      "json_path": "relevant_proteins.DHFR.logic",
+      "segment_id": "C-0fd061278c#s3",
+      "segment_text": "Depletion of tetrahydrofolate stalls DNA replication in rapidly dividing bone-marrow hematopoietic progenitors, ",
+      "pmid": "8171036",
+      "doi": "10.1073/pnas.91.9.4067",
+      "mla": "Koury, M. J., and D. W. Horne. \"Apoptosis Mediates and Thymidine Prevents Erythroblast Destruction in Folate Deficiency Anemia.\" Proceedings of the National Academy of Sciences of the United States of America, vol. 91, no. 9, 1994, pp. 4067-71. PubMed, https://doi.org/10.1073/pnas.91.9.4067.",
+      "contradicting_quote": "Apoptosis of erythroblasts in the late stages of differentiation leads to decreased erythrocyte production and to anemia. The increased erythropoietin produced in response to the anemia increases the number of erythroid progenitor cells in the differentiation stages preceding those in which the cells undergo apoptosis.",
+      "note": "The clause locates the lesion as replication arrest in progenitors; the source locates it as apoptosis of late-stage differentiating erythroblasts with expansion, not stalling, of the progenitor pool. The shared upstream element (reduced thymidylate synthesis) means the disagreement is about the affected cell stage and failure mode, not about folate's role. (That tetrahydrofolate depletion stalls DNA replication in rapidly dividing bone-marrow hematopoietic progenitors.; Folate-deficient erythroid cells proliferated and differentiated to late erythroblast stages and then died by apoptosis, while erythropoietin expanded the preceding progenitor stages.)",
+      "source_species": "mouse",
+      "source_system": "in_vivo_animal",
+      "origin": "blind_verification",
+      "scope": "whole atom"
+    },
+    {
+      "json_path": "relevant_proteins.PSMB5.logic",
+      "segment_id": "C-7649595a9b#s5",
+      "segment_text": "In megakaryocytes this NF-kB activity is required for proplatelet formation and platelet release ",
+      "pmid": "25061876",
+      "doi": "10.1172/JCI75247",
+      "mla": "Shi, Dallas S., et al. \"Proteasome Function Is Required for Platelet Production.\" The Journal of Clinical Investigation, vol. 124, no. 9, 2014, pp. 3757-66. PubMed, https://doi.org/10.1172/JCI75247.",
+      "contradicting_quote": "The failure to produce proplatelets in proteasome-inhibited megakaryocytes was due to upregulation and hyperactivation of the small GTPase, RhoA, rather than NF-κB, as has been previously suggested.",
+      "note": "The paper names NF-kB as the previously suggested mechanism and rejects it in favour of RhoA/ROCK, which is directly incompatible with NF-kB being required for proplatelet formation. The genetic work is murine; human megakaryocytes were also used for the proplatelet assays. (That NF-kB activity in megakaryocytes is required for proplatelet formation and platelet release.; Failure of proplatelet formation in proteasome-inhibited megakaryocytes was due to RhoA upregulation and hyperactivation rather than NF-kB, and ROCK inhibition rescued it.)",
+      "source_species": "mouse and human",
+      "source_system": "in_vivo_animal",
+      "origin": "blind_verification",
+      "scope": "whole atom"
+    },
+    {
+      "json_path": "relevant_proteins.PSMB5.logic",
+      "segment_id": "C-7649595a9b#d2",
+      "segment_text": "NF-kB activity is required for proplatelet formation",
+      "pmid": "25061876",
+      "doi": "10.1172/JCI75247",
+      "mla": "Shi, Dallas S., et al. \"Proteasome Function Is Required for Platelet Production.\" The Journal of Clinical Investigation, vol. 124, no. 9, 2014, pp. 3757-66. PubMed, https://doi.org/10.1172/JCI75247.",
+      "contradicting_quote": "The failure to produce proplatelets in proteasome-inhibited megakaryocytes was due to upregulation and hyperactivation of the small GTPase, RhoA, rather than NF-κB, as has been previously suggested.",
+      "note": "Refuted-hypothesis pattern: the clause restates a proposal this paper tested and rejected, and the quote names NF-kB explicitly (rendered NF-kappaB in the raw record). The incompatibility is direct. (That NF-kB activity is required for proplatelet formation.; Proplatelet failure under proteasome inhibition was mediated by RhoA hyperactivation rather than NF-kB, as previously suggested.)",
+      "source_species": "mouse and human",
+      "source_system": "in_vivo_animal",
+      "origin": "blind_verification",
+      "scope": "whole atom"
+    },
+    {
+      "json_path": "relevant_proteins.PSMB5.logic",
+      "segment_id": "C-7649595a9b#s8",
+      "segment_text": "This is the mechanism of proteasome inhibitors such as bortezomib.",
+      "pmid": "25061876",
+      "doi": "10.1172/JCI75247",
+      "mla": "Shi, Dallas S., et al. \"Proteasome Function Is Required for Platelet Production.\" The Journal of Clinical Investigation, vol. 124, no. 9, 2014, pp. 3757-66. PubMed, https://doi.org/10.1172/JCI75247.",
+      "contradicting_quote": "The failure to produce proplatelets in proteasome-inhibited megakaryocytes was due to upregulation and hyperactivation of the small GTPase, RhoA, rather than NF-κB, as has been previously suggested.",
+      "note": "The recorded quote supports the clause on any reading (it affirms proteasome function is critical for thrombopoiesis in bortezomib-treated patients). What the abstract refutes is the segment's NF-kB step, and the RhoA sentence is the one that does that work. (That the preceding (NF-kB-dependent) step is the mechanism by which proteasome inhibitors such as bortezomib act on platelet production.; Proteasome function is critical for thrombopoiesis, but the effector is RhoA/ROCK signaling, not NF-kB.)",
+      "source_species": "mouse and human",
+      "source_system": "in_vivo_animal",
+      "origin": "blind_verification",
+      "scope": "whole atom"
+    },
+    {
+      "json_path": "pathway_rules[3]",
+      "segment_id": "C-808886703e#s1",
+      "segment_text": "Inhibition of PSMB5 suppresses proteasomal proteolysis and downstream NF-kB signaling in megakaryocytes, ",
+      "pmid": "25061876",
+      "doi": "10.1172/JCI75247",
+      "mla": "Shi, Dallas S., et al. \"Proteasome Function Is Required for Platelet Production.\" The Journal of Clinical Investigation, vol. 124, no. 9, 2014, pp. 3757-66. PubMed, https://doi.org/10.1172/JCI75247.",
+      "contradicting_quote": "The failure to produce proplatelets in proteasome-inhibited megakaryocytes was due to upregulation and hyperactivation of the small GTPase, RhoA, rather than NF-κB, as has been previously suggested.",
+      "note": "The NF-kB limb of the clause is what the paper set out to test and rejected. Two caveats to keep: the paper contests NF-kB's causal role in proplatelet formation rather than measuring NF-kB suppression as such, and its genetic model deletes PSMC1, not the PSMB5 subunit the clause names (the pharmacologic arm does cover PSMB5 inhibition). (That PSMB5 inhibition suppresses proteasomal proteolysis and downstream NF-kB signaling in megakaryocytes.; In proteasome-inhibited megakaryocytes the operative downstream change was RhoA upregulation and hyperactivation, explicitly not NF-kB.)",
+      "source_species": "mouse and human",
+      "source_system": "in_vivo_animal",
+      "origin": "blind_verification",
+      "scope": "whole atom"
+    },
+    {
+      "json_path": "molecular_context.yes_features[1]",
+      "segment_id": "C-2434657189#s1",
+      "segment_text": "Aryl sulfonamide bearing a sulfonyl S(=O)(=O) group joined to an amine on an aromatic ring; ",
+      "pmid": "23157194",
+      "doi": "10.2174/187231212804096664",
+      "mla": "Lehmann, David F. \"The Metabolic Rationale for a Lack of Cross-Reactivity Between Sulfonamide Antimicrobials and Other Sulfonamide-Containing Drugs.\" Drug Metabolism Letters, vol. 6, no. 2, 2012, pp. 129-33. PubMed, https://doi.org/10.2174/187231212804096664.",
+      "contradicting_quote": "Accordingly, xenobiotics that do not contain an arylamine cannot generate this reactive intermediate and do not cross react with sulfonamide antimicrobials.",
+      "note": "The source does oppose treating the sulfonamido group as the hazard, but only for the non-arylamine subset of the clause's substructure; for arylamine-bearing sulfonamides it affirms the liability. It also addresses hypersensitivity cross-reactivity, not blood dyscrasias directly. (That an aryl sulfonamide substructure (sulfonyl joined to an amine on an aromatic ring) is the liability-conferring feature.; That the arylamine group, oxidized by CYP2C9 to a nitroso intermediate, is the necessary feature, and that xenobiotics without an arylamine cannot form it and do not cross-react with sulfonamide antimicrobials.)",
+      "source_species": "human",
+      "source_system": "review",
+      "origin": "blind_verification",
+      "scope": "only sulfonamido-containing drugs that lack an arylamine (thiazides, celecoxib and similar); arylamine sulfonamides such as sulfamethoxazole retain the liability, and the endpoint is hypersensitivity cross-reactivity rather than hematotoxicity"
+    }
+  ],
+  "citation_meta": {
+    "pipeline_version": "1.2",
+    "marker_legend": {
+      "[n]": "the source supports this assertion",
+      "[nt]": "the source confirms the terminology only; it does not establish the assertion",
+      "[nc]": "the source supports this assertion but contradicts something else in this file; see contradiction_flags and the reference's caveat",
+      "[n!]": "the source DISPUTES this assertion. It is not support. The refuting quote is in contradiction_flags"
+    },
+    "source_file": "unitox_cliff/knowledge_hematological_V4.json",
+    "attribution": "Bibliographic metadata retrieved from PubMed (U.S. National Library of Medicine). 40 of 43 references resolve through a DOI link; the remaining 3 have no DOI in PubMed and are addressed by PMID.",
+    "coverage": {
+      "segments": 127,
+      "cited": 85,
+      "uncited": 42,
+      "cited_factual": 24,
+      "cited_terminology_only": 61,
+      "contradictions": 6,
+      "references": 43,
+      "note": "`cited` counts every atom with an admissible reference. `cited_factual` excludes atoms that are bare terms rather than propositions, where the citation confirms vocabulary rather than a finding."
+    }
+  }
+}

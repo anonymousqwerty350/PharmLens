@@ -1,0 +1,20 @@
+PID,Source,Preferred_name,SMILES,label,measured,n_records,assay
+CHEMBL1144,ChEMBL_Km_Vmax,PRAVASTATIN,CC[C@H](C)C(=O)O[C@H]1C[C@H](O)C=C2C=C[C@H](C)[C@H](CC[C@@H](O)C[C@@H](O)CC(=O)O)[C@H]21,1,Km,2,TP_TRANSPORTER: uptake in OATP-C-expressing 293c18 cells
+CHEMBL1201753,ChEMBL_Km_Vmax,PITAVASTATIN,O=C(O)C[C@H](O)C[C@H](O)/C=C/c1c(C2CC2)nc2ccccc2c1-c1ccc(F)cc1,1,"Km,Vmax",2,Drug uptake in HEK293 cells expressing OATP1B1 (unknown origin) assessed as OATP1B1-mediated drug transport
+CHEMBL1487,ChEMBL_Km_Vmax,ATORVASTATIN,CC(C)c1c(C(=O)Nc2ccccc2)c(-c2ccccc2)c(-c2ccc(F)cc2)n1CC[C@@H](O)C[C@@H](O)CC(=O)O,1,"Km,Vmax,Vmax/Km",4,TP_TRANSPORTER: uptake in OATP1B1-expressing HEK293 cells
+CHEMBL1516,ChEMBL_Km_Vmax,OLMESARTAN,CCCc1nc(C(C)(C)O)c(C(=O)O)n1Cc1ccc(-c2ccccc2-c2nnn[nH]2)cc1,1,Km,1,TP_TRANSPORTER: transport in OATP1B1-expressing oocytes
+CHEMBL1544,ChEMBL_Km_Vmax,LIOTHYRONINE,N[C@@H](Cc1cc(I)c(Oc2ccc(O)c(I)c2)c(I)c1)C(=O)O,1,Km,1,TP_TRANSPORTER: uptake in Xenopus laevis oocytes
+CHEMBL1624,ChEMBL_Km_Vmax,LEVOTHYROXINE,N[C@@H](Cc1cc(I)c(Oc2cc(I)c(O)c(I)c2)c(I)c1)C(=O)O,1,Km,1,TP_TRANSPORTER: uptake in Xenopus laevis oocytes
+CHEMBL1697724,ChEMBL_Km_Vmax,ESTRADIOL 17B GLUCURONIDE,C[C@]12CC[C@@H]3c4ccc(O)cc4CC[C@H]3[C@@H]1CC[C@@H]2O[C@@H]1O[C@H](C(=O)O)[C@@H](O)[C@H](O)[C@H]1O,1,"Km,Vmax,Vmax/Km",7,TP_TRANSPORTER: uptake in OATP-C-expressing HEK293 cells
+CHEMBL2074720,ChEMBL_Km_Vmax,BILIRUBIN MONOGLUCURONIDE,C=CC1=C(C)/C(=C/c2[nH]c(Cc3[nH]c(/C=C4\NC(=O)C(C)=C4C=C)c(C)c3CCC(=O)O[C@@H]3OC(C(=O)O)[C@@H](O)C(O)C3O)c(CCC(=O)O)c2C)NC1=O,1,Km,1,TP_TRANSPORTER: uptake in OATP-C-expressing HEK293 cells
+CHEMBL224867,ChEMBL_Km_Vmax,TAUROCHOLIC ACID,C[C@H](CCC(=O)NCCS(=O)(=O)O)[C@H]1CC[C@H]2[C@@H]3[C@H](O)C[C@@H]4C[C@H](O)CC[C@]4(C)[C@H]3C[C@H](O)[C@]12C,1,Km,4,TP_TRANSPORTER: uptake in OATP-C-expressing HEK293 cells
+CHEMBL2369946,ChEMBL_Km_Vmax,DEMETHYLPHALLOIN,CC(O)C[C@@H]1NC(=O)[C@@H]2Cc3c([nH]c4ccccc34)SC[C@@H](NC(=O)[C@H]([C@@H](C)O)NC(=O)[C@H](C)NC1=O)C(=O)N1C[C@H](O)C[C@H]1C(=O)N[C@@H](C)C(=O)N2,1,Km,1,TP_TRANSPORTER: uptake in Xenopus laevis oocytes
+CHEMBL259898,ChEMBL_Km_Vmax,PRASTERONE SULFURIC ACID,C[C@]12CC[C@H](OS(=O)(=O)O)CC1=CC[C@@H]1[C@@H]2CC[C@]2(C)C(=O)CC[C@@H]12,1,Km,1,TP_TRANSPORTER: uptake in OATP-C-expressing HEK293 cells
+CHEMBL3038248,ChEMBL_Km_Vmax,,C=CC1=C(C)/C(=C/c2[nH]c(Cc3[nH]c(/C=C4\NC(=O)C(C)=C4C=C)c(C)c3CCC(=O)O[C@@H]3O[C@@H](C(=O)O)[C@H](O)[C@@H](O)[C@@H]3O)c(CCC(=O)O[C@@H]3O[C@H](C(=O)O)[C@H](O)[C@H](O)[C@@H]3O)c2C)NC1=O,1,Km,1,TP_TRANSPORTER: uptake in OATP-C-expressing HEK293 cells
+CHEMBL374478,ChEMBL_Km_Vmax,RIFAMPIN,CO[C@H]1/C=C/O[C@@]2(C)Oc3c(C)c(O)c4c(O)c(c(/C=N/N5CCN(C)CC5)c(O)c4c3C2=O)NC(=O)/C(C)=C\C=C\[C@H](C)[C@H](O)[C@@H](C)[C@@H](O)[C@@H](C)[C@H](OC(C)=O)[C@@H]1C,1,Km,2,TP_TRANSPORTER: uptake in OATP-C-expressing HeLa cells
+CHEMBL444092,ChEMBL_Km_Vmax,MICROCYSTIN-LR,C=C1C(=O)N[C@H](C)C(=O)N[C@@H](CC(C)C)C(=O)N[C@@H](C(=O)O)[C@H](C)C(=O)N[C@@H](CCCNC(=N)N)C(=O)N[C@@H](/C=C/C(C)=C/[C@H](C)[C@H](Cc2ccccc2)OC)[C@H](C)C(=O)N[C@@H](C(=O)O)CCC(=O)N1C,1,Km,1,TP_TRANSPORTER: uptake in Xenopus laevis oocytes
+CHEMBL453904,ChEMBL_Km_Vmax,SULFOBROMOPHTHALEIN SODIUM,O=C1OC(c2ccc(O)c(S(=O)(=O)O)c2)(c2ccc(O)c(S(=O)(=O)O)c2)c2c(Br)c(Br)c(Br)c(Br)c21,1,Km,2,TP_TRANSPORTER: uptake in OATP-C-expressing HEK293 cells
+CHEMBL494753,ChEMBL_Km_Vmax,ESTRONE SULFURIC ACID,C[C@]12CC[C@@H]3c4ccc(OS(=O)(=O)O)cc4CC[C@H]3[C@@H]1CCC2=O,1,Km,5,TP_TRANSPORTER: uptake in OATP-C-expressing HEK293 cells
+CHEMBL501680,ChEMBL_Km_Vmax,BILIRUBIN,C=CC1=C(C)/C(=C/c2[nH]c(Cc3[nH]c(/C=C4\NC(=O)C(C)=C4C=C)c(C)c3CCC(=O)O)c(CCC(=O)O)c2C)NC1=O,1,Km,1,TP_TRANSPORTER: uptake in Xenopus laevis oocytes
+CHEMBL502682,ChEMBL_Km_Vmax,PHALLOIDIN,C[C@@H]1NC(=O)[C@H](C[C@@](C)(O)CO)NC(=O)[C@H]2NC(=O)[C@H](C)NC(=O)[C@@H]3C[C@H](O)CN3C(=O)[C@@H](CSc3[nH]c4ccccc4c32)NC(=O)[C@H]([C@@H](C)O)NC1=O,1,Km,1,TP_TRANSPORTER: uptake in OATP-C-expressing HEK293 cells
+CHEMBL704,ChEMBL_Km_Vmax,MESALAMINE,Nc1ccc(O)c(C(=O)O)c1,1,"Km,Vmax",2,Drug uptake in human OATP1B1 expressed HEK293 cells assessed as net uptake

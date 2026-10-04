@@ -1,0 +1,668 @@
+{
+  "task": "renal toxicity",
+  "task_description": "Renal toxicity prediction - predict whether a drug causes toxic damage to the kidneys (e.g., acute kidney injury, reduced renal function, nephropathy). Renal handling of drugs is common, but nephrotoxicity is class-specific: most drugs are eliminated by the kidney without injuring it, and toxicity is confined to agents that reach cytotoxic concentrations in tubular cells, precipitate in the lumen, or measurably disrupt glomerular hemodynamics or the filtration barrier.",
+  "prediction_question": "Does this molecule exhibit renal toxicity? Your final answer should be formatted as either: 'Final answer: Toxicity' or 'Final answer: Non-toxicity'.",
+  "relevant_proteins": {
+    "OAT1": {
+      "pdb_id": "9MC8",
+      "role": "proximal tubule anion uptake",
+      "logic": "OAT1 (SLC22A6) is a basolateral organic anion transporter of proximal tubule cells. It couples uptake to an outwardly directed dicarboxylate gradient, drawing anionic substrates such as antiviral nucleotide analogs, NSAIDs, methotrexate, and beta-lactams from blood into the tubular epithelium.",
+      "role_cited": "proximal tubule anion uptake[3t]",
+      "logic_cited": "OAT1 (SLC22A6) is a basolateral organic anion transporter of proximal tubule cells[3][4t]. It couples uptake to an outwardly directed dicarboxylate gradient[4t], drawing anionic substrates such as antiviral nucleotide analogs, NSAIDs, methotrexate, and beta-lactams from blood into the tubular epithelium[4t][5t][6t][7t]."
+    },
+    "MATE1": {
+      "pdb_id": "9R10",
+      "role": "proximal tubule cation efflux",
+      "logic": "MATE1 (SLC47A1) is an apical multidrug and toxin extrusion transporter of proximal tubule cells. Driven by an oppositely directed proton gradient, it carries out electroneutral H+/organic-cation antiport, exporting cationic drugs and metabolites from the epithelium into the luminal filtrate.",
+      "role_cited": "proximal tubule cation efflux[8t]",
+      "logic_cited": "MATE1 (SLC47A1) is an apical multidrug and toxin extrusion transporter of proximal tubule cells[8][9]. Driven by an oppositely directed proton gradient, it carries out electroneutral H+/organic-cation antiport[10], exporting cationic drugs and metabolites from the epithelium into the luminal filtrate[8t]."
+    },
+    "COX2": {
+      "pdb_id": "5KIR",
+      "role": "renal prostaglandin synthesis",
+      "logic": "COX-2 (PTGS2) is an inducible prostaglandin-endoperoxide synthase expressed in the macula densa, thick ascending limb, and medullary interstitial cells. There it generates prostaglandins that promote afferent arteriolar vasodilation, medullary blood flow, sodium excretion, and renin release.",
+      "role_cited": "renal prostaglandin synthesis[11t]",
+      "logic_cited": "COX-2 (PTGS2) is an inducible prostaglandin-endoperoxide synthase[12] expressed in the macula densa[13], thick ascending limb, and medullary interstitial cells[13]. There it generates prostaglandins that promote afferent arteriolar vasodilation, medullary blood flow, sodium excretion[13], and renin release[13]."
+    },
+    "ACE": {
+      "pdb_id": "1O86",
+      "role": "renin-angiotensin system regulation",
+      "logic": "ACE is a dipeptidyl carboxypeptidase that converts angiotensin I into the vasoconstrictor angiotensin II and degrades bradykinin. Angiotensin II preferentially constricts the efferent arteriole, sustaining glomerular capillary hydrostatic pressure and filtration.",
+      "role_cited": "renin-angiotensin system regulation[14t]",
+      "logic_cited": "ACE is a dipeptidyl carboxypeptidase that converts angiotensin I into the vasoconstrictor angiotensin II[14] and degrades bradykinin[14t]. Angiotensin II preferentially constricts the efferent arteriole[40!], sustaining glomerular capillary hydrostatic pressure and filtration[15t]."
+    },
+    "VEGFR2": {
+      "pdb_id": "4ASD",
+      "role": "glomerular endothelial maintenance",
+      "logic": "VEGFR2 (KDR) is the principal VEGF-A receptor tyrosine kinase on glomerular endothelial cells. Podocyte-derived VEGF-A signaling through VEGFR2 maintains endothelial fenestration, endothelial survival, and the integrity of the glomerular filtration barrier.",
+      "role_cited": "glomerular endothelial maintenance[16t]",
+      "logic_cited": "VEGFR2 (KDR) is the principal VEGF-A receptor tyrosine kinase[18t] on glomerular endothelial cells[17]. Podocyte-derived VEGF-A signaling through VEGFR2 maintains endothelial fenestration[16t], endothelial survival, and the integrity of the glomerular filtration barrier[16t][19t]."
+    }
+  },
+  "pathway_rules": [
+    "Renal transporter recognition and binding affinity are shared by many safe drugs and are necessary but not sufficient for injury; toxicity additionally requires intracellular accumulation to cytotoxic levels, luminal crystallization, or a measurable hemodynamic effect.",
+    "Anionic drugs taken up by basolateral OAT1 concentrate in proximal tubule cells; injury arises when high-affinity, actively secreted anions accumulate faster than apical efflux clears them, reaching levels that impair mitochondria and generate oxidative stress, whereas efficient efflux or low intrinsic cytotoxicity spares the tubule.",
+    "Cationic drugs depend on apical MATE1 export to leave the epithelium; injury occurs when efflux is saturated or impaired and cations accumulate intracellularly, whereas balanced uptake and efflux limit net accumulation.",
+    "Inhibition of renal COX-2 lowers prostaglandin-dependent afferent arteriolar vasodilation and GFR chiefly under volume depletion or pre-existing hypoperfusion; with normal perfusion the effect is usually functional and reversible.",
+    "Inhibition of the renin-angiotensin system reduces efferent arteriolar tone and intraglomerular pressure, producing a functional and typically reversible GFR decline that becomes injurious mainly when perfusion is already angiotensin II-dependent.",
+    "Direct tubular toxins and low-solubility drugs injure the kidney concentration-dependently: heavy-metal or platinum adducts drive oxidative tubular damage, and poorly soluble species precipitate as intratubular crystals causing obstruction; VEGFR2 inhibition separately disrupts glomerular endothelial integrity, causing proteinuria and thrombotic microangiopathy."
+  ],
+  "molecular_context": {
+    "yes_features": [
+      "Acyclic nucleotide phosphonate or phosphonamidate scaffold characteristic of antiviral nucleotide analogs: anionic, actively secreted, and concentrated in proximal tubule cells.",
+      "Polycationic aminocyclitol linked to aminosugars in an aminoglycoside architecture: reabsorbed by megalin-mediated endocytosis and retained in proximal tubule lysosomes.",
+      "Platinum or other heavy-metal coordination center: forms intracellular adducts and generates reactive oxygen species in tubular epithelium.",
+      "Poorly soluble sulfonamide or weakly acidic heterocycle that concentrates in the urinary pH range: predisposes to intratubular crystal precipitation and obstruction.",
+      "Arylalkanoic or enolic-acid nonsteroidal anti-inflammatory scaffold: inhibits renal COX and reduces prostaglandin-dependent perfusion.",
+      "Anti-angiogenic multi-kinase scaffold with VEGF-pathway activity (indolinone, aminoquinazoline, or pyridinyl-urea): disrupts glomerular endothelial integrity."
+    ],
+    "no_features": [
+      "High plasma protein binding with a small free fraction: limits glomerular filtration and tubular delivery, minimizing renal parenchymal exposure.",
+      "Predominant hepatic or biliary clearance, with renal excretion of inactive metabolites rather than active parent drug.",
+      "Neutral, non-ionizable structure lacking anionic or cationic groups: poorly recognized by renal organic-anion and organic-cation transporters, limiting proximal tubule uptake.",
+      "High aqueous solubility maintained across the physiological urinary pH range (4.5-8.0): no propensity for intratubular crystallization.",
+      "Selective pharmacology without off-target COX, renin-angiotensin, or VEGFR activity: renal hemodynamics and the glomerular filtration barrier are preserved.",
+      "Rapid biotransformation to inactive, readily eliminated species: short tubular residence and low intracellular accumulation."
+    ],
+    "yes_features_cited": [
+      "Acyclic nucleotide phosphonate or phosphonamidate scaffold characteristic of antiviral nucleotide analogs: anionic, actively secreted[21c], and concentrated in proximal tubule cells[21!][29t][30].",
+      "Polycationic aminocyclitol linked to aminosugars in an aminoglycoside architecture: reabsorbed by megalin-mediated endocytosis[31t] and retained in proximal tubule lysosomes[32t].",
+      "Platinum or other heavy-metal coordination center: forms intracellular adducts[33t] and generates reactive oxygen species in tubular epithelium[25].",
+      "Poorly soluble sulfonamide[34t] or weakly acidic heterocycle that concentrates in the urinary pH range: predisposes to intratubular crystal precipitation and obstruction[27t][34t].",
+      "Arylalkanoic or enolic-acid nonsteroidal anti-inflammatory scaffold: inhibits renal COX[11] and reduces prostaglandin-dependent perfusion[11].",
+      "Anti-angiogenic multi-kinase scaffold with VEGF-pathway activity (indolinone, aminoquinazoline, or pyridinyl-urea): disrupts glomerular endothelial integrity[28t][35t]."
+    ],
+    "no_features_cited": [
+      "High plasma protein binding with a small free fraction[37t]: limits glomerular filtration and tubular delivery[36t][41!], minimizing renal parenchymal exposure.",
+      "Predominant hepatic or biliary clearance, with renal excretion of inactive metabolites rather than active parent drug.",
+      "Neutral, non-ionizable structure lacking anionic or cationic groups: poorly recognized by renal organic-anion and organic-cation transporters[42!], limiting proximal tubule uptake.",
+      "High aqueous solubility[34t] maintained across the physiological urinary pH range (4.5-8.0)[38t]: no propensity for intratubular crystallization[38t].",
+      "Selective pharmacology without off-target COX, renin-angiotensin, or VEGFR activity: renal hemodynamics and the glomerular filtration barrier are preserved[19].",
+      "Rapid biotransformation to inactive, readily eliminated species[39t]: short tubular residence and low intracellular accumulation[21c][39t]."
+    ]
+  },
+  "target_names": [
+    "Toxicity=0 (Non-toxicity)",
+    "Toxicity=1 (Toxicity)"
+  ],
+  "task_description_cited": "Renal toxicity prediction - predict whether a drug causes toxic damage to the kidneys (e.g., acute kidney injury, reduced renal function, nephropathy)[1c][2]. Renal handling of drugs is common, but nephrotoxicity is class-specific[2]: most drugs are eliminated by the kidney without injuring it, and toxicity is confined to agents that reach cytotoxic concentrations in tubular cells, precipitate in the lumen, or measurably disrupt glomerular hemodynamics or the filtration barrier[1!].",
+  "pathway_rules_cited": [
+    "Renal transporter recognition and binding affinity are shared by many safe drugs[6] and are necessary but not sufficient for injury; toxicity additionally requires intracellular accumulation to cytotoxic levels[7], luminal crystallization, or a measurable hemodynamic effect.",
+    "Anionic drugs taken up by basolateral OAT1 concentrate in proximal tubule cells[3t]; injury arises when high-affinity, actively secreted anions[21c] accumulate faster than apical efflux clears them[20], reaching levels that impair mitochondria and generate oxidative stress[7][22], whereas efficient efflux or low intrinsic cytotoxicity spares the tubule[21c].",
+    "Cationic drugs depend on apical MATE1 export[23] to leave the epithelium[23]; injury occurs when efflux is saturated or impaired and cations accumulate intracellularly[23], whereas balanced uptake and efflux limit net accumulation[21c].",
+    "Inhibition of renal COX-2 lowers prostaglandin-dependent afferent arteriolar vasodilation and GFR chiefly under volume depletion or pre-existing hypoperfusion[11][13t]; with normal perfusion the effect is usually functional and reversible[24].",
+    "Inhibition of the renin-angiotensin system reduces efferent arteriolar tone and intraglomerular pressure[15], producing a functional and typically reversible GFR decline[14] that becomes injurious mainly when perfusion is already angiotensin II-dependent.",
+    "Direct tubular toxins and low-solubility drugs injure the kidney concentration-dependently[26t]: heavy-metal or platinum adducts drive oxidative tubular damage[25], and poorly soluble species precipitate as intratubular crystals causing obstruction[27t]; VEGFR2 inhibition separately disrupts glomerular endothelial integrity[28t], causing proteinuria and thrombotic microangiopathy[28t]."
+  ],
+  "references": {
+    "1": {
+      "mla": "Kim, Sun Young, and Aree Moon. \"Drug-Induced Nephrotoxicity and Its Biomarkers.\" Biomolecules & Therapeutics, vol. 20, no. 3, 2012, pp. 268-72. PubMed, https://doi.org/10.4062/biomolther.2012.20.3.268.",
+      "pmid": "24130922",
+      "doi": "10.4062/biomolther.2012.20.3.268",
+      "url": "https://doi.org/10.4062/biomolther.2012.20.3.268",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:24130922",
+      "caveat": "ALSO CONTRADICTS: and toxicity is confined to agents that reach cytotoxic concentrations in tubular cells, precipitate in the ...; [Renal toxicity prediction - predict whether a drug causes ...] supports only “drug-induced nephrotoxicity, arising through changes in glomerular haemodynamics, tubular cell toxicity, inflammation, crystal nephropathy, ...”; verifier note: The review defines drug-induced nephrotoxicity and its mechanisms but frames the problem as assessment by biomarkers rather than the predictive task the atom specifies."
+    },
+    "2": {
+      "mla": "Shi, Yinping, et al. \"In Silico Prediction and Insights into the Structural Basis of Drug Induced Nephrotoxicity.\" Frontiers in Pharmacology, vol. 12, 2021, p. 793332. PubMed, https://doi.org/10.3389/fphar.2021.793332.",
+      "pmid": "35082675",
+      "doi": "10.3389/fphar.2021.793332",
+      "url": "https://doi.org/10.3389/fphar.2021.793332",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "proposition",
+      "ref_id": "pmid:35082675",
+      "caveat": "[nephrotoxicity is class-specific] verifier note: The paper establishes structure-dependence of nephrotoxicity via substructural alerts, but class specificity requires the extra step of equating alerts with drug classes."
+    },
+    "3": {
+      "mla": "Kawasaki, Tatsuya, et al. \"Effects of Phenylpropanoids on Human Organic Anion Transporters hOAT1 and hOAT3.\" Biochemical and Biophysical Research Communications, vol. 489, no. 4, 2017, pp. 375-380. PubMed, https://doi.org/10.1016/j.bbrc.2017.05.121.",
+      "pmid": "28559139",
+      "doi": "10.1016/j.bbrc.2017.05.121",
+      "url": "https://doi.org/10.1016/j.bbrc.2017.05.121",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:28559139",
+      "caveat": "[proximal tubule anion uptake] Uptake was measured in HEK293 embryonic-kidney cells overexpressing hOAT1, not in proximal tubule cells, tubule segments or kidney tissue; the basolateral proximal-tubule localisation that the role token names is the abstract's background sentence, and the paper's own subject is inhibition by plant phenylpropanoids.; [OAT1 (SLC22A6) is a basolateral organic anion transporter ...] The source states hOAT1's basolateral proximal-tubule localisation as background and then studies inhibition in HEK293 overexpressing cells; the dicarboxylate-coupling and substrate list in the claim are not measured here, and no proximal tubule cell or tissue was used.; [Anionic drugs taken up by basolateral OAT1 concentrate in ...] supports only “Anionic drugs taken up by basolateral OAT1”; The source supports basolateral OAT1-mediated uptake of anionic drugs from blood, but it measured uptake of one fluorescent anion into HEK293 overexpressing cells; intracellular concentration inside proximal tubule cells, and the downstream mitochondrial injury in the rule, were not measured in any tubular system."
+    },
+    "4": {
+      "mla": "Sekine, T., et al. \"Expression Cloning and Characterization of a Novel Multispecific Organic Anion Transporter.\" The Journal of Biological Chemistry, vol. 272, no. 30, 1997, pp. 18526-9. PubMed, https://doi.org/10.1074/jbc.272.30.18526.",
+      "pmid": "9228014",
+      "doi": "10.1074/jbc.272.30.18526",
+      "url": "https://doi.org/10.1074/jbc.272.30.18526",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:9228014",
+      "caveat": "[basolateral organic anion transporter of proximal tubule ...] evidence is rat, claim is stated for humans; [It couples uptake to an outwardly directed dicarboxylate ...] supports only “Rat OAT1 expressed in Xenopus oocytes shows para-aminohippurate uptake stimulated by an outwardly directed dicarboxylate gradient, ...”; evidence is rat, claim is stated for humans; [drawing anionic substrates such as antiviral nucleotide ...] supports only “rat OAT1, a basolateral proximal tubule transporter, takes up a wide range of organic anions including antibiotics, a non-steroidal ...”; evidence is rat, claim is stated for humans"
+    },
+    "5": {
+      "mla": "Wada, S., et al. \"Rat Multispecific Organic Anion Transporter 1 (rOAT1) Transports Zidovudine, Acyclovir, and Other Antiviral Nucleoside Analogs.\" The Journal of Pharmacology and Experimental Therapeutics, vol. 294, no. 3, 2000, pp. 844-9. PubMed, pubmed.ncbi.nlm.nih.gov/10945832/.",
+      "pmid": "10945832",
+      "doi": "",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/10945832/",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:10945832",
+      "caveat": "[drawing anionic substrates such as antiviral nucleotide ...] supports only “rat OAT1 transports the antiviral nucleoside analogs zidovudine (68 microM) and acyclovir (242 microM), which lack a typical anionic group, ...”; evidence is rat, claim is stated for humans"
+    },
+    "6": {
+      "mla": "Takeda, Michio, et al. \"Characterization of Methotrexate Transport and Its Drug Interactions with Human Organic Anion Transporters.\" The Journal of Pharmacology and Experimental Therapeutics, vol. 302, no. 2, 2002, pp. 666-71. PubMed, https://doi.org/10.1124/jpet.102.034330.",
+      "pmid": "12130730",
+      "doi": "10.1124/jpet.102.034330",
+      "url": "https://doi.org/10.1124/jpet.102.034330",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:12130730",
+      "caveat": "[drawing methotrexate from blood into the tubular epithelium] supports only “hOAT3 and hOAT1 mediate basolateral uptake of methotrexate into cultured proximal tubule cells, hOAT3 with 26-fold higher affinity (Km 21.1 ...”; evidence is cell_line; [Renal transporter recognition and binding affinity are ...] supports only “Six NSAIDs, probenecid and penicillin G competitively inhibit hOAT1/hOAT3/hOAT4-mediated methotrexate transport, with Ki values comparable ...”; evidence is cell_line"
+    },
+    "7": {
+      "mla": "Takeda, M., et al. \"Role of Organic Anion Transporter 1 (OAT1) in Cephaloridine (CER)-induced Nephrotoxicity.\" Kidney International, vol. 56, no. 6, 1999, pp. 2128-36. PubMed, https://doi.org/10.1046/j.1523-1755.1999.00789.x.",
+      "pmid": "10594788",
+      "doi": "10.1046/j.1523-1755.1999.00789.x",
+      "url": "https://doi.org/10.1046/j.1523-1755.1999.00789.x",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:10594788",
+      "caveat": "[reaching levels that impair mitochondria and generate ...] supports only “reaching levels that generate oxidative stress,”; evidence is mouse, claim is stated for humans; evidence is cell_line; source does not evidence: levels that impair mitochondria; [toxicity additionally requires intracellular accumulation ...] evidence is mouse, claim is stated for humans; evidence is cell_line; [generate oxidative stress] evidence is mouse, claim is stated for humans; evidence is cell_line; [drawing beta-lactams from blood into the tubular epithelium] supports only “rat OAT1 is at least in part responsible for cellular uptake of cephaloridine into proximal tubule cells and for its cytotoxicity”; evidence is mouse, claim is stated for humans; evidence is cell_line"
+    },
+    "8": {
+      "mla": "Masuda, Satohiro, et al. \"Identification and Functional Characterization of a New Human Kidney-Specific H+/organic Cation Antiporter, Kidney-Specific Multidrug and Toxin Extrusion 2.\" Journal of the American Society of Nephrology, vol. 17, no. 8, 2006, pp. 2127-35. PubMed, https://doi.org/10.1681/ASN.2006030205.",
+      "pmid": "16807400",
+      "doi": "10.1681/ASN.2006030205",
+      "url": "https://doi.org/10.1681/ASN.2006030205",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:16807400",
+      "caveat": "[apical multidrug and toxin extrusion transporter of ...] verifier note: Apical proximal-tubule localization of MATE transporters follows from the span with one terminological equation (brush border = apical).; [MATE1 (SLC47A1) is an apical multidrug and toxin extrusion ...] supports only “Human MATE1 is localized at the brush-border membranes of the renal proximal tubules.”; verifier note: Only MATE1's proximal-tubule brush-border localization is established; its gene identity and extrusion function come from elsewhere.; [proximal tubule cation efflux] The functional H+/organic-cation antiport data are for hMATE2-K in transfected HEK293 cells, a different transporter from MATE1; MATE1 appears only in the immunohistochemistry placing it at the proximal-tubule brush border, so MATE1-mediated cation efflux is inferred from family membership and localisation rather than measured.; [exporting cationic drugs and metabolites from the ...] supports only “hMATE2-K is responsible for tubular secretion of cationic drugs across the proximal tubule brush border membrane”; evidence is cell_line"
+    },
+    "9": {
+      "mla": "Motohashi, Hideyuki, and Ken-ichi Inui. \"Multidrug and Toxin Extrusion Family SLC47: Physiological, Pharmacokinetic and Toxicokinetic Importance of MATE1 and MATE2-K.\" Molecular Aspects of Medicine, vol. 34, no. 2-3, 2013, pp. 661-8. PubMed, https://doi.org/10.1016/j.mam.2012.11.004.",
+      "pmid": "23506899",
+      "doi": "10.1016/j.mam.2012.11.004",
+      "url": "https://doi.org/10.1016/j.mam.2012.11.004",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "proposition",
+      "ref_id": "pmid:23506899",
+      "caveat": "[MATE1 (SLC47A1) is an apical multidrug and toxin extrusion ...] verifier note: The span supplies the gene symbol, the apical location and the extrusion function; only the proximal-tubule cell identity requires one step from an adjacent sentence."
+    },
+    "10": {
+      "mla": "Ohta, Kin-Ya, et al. \"Molecular Identification and Functional Characterization of Rat Multidrug and Toxin Extrusion Type Transporter 1 as an Organic cation/H+ Antiporter in the Kidney.\" Drug Metabolism and Disposition: the Biological Fate of Chemicals, vol. 34, no. 11, 2006, pp. 1868-74. PubMed, https://doi.org/10.1124/dmd.106.010876.",
+      "pmid": "16928787",
+      "doi": "10.1124/dmd.106.010876",
+      "url": "https://doi.org/10.1124/dmd.106.010876",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:16928787",
+      "caveat": "[Driven by an oppositely directed proton gradient, it ...] supports only “Rat MATE1 expressed in HEK293 cells behaves as an electroneutral, multispecific organic cation transporter energized by a trans (oppositely ...”; evidence is rat, claim is stated for humans; evidence is cell_line; [electroneutral H+/organic-cation antiport] supports only “rat MATE1 is an electroneutral, multispecific organic cation transporter energised by a trans-proton gradient, functionally consistent with ...”; evidence is rat, claim is stated for humans; evidence is cell_line"
+    },
+    "11": {
+      "mla": "Bleumink, Gysèle S., et al. \"Nonsteroidal Anti-Inflammatory Drugs and Heart Failure.\" Drugs, vol. 63, no. 6, 2003, pp. 525-34. PubMed, https://doi.org/10.2165/00003495-200363060-00001.",
+      "pmid": "12656651",
+      "doi": "10.2165/00003495-200363060-00001",
+      "url": "https://doi.org/10.2165/00003495-200363060-00001",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:12656651",
+      "caveat": "[enolic-acid nonsteroidal anti-inflammatory scaffold ...] verifier note: Renal prostaglandin-synthesis inhibition by NSAIDs as a class is stated; reaching the enolic-acid scaffold requires one class-to-member step.; [Inhibition of renal COX-2 lowers prostaglandin-dependent ...] verifier note: Volume-depletion dependence and the GFR fall are stated, but the afferent arteriolar locus must be inferred and COX-2 specificity is not isolated.; [and reduces prostaglandin-dependent perfusion.] supports only “In patients with a decreased effective circulating volume, NSAIDs may reduce renal blood flow and glomerular filtration rate by inhibiting ...”; verifier note: Prostaglandin-dependent perfusion reduction is asserted, but only for volume-compromised patients and only as something that may occur.; [Arylalkanoic or enolic-acid nonsteroidal anti-inflammatory ...] supports only “nonsteroidal anti-inflammatory drugs inhibit cyclo-oxygenase 1 and 2 and may impair renal function by inhibiting prostaglandin synthesis in ...”; verifier note: Renal prostaglandin-synthesis inhibition by NSAIDs is established, but the atom's scaffold classification is wholly absent and the renal effect is stated only for volume-depleted patients."
+    },
+    "12": {
+      "mla": "O'Neill, G. P., and A. W. Ford-Hutchinson. \"Expression of mRNA for cyclooxygenase-1 and cyclooxygenase-2 in Human Tissues.\" FEBS Letters, vol. 330, no. 2, 1993, pp. 156-60. PubMed, https://doi.org/10.1016/0014-5793(93)80263-t.",
+      "pmid": "8365485",
+      "doi": "10.1016/0014-5793(93)80263-t",
+      "url": "https://doi.org/10.1016/0014-5793(93)80263-t",
+      "source_type": "pubmed",
+      "verdict": "DIRECT",
+      "supports": "proposition",
+      "ref_id": "pmid:8365485",
+      "caveat": ""
+    },
+    "13": {
+      "mla": "Harris, Raymond C. \"Cyclooxygenase-2 Inhibition and Renal Physiology.\" The American Journal of Cardiology, vol. 89, no. 6A, 2002, pp. 10D-17D. PubMed, https://doi.org/10.1016/s0002-9149(02)02232-4.",
+      "pmid": "11909556",
+      "doi": "10.1016/s0002-9149(02)02232-4",
+      "url": "https://doi.org/10.1016/s0002-9149(02)02232-4",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:11909556",
+      "caveat": "[expressed in medullary interstitial cells] verifier note: The span names medullary interstitial cells as a site of high COX-2 expression, which is exactly what the atom asserts; the only reservations are evidence type and unspecified species.; [prostaglandins promote sodium excretion] supports only “PGE2 diminishes renal sodium reabsorption, and its inhibition results in sodium retention.”; verifier note: The natriuretic action is asserted only for PGE2 and phrased as reduced reabsorption, so the atom's class-level wording is broader than the span.; [There it generates prostaglandins that promote afferent ...] supports only “There it generates prostaglandins that promote afferent arteriolar vasodilation, sodium excretion, and renin release.”; source does not evidence: medullary blood flow; [chiefly under volume depletion or pre-existing hypoperfusion] supports only “Prostacyclin helps maintain renal perfusion when actual or effective circulating volume is decreased, and inhibiting it in such patients ...”; verifier note: The dependence on volume status is stated, but the atom's exclusivity qualifier 'chiefly' is not quantified anywhere in the abstract.; [expressed in the macula densa] evidence is other_mammal, claim is stated for humans; [prostaglandins promote renin release] verifier note: The paper reports that COX-2 inhibition lowers plasma renin and that cortical COX-2 rises in high-renin states, from which the atom's prostaglandin-to-renin direction follows as one stated step, but no prostanoid is named as the mediator.; [expressed in the macula densa, thick ascending limb, and ...] verifier note: The three expression sites are stated essentially verbatim; the only divergences are the dropped 'cortical' qualifier and the unspecified species."
+    },
+    "14": {
+      "mla": "Izzo, Joseph L., and Matthew R. Weir. \"Angiotensin-Converting Enzyme Inhibitors.\" Journal of Clinical Hypertension (Greenwich, Conn.), vol. 13, no. 9, 2011, pp. 667-75. PubMed, https://doi.org/10.1111/j.1751-7176.2011.00508.x.",
+      "pmid": "21896148",
+      "doi": "10.1111/j.1751-7176.2011.00508.x",
+      "url": "https://doi.org/10.1111/j.1751-7176.2011.00508.x",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:21896148",
+      "caveat": "[producing a functional and typically reversible GFR decline] supports only “producing a GFR decline”; The review does state that GFR falls (serum creatinine rises) during ACE inhibition, so the bare decline is supported; nothing in the abstract establishes that the decline is functional in mechanism or typically reversible. The recorded narrowed_atom also imported words absent from the atom, so I replaced it with a strict subset.; source does not establish: 'functional' - no hemodynamic (versus structural) mechanism is described; 'typically reversible' - reversibility is never mentioned, let alone its typicality; the quantifier 'typically' as a distributional claim; the mechanism (reduced efferent arteriolar tone, lowered intraglomerular pressure); renin-angiotensin system inhibition in general - only ACE inhibition is discussed, no ARB or direct renin inhibitor; that the decline is caused by, rather than concurrent with, the inhibition; [ACE is a dipeptidyl carboxypeptidase that converts ...] verifier note: Conversion of angiotensin I to the vasoconstrictor angiotensin II is stated verbatim; only the enzyme-class label requires one inferential step.; [renin-angiotensin system regulation] verifier note: The enzymatic step central to the renin-angiotensin system is described, and naming it system regulation requires one step."
+    },
+    "15": {
+      "mla": "Kon, V., et al. \"Bradykinin Causes Selective Efferent Arteriolar Dilation During Angiotensin I Converting Enzyme Inhibition.\" Kidney International, vol. 44, no. 3, 1993, pp. 545-50. PubMed, https://doi.org/10.1038/ki.1993.279.",
+      "pmid": "8231026",
+      "doi": "10.1038/ki.1993.279",
+      "url": "https://doi.org/10.1038/ki.1993.279",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "mixed",
+      "ref_id": "pmid:8231026",
+      "caveat": "[Inhibition of the renin-angiotensin system reduces efferent ...] evidence is rat, claim is stated for humans; [sustaining glomerular capillary hydrostatic pressure and ...] evidence is rat, claim is stated for humans"
+    },
+    "16": {
+      "mla": "Ballermann, Barbara J. \"Glomerular Endothelial Cell Differentiation.\" Kidney International, vol. 67, no. 5, 2005, pp. 1668-71. PubMed, https://doi.org/10.1111/j.1523-1755.2005.00260.x.",
+      "pmid": "15840009",
+      "doi": "10.1111/j.1523-1755.2005.00260.x",
+      "url": "https://doi.org/10.1111/j.1523-1755.2005.00260.x",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:15840009",
+      "caveat": "[Podocyte-derived VEGF-A signaling through VEGFR2 maintains ...] supports only “podocyte-derived VEGF-A maintains the fenestrae of differentiated glomerular endothelium”; verifier note: Fenestration maintenance by podocyte VEGF-A is stated; the receptor and the survival element are not."
+    },
+    "17": {
+      "mla": "Pala, Laura, et al. \"Vascular Endothelial Growth Factor receptor-2 and Low Affinity VEGF Binding Sites on Human Glomerular Endothelial Cells: Biological Effects and Advanced Glycosilation End Products Modulation.\" Microvascular Research, vol. 70, no. 3, 2005, pp. 179-88. PubMed, https://doi.org/10.1016/j.mvr.2005.10.001.",
+      "pmid": "16271941",
+      "doi": "10.1016/j.mvr.2005.10.001",
+      "url": "https://doi.org/10.1016/j.mvr.2005.10.001",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:16271941",
+      "caveat": "[VEGFR2 (KDR) is the principal VEGF-A receptor tyrosine ...] supports only “In cultured human glomerular endothelial cells VEGFR-2 is the high-affinity VEGF binding site (heparan sulfate proteoglycans being ...”; verifier note: High-affinity VEGF binding via VEGFR-2 on human glomerular endothelial cells is demonstrated, but the superlative 'principal' and the kinase descriptor are not established.; [VEGF-A receptor tyrosine kinase on glomerular endothelial ...] verifier note: The span places high-affinity VEGF binding via VEGFR-2 on human glomerular endothelial cells; calling it a receptor tyrosine kinase for VEGF-A is one definitional step."
+    },
+    "18": {
+      "mla": "Feliers, Denis, et al. \"VEGF Regulation of Endothelial Nitric Oxide Synthase in Glomerular Endothelial Cells.\" Kidney International, vol. 68, no. 4, 2005, pp. 1648-59. PubMed, https://doi.org/10.1111/j.1523-1755.2005.00575.x.",
+      "pmid": "16164642",
+      "doi": "10.1111/j.1523-1755.2005.00575.x",
+      "url": "https://doi.org/10.1111/j.1523-1755.2005.00575.x",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:16164642",
+      "caveat": "[the principal VEGF-A receptor tyrosine kinase] supports only “VEGF-R2 is required for VEGF-induced eNOS phosphorylation in glomerular endothelial cells”; evidence is mouse, claim is stated for humans; evidence is cell_line"
+    },
+    "19": {
+      "mla": "Eremina, Vera, et al. \"Glomerular-Specific Alterations of VEGF-A Expression Lead to Distinct Congenital and Acquired Renal Diseases.\" The Journal of Clinical Investigation, vol. 111, no. 5, 2003, pp. 707-16. PubMed, https://doi.org/10.1172/JCI17423.",
+      "pmid": "12618525",
+      "doi": "10.1172/JCI17423",
+      "url": "https://doi.org/10.1172/JCI17423",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:12618525",
+      "caveat": "[Podocyte-derived VEGF-A signaling through VEGFR2 maintains ...] supports only “podocyte-derived VEGF-A is required for establishment and maintenance of the glomerular filtration barrier in mice”; evidence is mouse, claim is stated for humans; [glomerular filtration barrier are preserved] The abstract shows that VEGF-A signalling is required to establish and maintain the glomerular filtration barrier, so a drug free of VEGFR activity leaving the barrier preserved follows in one stated step. The evidence is genetic manipulation in mice, not drug selectivity, and the COX and renin-angiotensin limbs of the parent rule are untouched."
+    },
+    "20": {
+      "mla": "Wanner, D. P., et al. \"Tenofovir-Induced Osteomalacia.\" Clinical and Experimental Rheumatology, vol. 27, no. 6, 2009, pp. 1001-3. PubMed, pubmed.ncbi.nlm.nih.gov/20149322/.",
+      "pmid": "20149322",
+      "doi": "",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/20149322/",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:20149322",
+      "caveat": "[injury arises when high-affinity, actively secreted anions ...] supports only “In one patient, tenofovir nephrotoxicity was precipitated by lopinavir/r, which raises tenofovir levels and inhibits MRP4-mediated efflux ...”; verifier note: The case illustrates impaired apical efflux with raised exposure, but no accumulation kinetics and no class-level claim are established."
+    },
+    "21": {
+      "mla": "Ray, Adrian S., et al. \"Mechanism of Active Renal Tubular Efflux of Tenofovir.\" Antimicrobial Agents and Chemotherapy, vol. 50, no. 10, 2006, pp. 3297-304. PubMed, https://doi.org/10.1128/AAC.00251-06.",
+      "pmid": "17005808",
+      "doi": "10.1128/AAC.00251-06",
+      "url": "https://doi.org/10.1128/AAC.00251-06",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:17005808",
+      "caveat": "ALSO CONTRADICTS: Acyclic nucleotide phosphonate or phosphonamidate scaffold characteristic of antiviral nucleotide analogs: ...; [whereas efficient efflux or low intrinsic cytotoxicity ...] supports only “MRP4-mediated efflux makes cells 2.0- to 2.5-fold less susceptible to tenofovir cytotoxicity”; evidence is cell_line; [whereas balanced uptake and efflux limit net accumulation.] evidence is cell_line; [anionic scaffold] Tenofovir's anionic character follows in one step from its being handled by OAT1/OAT3 and by the MRP4 efflux pump in the overexpressing cells and membrane vesicles used here, while the abstract never states the molecule's charge or its scaffold; INDIRECT agreed, role set to mechanistic_support because the transporter-substrate result is substantive evidence for anionicity rather than bare vocabulary overlap.; source does not establish: 'anionic' applied to the molecule - the word anion appears only inside 'human organic anion transporters 1 and 3'; the structural descriptor 'scaffold'; the acyclic nucleotide phosphonate structure; any pKa, charge state or physicochemical measurement; the cell background of the MRP4-overexpressing line and vesicles; [actively secreted] The abstract asserts active tubular secretion for tenofovir in its first sentence and the paper's own work in MRP4-overexpressing cells and MRP4 membrane vesicles identifies the efflux arm of that secretion, so the two-word atom is stated directly; DIRECT and primary_support agreed, with the caveat that only tenofovir, not the chemical class, was tested.; source does not establish: the extension from tenofovir to the acyclic phosphonate/phosphonamidate class or to antiviral nucleotide analogs generally; the scaffold chemistry; any clearance or secretion rate value; that active secretion was measured in this study rather than stated as established background and then localised to MRP4 in overexpressing cells and membrane vesicles; the cell background of the MRP4-overexpressing line; [high-affinity, actively secreted anions] supports only “tenofovir, actively secreted through renal proximal tubule cells by OAT1/OAT3 uptake and MRP4 efflux”; evidence is cell_line; [low intracellular accumulation] supports only “MRP4 expression lowers intracellular tenofovir accumulation fivefold in vitro”; evidence is cell_line"
+    },
+    "22": {
+      "mla": "Perazella, Mark A. \"Tenofovir-Induced Kidney Disease: an Acquired Renal Tubular Mitochondriopathy.\" Kidney International, vol. 78, no. 11, 2010, pp. 1060-3. PubMed, https://doi.org/10.1038/ki.2010.344.",
+      "pmid": "21076445",
+      "doi": "10.1038/ki.2010.344",
+      "url": "https://doi.org/10.1038/ki.2010.344",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:21076445",
+      "caveat": "[reaching levels that impair mitochondria and generate ...] supports only “reaching levels that impair mitochondria”; source does not evidence: generate oxidative stress"
+    },
+    "23": {
+      "mla": "Freitas-Lima, Leandro Ceotto, et al. \"PPAR-α Deletion Attenuates Cisplatin Nephrotoxicity by Modulating Renal Organic Transporters MATE-1 and OCT-2.\" International Journal of Molecular Sciences, vol. 21, no. 19, 2020, p. 7416. PubMed, https://doi.org/10.3390/ijms21197416.",
+      "pmid": "33049997",
+      "doi": "10.3390/ijms21197416",
+      "url": "https://doi.org/10.3390/ijms21197416",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:33049997",
+      "caveat": "[Cationic drugs depend on apical MATE1 export to leave the ...] supports only “MATE-1 is the main transporter mediating extrusion of cisplatin from renal tubular cells into the urine.”; evidence is mouse, claim is stated for humans; [injury occurs when efflux is saturated or impaired and ...] supports only “injury occurs when efflux is impaired and cations accumulate intracellularly,”; evidence is mouse, claim is stated for humans; source does not evidence: efflux is saturated; [depend on apical MATE1 export] evidence is mouse, claim is stated for humans"
+    },
+    "24": {
+      "mla": "Whelton, A., et al. \"Effects of Celecoxib and Naproxen on Renal Function in the Elderly.\" Archives of Internal Medicine, vol. 160, no. 10, 2000, pp. 1465-70. PubMed, https://doi.org/10.1001/archinte.160.10.1465.",
+      "pmid": "10826459",
+      "doi": "10.1001/archinte.160.10.1465",
+      "url": "https://doi.org/10.1001/archinte.160.10.1465",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:10826459",
+      "caveat": "[with normal perfusion the effect is usually functional and ...] supports only “In healthy elderly subjects, NSAID-associated decreases in urinary sodium excretion were small and transient and returned to baseline by ...”; verifier note: Transience is shown only for sodium handling in normally perfused healthy elderly, while the atom's 'functional and reversible' claim about perfusion-dependent GFR is not established.; [usually functional and reversible] supports only “small transient decreases in urinary sodium excretion with celecoxib and naproxen returned to baseline within a 10-day course in healthy ...”; verifier note: Transience is shown for sodium excretion in a small healthy cohort; 'usually' and the exclusion of structural injury are not established."
+    },
+    "25": {
+      "mla": "Yang, Yunwen, et al. \"Intervention of Mitochondrial Activity Attenuates Cisplatin-Induced Acute Kidney Injury.\" International Urology and Nephrology, vol. 51, no. 7, 2019, pp. 1207-1218. PubMed, https://doi.org/10.1007/s11255-019-02113-5.",
+      "pmid": "31020626",
+      "doi": "10.1007/s11255-019-02113-5",
+      "url": "https://doi.org/10.1007/s11255-019-02113-5",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:31020626",
+      "caveat": "[Direct tubular toxins and low-solubility drugs injure the ...] supports only “Direct tubular toxins injure the kidney concentration-dependently: heavy-metal or platinum adducts drive oxidative tubular damage,”; evidence is mouse, claim is stated for humans; source does not evidence: low-solubility drugs; [and generates reactive oxygen species in tubular epithelium.] evidence is mouse, claim is stated for humans"
+    },
+    "26": {
+      "mla": "Antoine, Daniel J., et al. \"Statins Inhibit Aminoglycoside Accumulation and Cytotoxicity to Renal Proximal Tubule Cells.\" Biochemical Pharmacology, vol. 79, no. 4, 2010, pp. 647-54. PubMed, https://doi.org/10.1016/j.bcp.2009.09.021.",
+      "pmid": "19782050",
+      "doi": "10.1016/j.bcp.2009.09.021",
+      "url": "https://doi.org/10.1016/j.bcp.2009.09.021",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:19782050",
+      "caveat": "[injure the kidney concentration-dependently] supports only “gentamicin causes dose- and time-dependent death of cultured opossum kidney proximal tubule cells”; evidence is other_mammal, claim is stated for humans; evidence is cell_line"
+    },
+    "27": {
+      "mla": "Leowattana, Wattana. \"Antiviral Drugs and Acute Kidney Injury (AKI).\" Infectious Disorders Drug Targets, vol. 19, no. 4, 2019, pp. 375-382. PubMed, https://doi.org/10.2174/1871526519666190617154137.",
+      "pmid": "31288730",
+      "doi": "10.2174/1871526519666190617154137",
+      "url": "https://doi.org/10.2174/1871526519666190617154137",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:31288730",
+      "caveat": "[Poorly soluble sulfonamide or weakly acidic heterocycle ...] supports only “Weakly acidic heterocycle that concentrates in the urinary pH range: predisposes to intratubular crystal precipitation and obstruction.”; source does not evidence: Poorly soluble sulfonamide; [and poorly soluble species precipitate as intratubular ...] supports only “crystal nephropathy from acyclovir, indinavir and foscarnet causes acute kidney injury through intratubular obstruction”; verifier note: Intratubular crystal obstruction as a cause of acute kidney injury is stated for three named antivirals, but the atom's solubility-based physicochemical premise is entirely unsourced."
+    },
+    "28": {
+      "mla": "Eremina, Vera, et al. \"VEGF Inhibition and Renal Thrombotic Microangiopathy.\" The New England Journal of Medicine, vol. 358, no. 11, 2008, pp. 1129-36. PubMed, https://doi.org/10.1056/NEJMoa0707330.",
+      "pmid": "18337603",
+      "doi": "10.1056/NEJMoa0707330",
+      "url": "https://doi.org/10.1056/NEJMoa0707330",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:18337603",
+      "caveat": "[causing proteinuria and thrombotic microangiopathy.] supports only “causing thrombotic microangiopathy.”; source does not evidence: proteinuria; [pyridinyl-urea disrupts glomerular endothelial integrity] supports only “Inhibition of VEGF by the antibody bevacizumab was followed by glomerular thrombotic microangiopathy in six reported patients.”; verifier note: Glomerular endothelial injury after VEGF inhibition is reported, but nothing links it to the atom's pyridinyl-urea structural class.; [causing thrombotic microangiopathy] evidence is mouse, claim is stated for humans; [VEGFR2 inhibition separately disrupts glomerular ...] supports only “VEGF ligand blockade, by bevacizumab in patients or by conditional podocyte VEGF deletion in mice, causes glomerular thrombotic ...”; verifier note: Glomerular microvascular injury from VEGF-pathway blockade is established, but by ligand removal rather than VEGFR2 kinase inhibition, and the atom's 'separately' independence claim is untested.; [Anti-angiogenic multi-kinase scaffold with VEGF-pathway ...] supports only “VEGF-pathway blockade, by the anti-VEGF antibody bevacizumab in patients or by podocyte VEGF deletion in mice, injures the glomerular ...”; verifier note: VEGF-pathway blockade is linked to glomerular microvascular injury, but by ligand-directed antibody rather than by any of the atom's small-molecule kinase-inhibitor scaffolds."
+    },
+    "29": {
+      "mla": "Izzedine, Hassane, et al. \"Antiviral Drug-Induced Nephrotoxicity.\" American Journal of Kidney Diseases, vol. 45, no. 5, 2005, pp. 804-17. PubMed, https://doi.org/10.1053/j.ajkd.2005.02.010.",
+      "pmid": "15861345",
+      "doi": "10.1053/j.ajkd.2005.02.010",
+      "url": "https://doi.org/10.1053/j.ajkd.2005.02.010",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:15861345",
+      "caveat": "[Acyclic nucleotide phosphonate or phosphonamidate scaffold ...] supports only “Acyclic nucleotide phosphonate or phosphonamidate scaffold characteristic of antiviral nucleotide analogs: concentrated in proximal tubule ...”; source does not evidence: anionic, actively secreted"
+    },
+    "30": {
+      "mla": "Perazella, Mark A. \"Drug-Induced Acute Kidney Injury: Diverse Mechanisms of Tubular Injury.\" Current Opinion in Critical Care, vol. 25, no. 6, 2019, pp. 550-557. PubMed, https://doi.org/10.1097/MCC.0000000000000653.",
+      "pmid": "31483318",
+      "doi": "10.1097/MCC.0000000000000653",
+      "url": "https://doi.org/10.1097/MCC.0000000000000653",
+      "source_type": "pubmed",
+      "verdict": "DIRECT",
+      "supports": "proposition",
+      "ref_id": "pmid:31483318",
+      "caveat": "[concentrated in proximal tubule cells] Tenofovir is an acyclic nucleotide phosphonate, and the span states that organic anion transport at the basolateral proximal tubule leads to intracellular drug accumulation there, which is the atom's subject, predicate and direction. Nothing in the abstract limits or contradicts it, so contra_note is NONE_FOUND; the remaining gap is generalisation from tenofovir to the whole scaffold class and the unstated secretory efflux step.; source does not establish: subject breadth: only tenofovir is named, not the acyclic nucleotide phosphonate and phosphonamidate class as a whole (adefovir, cidofovir, tenofovir alafenamide); the phosphonamidate prodrug form; 'actively secreted': basolateral uptake is stated, but efflux into the tubular lumen is not; the anionic character of the drug is implied by the transporter family, not stated of tenofovir itself; no fold-concentration or intracellular concentration with a unit; species: none given; the article is a human-oriented review"
+    },
+    "31": {
+      "mla": "Raggi, Claudia, et al. \"Decreased Renal Accumulation of Aminoglycoside Reflects Defective Receptor-Mediated Endocytosis in Cystic Fibrosis and Dent's Disease.\" Pflugers Archiv, vol. 462, no. 6, 2011, pp. 851-60. PubMed, https://doi.org/10.1007/s00424-011-1026-2.",
+      "pmid": "21927812",
+      "doi": "10.1007/s00424-011-1026-2",
+      "url": "https://doi.org/10.1007/s00424-011-1026-2",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:21927812",
+      "caveat": "[Polycationic aminocyclitol linked to aminosugars in an ...] supports only “Gentamicin preferentially binds megalin and is taken up by receptor-mediated endocytosis in mouse proximal tubule cells.”; evidence is mouse, claim is stated for humans; [reabsorbed by megalin-mediated endocytosis] supports only “Gentamicin preferentially binds megalin and is taken up by receptor-mediated endocytosis in mouse proximal tubule cells.”; evidence is mouse, claim is stated for humans"
+    },
+    "32": {
+      "mla": "Servais, Hélène, et al. \"Gentamicin Causes Apoptosis at Low Concentrations in Renal LLC-PK1 Cells Subjected to Electroporation.\" Antimicrobial Agents and Chemotherapy, vol. 50, no. 4, 2006, pp. 1213-21. PubMed, https://doi.org/10.1128/AAC.50.4.1213-1221.2006.",
+      "pmid": "16569831",
+      "doi": "10.1128/AAC.50.4.1213-1221.2006",
+      "url": "https://doi.org/10.1128/AAC.50.4.1213-1221.2006",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:16569831",
+      "caveat": "[and retained in proximal tubule lysosomes.] supports only “Gentamicin accumulates in the lysosomes of kidney proximal tubular cells.”; evidence is other_mammal, claim is stated for humans; evidence is cell_line"
+    },
+    "33": {
+      "mla": "Liedert, Bernd, et al. \"Adduct-Specific Monoclonal Antibodies for the Measurement of Cisplatin-Induced DNA Lesions in Individual Cell Nuclei.\" Nucleic Acids Research, vol. 34, no. 6, 2006, p. e47. PubMed, https://doi.org/10.1093/nar/gkl051.",
+      "pmid": "16571898",
+      "doi": "10.1093/nar/gkl051",
+      "url": "https://doi.org/10.1093/nar/gkl051",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:16571898",
+      "caveat": "[other heavy-metal coordination center forms intracellular ...] supports only “Cisplatin, a platinum coordination centre, forms intracellular DNA adducts that accumulate to the highest levels in kidney tubular cells of ...”; evidence is mouse, claim is stated for humans; [Platinum or other heavy-metal coordination center: forms ...] supports only “Platinum coordination center: forms intracellular adducts”; evidence is mouse, claim is stated for humans; source does not evidence: other heavy-metal coordination center"
+    },
+    "34": {
+      "mla": "Daudon, Michel, and Paul Jungers. \"Drug-Induced Renal Calculi: Epidemiology, Prevention and Management.\" Drugs, vol. 64, no. 3, 2004, pp. 245-75. PubMed, https://doi.org/10.2165/00003495-200464030-00003.",
+      "pmid": "14871169",
+      "doi": "10.2165/00003495-200464030-00003",
+      "url": "https://doi.org/10.2165/00003495-200464030-00003",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:14871169",
+      "caveat": "[Poorly soluble sulfonamide] verifier note: The source names a poorly soluble calculus-forming sulfonamide (sulfadiazine) but never uses the chemotype term, so one outside identification step is required.; [Poorly soluble sulfonamide or weakly acidic heterocycle ...] supports only “Poorly soluble sulfonamide that concentrates in the urinary pH range: predisposes to intratubular crystal precipitation and obstruction.”; source does not evidence: weakly acidic heterocycle; [High aqueous solubility] verifier note: The source's risk factor is poor solubility, so the atom's high-solubility criterion follows only by inverting that statement."
+    },
+    "35": {
+      "mla": "Stavniichuk, A., et al. \"A SORAFENIB INDUCED MODEL OF GLOMERULAR KIDNEY DISEASE.\" Visnyk Kyivs'koho Natsional'noho Universytetu Imeni Tarasa Shevchenka. Biolohiia, vol. 81, no. 2, 2020, pp. 25-31. PubMed, https://doi.org/10.17721/1728_2748.2020.81.25-31.",
+      "pmid": "33251532",
+      "doi": "10.17721/1728_2748.2020.81.25-31",
+      "url": "https://doi.org/10.17721/1728_2748.2020.81.25-31",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:33251532",
+      "caveat": "[pyridinyl-urea disrupts glomerular endothelial integrity] supports only “Sorafenib combined with a high-salt diet causes hypertension, proteinuria and glomerular injury in rats, with loss of podocyte structural ...”; evidence is rat, claim is stated for humans; [Anti-angiogenic multi-kinase scaffold with VEGF-pathway ...] supports only “sorafenib, a VEGF-pathway multi-kinase inhibitor, given for 8 weeks with an 8% NaCl diet causes hypertension, proteinuria and 4-fold higher ...”; evidence is rat, claim is stated for humans"
+    },
+    "36": {
+      "mla": "Bekersky, Ihor, et al. \"Plasma Protein Binding of Amphotericin B and Pharmacokinetics of Bound Versus Unbound Amphotericin B After Administration of Intravenous Liposomal Amphotericin B (AmBisome) and Amphotericin B Deoxycholate.\" Antimicrobial Agents and Chemotherapy, vol. 46, no. 3, 2002, pp. 834-40. PubMed, https://doi.org/10.1128/AAC.46.3.834-840.2002.",
+      "pmid": "11850269",
+      "doi": "10.1128/AAC.46.3.834-840.2002",
+      "url": "https://doi.org/10.1128/AAC.46.3.834-840.2002",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:11850269",
+      "caveat": "[High plasma protein binding with a small free fraction: ...] verifier note: Free-drug-only filtration is demonstrated for amphotericin B in humans, but the causal 'binding limits filtration and tubular delivery' statement requires one inferential step."
+    },
+    "37": {
+      "mla": "Richter, W. F., et al. \"Animal Pharmacokinetics and Interspecies Scaling of Ro 25-6833 and Related (Lactamylvinyl)cephalosporins.\" Journal of Pharmaceutical Sciences, vol. 87, no. 4, 1998, pp. 496-500. PubMed, https://doi.org/10.1021/js970261f.",
+      "pmid": "9548904",
+      "doi": "10.1021/js970261f",
+      "url": "https://doi.org/10.1021/js970261f",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:9548904",
+      "caveat": "[High plasma protein binding with a small free fraction] supports only “Six (lactamylvinyl)cephalosporins showed high plasma protein binding with unbound fraction <=5% in rat, monkey and human plasma.”; evidence is other_mammal, claim is stated for humans"
+    },
+    "38": {
+      "mla": "Yang, Luo, et al. \"The Influence of Urinary pH on Antibiotic Efficacy Against Bacterial Uropathogens.\" Urology, vol. 84, no. 3, 2014, pp. 731.e1-7. PubMed, https://doi.org/10.1016/j.urology.2014.04.048.",
+      "pmid": "25168568",
+      "doi": "10.1016/j.urology.2014.04.048",
+      "url": "https://doi.org/10.1016/j.urology.2014.04.048",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:25168568",
+      "caveat": "[High aqueous solubility maintained across the physiological ...] supports only “human urinary pH varies from about 4.5 (acidic) to 8 (alkaline)”; numeric gap 14%: claim [urinary pH range 4.5-8.0] vs source [pH range tested in vitro 5-8]; [physiological urinary pH range (4.5-8.0)] verifier note: The atom's 4.5-8.0 urinary pH range is stated verbatim for human urine, so the numeric claim is sourced, though as background rather than as a measurement of this study."
+    },
+    "39": {
+      "mla": "Xu, Bo, et al. \"The Current Role of Clevidipine in the Management of Hypertension.\" American Journal of Cardiovascular Drugs, vol. 22, no. 2, 2022, pp. 127-139. PubMed, https://doi.org/10.1007/s40256-021-00494-6.",
+      "pmid": "34472038",
+      "doi": "10.1007/s40256-021-00494-6",
+      "url": "https://doi.org/10.1007/s40256-021-00494-6",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:34472038",
+      "caveat": "[Rapid biotransformation to inactive, readily eliminated ...] supports only “Rapid esterase-mediated biotransformation of clevidipine to inactive metabolites, giving an ultra-short half-life, high clearance and low ...”; verifier note: The rapid-inactivation half of the atom is stated for clevidipine, but the renal consequences the atom asserts (short tubular residence, low intracellular accumulation) are nowhere measured.; [Rapid biotransformation to inactive, readily eliminated ...] supports only “clevidipine is rapidly hydrolyzed by blood esterases to inactive metabolites and has high clearance”; verifier note: Rapid biotransformation to inactive species is stated for one drug; 'readily eliminated' and any generalization are not."
+    },
+    "40": {
+      "mla": "Denton, K. M., et al. \"Effects of Angiotensin II on Regional Afferent and Efferent Arteriole Dimensions and the Glomerular Pole.\" American Journal of Physiology. Regulatory, Integrative and Comparative Physiology, vol. 279, no. 2, 2000, pp. R629-38. PubMed, https://doi.org/10.1152/ajpregu.2000.279.2.R629.",
+      "pmid": "10938254",
+      "doi": "10.1152/ajpregu.2000.279.2.R629",
+      "url": "https://doi.org/10.1152/ajpregu.2000.279.2.R629",
+      "source_type": "pubmed",
+      "verdict": "CONTRADICTED",
+      "supports": "contradicts",
+      "ref_id": "pmid:10938254",
+      "caveat": "CONTRADICTS: Angiotensin II preferentially constricts the efferent arteriole,; preferentially constricts the efferent arteriole; The diameter data do contradict 'preferentially constricts' the efferent vessel, but in the same span the resistance endpoint - the one the atom's next clause relies on for glomerular pressure - runs the clause's way, and the afferent predominance is ...; This is the abstract's best sentence for the clause and it does deny efferent-preferential constriction in the diameter sense, but its second half restores greater efferent functional impact, so the dispute is confined to the diameter endpoint in anesthetized ..."
+    },
+    "41": {
+      "mla": "Masereeuw, Rosalinde, et al. \"The Kidney and Uremic Toxin Removal: Glomerulus or Tubule?.\" Seminars in Nephrology, vol. 34, no. 2, 2014, pp. 191-208. PubMed, https://doi.org/10.1016/j.semnephrol.2014.02.010.",
+      "pmid": "24780473",
+      "doi": "10.1016/j.semnephrol.2014.02.010",
+      "url": "https://doi.org/10.1016/j.semnephrol.2014.02.010",
+      "source_type": "pubmed",
+      "verdict": "CONTRADICTED",
+      "supports": "contradicts",
+      "ref_id": "pmid:24780473",
+      "caveat": "CONTRADICTS: High plasma protein binding with a small free fraction: limits glomerular filtration and tubular delivery,; The same span supports the filtration half and denies the tubular-delivery half, so the flag is right about a real conflict but only for one named sub-clause and for a specific class of protein-bound solutes that are proximal-tubule transporter substrates. ..."
+    },
+    "42": {
+      "mla": "Betterton, Robert D., et al. \"Organic Cation Transporter (OCT/OCTN) Expression at Brain Barrier Sites: Focus on CNS Drug Delivery.\" Handbook of Experimental Pharmacology, vol. 266, 2021, pp. 301-328. PubMed, https://doi.org/10.1007/164_2021_448.",
+      "pmid": "33674914",
+      "doi": "10.1007/164_2021_448",
+      "url": "https://doi.org/10.1007/164_2021_448",
+      "source_type": "pubmed",
+      "verdict": "CONTRADICTED",
+      "supports": "contradicts",
+      "ref_id": "pmid:33674914",
+      "caveat": "CONTRADICTS: Neutral, non-ionizable structure lacking anionic or cationic groups: poorly recognized by renal organic-anion ...; Uncharged compounds being plausible OCT/OCTN substrates is genuinely in tension with 'poorly recognized', since these isoforms are also renal, but the statement is a family-level capability claim made for CNS barrier sites and the abstract itself says ..."
+    }
+  },
+  "contradiction_flags": [
+    {
+      "json_path": "task_description",
+      "segment_id": "C-ce6e9c7d2a#s3",
+      "segment_text": "and toxicity is confined to agents that reach cytotoxic concentrations in tubular cells, precipitate in the lumen, or measurably disrupt glomerular hemodynamics or the filtration barrier.",
+      "pmid": "24130922",
+      "doi": "10.4062/biomolther.2012.20.3.268",
+      "mla": "Kim, Sun Young, and Aree Moon. \"Drug-Induced Nephrotoxicity and Its Biomarkers.\" Biomolecules & Therapeutics, vol. 20, no. 3, 2012, pp. 268-72. PubMed, https://doi.org/10.4062/biomolther.2012.20.3.268.",
+      "contradicting_quote": "Mechanisms for drug-induced nephrotoxicity include changes in glomerular hemodynamics, tubular cell toxicity, inflammation, crystal nephropathy, rhabdomyolysis, and thrombotic microangiopathy.",
+      "note": "Inflammation, rhabdomyolysis and thrombotic microangiopathy fall outside the clause's three-item enumeration, so the word 'confined' is false. The three mechanisms the clause does list are themselves endorsed by the same sentence. (Drug nephrotoxicity is confined to agents that reach cytotoxic tubular concentrations, precipitate in the lumen, or measurably disrupt glomerular hemodynamics or the filtration barrier.; Six mechanisms are listed: glomerular hemodynamics, tubular cell toxicity, inflammation, crystal nephropathy, rhabdomyolysis and thrombotic microangiopathy.)",
+      "source_species": "human",
+      "source_system": "review",
+      "origin": "blind_verification",
+      "scope": "whole atom"
+    },
+    {
+      "json_path": "relevant_proteins.ACE.logic",
+      "segment_id": "C-75f2530ac2#s3",
+      "segment_text": "Angiotensin II preferentially constricts the efferent arteriole, ",
+      "pmid": "10938254",
+      "doi": "10.1152/ajpregu.2000.279.2.R629",
+      "mla": "Denton, K. M., et al. \"Effects of Angiotensin II on Regional Afferent and Efferent Arteriole Dimensions and the Glomerular Pole.\" American Journal of Physiology. Regulatory, Integrative and Comparative Physiology, vol. 279, no. 2, 2000, pp. R629-38. PubMed, https://doi.org/10.1152/ajpregu.2000.279.2.R629.",
+      "contradicting_quote": "Afferent diameter decreased more than efferent in the outer and mid cortex (P < 0.05) but by a similar extent in juxtamedullary nephrons (P = 0.58). Calculated efferent resistance increased more than afferent, especially in the outer cortex (127 vs. 24 units; 5 ng. kg(-1). min(-1) ANG II).",
+      "note": "The diameter data do contradict 'preferentially constricts' the efferent vessel, but in the same span the resistance endpoint - the one the atom's next clause relies on for glomerular pressure - runs the clause's way, and the afferent predominance is regional. (Angiotensin II preferentially constricts the efferent arteriole.; Afferent diameter fell MORE than efferent in outer and mid cortex (similar in juxtamedullary nephrons), while calculated efferent resistance rose more than afferent (127 vs 24 units at 5 ng/kg/min).)",
+      "source_species": "rabbit",
+      "source_system": "in_vivo_animal",
+      "origin": "blind_verification",
+      "scope": "anesthetized rabbits, intrarenal ANG II 0.1-5 ng/kg/min, vascular-casting diameters; afferent predominance holds in outer and mid cortex only (similar in juxtamedullary nephrons) and the calculated-resistance endpoint runs the other way"
+    },
+    {
+      "json_path": "relevant_proteins.ACE.logic",
+      "segment_id": "C-75f2530ac2#d1",
+      "segment_text": "preferentially constricts the efferent arteriole",
+      "pmid": "10938254",
+      "doi": "10.1152/ajpregu.2000.279.2.R629",
+      "mla": "Denton, K. M., et al. \"Effects of Angiotensin II on Regional Afferent and Efferent Arteriole Dimensions and the Glomerular Pole.\" American Journal of Physiology. Regulatory, Integrative and Comparative Physiology, vol. 279, no. 2, 2000, pp. R629-38. PubMed, https://doi.org/10.1152/ajpregu.2000.279.2.R629.",
+      "contradicting_quote": "Thus afferent diameter decreased more in response to ANG II, but efferent resistance rose more due to smaller resting luminal dimensions.",
+      "note": "This is the abstract's best sentence for the clause and it does deny efferent-preferential constriction in the diameter sense, but its second half restores greater efferent functional impact, so the dispute is confined to the diameter endpoint in anesthetized rabbits. (Angiotensin II preferentially constricts the efferent arteriole.; The abstract's own conclusion: afferent diameter decreased more in response to ANG II, but efferent resistance rose more because of smaller resting luminal dimensions.)",
+      "source_species": "rabbit",
+      "source_system": "in_vivo_animal",
+      "origin": "blind_verification",
+      "scope": "anesthetized rabbits, intrarenal ANG II 0.1-5 ng/kg/min, vascular-casting diameters; afferent predominance holds in outer and mid cortex only (similar in juxtamedullary nephrons) and the calculated-resistance endpoint runs the other way"
+    },
+    {
+      "json_path": "molecular_context.yes_features[0]",
+      "segment_id": "C-cbb91663df#s1",
+      "segment_text": "Acyclic nucleotide phosphonate or phosphonamidate scaffold characteristic of antiviral nucleotide analogs: anionic, actively secreted, and concentrated in proximal tubule cells.",
+      "pmid": "17005808",
+      "doi": "10.1128/AAC.00251-06",
+      "mla": "Ray, Adrian S., et al. \"Mechanism of Active Renal Tubular Efflux of Tenofovir.\" Antimicrobial Agents and Chemotherapy, vol. 50, no. 10, 2006, pp. 3297-304. PubMed, https://doi.org/10.1128/AAC.00251-06.",
+      "contradicting_quote": "TFV accumulated to fivefold lower levels in MRP4-overexpressing cells, and its accumulation could be increased by an MRP inhibitor.",
+      "note": "On the fourth disputed question: the abstract reports the opposite of accumulation - 'TFV accumulated to fivefold lower levels in MRP4-overexpressing cells, and its accumulation could be increased by an MRP inhibitor', with those cells also 2.0- to 2.5-fold less susceptible to TFV cytotoxicity - and the systems are MRP4-overexpressing cell lines and MRP4-containing membrane vesicles, not proximal tubule cells. I therefore raise SCOPE_LIMITED to CONTRADICTED, since the atom's asserted intracellular concentration is the direction this paper's only accumulation data reverse; the active-secretion element alone survives and is scored in W033.",
+      "source_species": "human",
+      "source_system": "cell_line",
+      "origin": "audit_reverification_W",
+      "scope": "whole atom"
+    },
+    {
+      "json_path": "molecular_context.no_features[0]",
+      "segment_id": "C-eb46223de7#s1",
+      "segment_text": "High plasma protein binding with a small free fraction: limits glomerular filtration and tubular delivery, ",
+      "pmid": "24780473",
+      "doi": "10.1016/j.semnephrol.2014.02.010",
+      "mla": "Masereeuw, Rosalinde, et al. \"The Kidney and Uremic Toxin Removal: Glomerulus or Tubule?.\" Seminars in Nephrology, vol. 34, no. 2, 2014, pp. 191-208. PubMed, https://doi.org/10.1016/j.semnephrol.2014.02.010.",
+      "contradicting_quote": "These uremic retention solutes, also known as uremic toxins, are a heterogeneous group of organic compounds, many are too large to be filtered (middle molecules) or are protein-bound. Tubular secretion shifts the binding and allows for active secretion of such solutes.",
+      "note": "The same span supports the filtration half and denies the tubular-delivery half, so the flag is right about a real conflict but only for one named sub-clause and for a specific class of protein-bound solutes that are proximal-tubule transporter substrates. (High plasma protein binding with a small free fraction limits both glomerular filtration and tubular delivery.; Protein binding does keep these solutes from being filtered, but tubular secretion 'shifts the binding and allows for active secretion of such solutes', so bound solutes still reach the tubule.)",
+      "source_species": "human (review, with animal data)",
+      "source_system": "review",
+      "origin": "blind_verification",
+      "scope": "Protein-bound uremic retention solutes handled by proximal-tubule OAT1/OAT3/OATP4C1 and ABC efflux pumps, as stated in a review; only the tubular-delivery half of the clause is touched."
+    },
+    {
+      "json_path": "molecular_context.no_features[2]",
+      "segment_id": "C-5976454974#s1",
+      "segment_text": "Neutral, non-ionizable structure lacking anionic or cationic groups: poorly recognized by renal organic-anion and organic-cation transporters, ",
+      "pmid": "33674914",
+      "doi": "10.1007/164_2021_448",
+      "mla": "Betterton, Robert D., et al. \"Organic Cation Transporter (OCT/OCTN) Expression at Brain Barrier Sites: Focus on CNS Drug Delivery.\" Handbook of Experimental Pharmacology, vol. 266, 2021, pp. 301-328. PubMed, https://doi.org/10.1007/164_2021_448.",
+      "contradicting_quote": "Organic Cation Transporters (OCTs) and Novel Organic Cation Transporters (OCTNs) are two subfamilies of the solute carrier 22 (SLC22) family of proteins that have significant potential to mediate delivery of positively charged, zwitterionic, and uncharged therapeutics.",
+      "note": "Uncharged compounds being plausible OCT/OCTN substrates is genuinely in tension with 'poorly recognized', since these isoforms are also renal, but the statement is a family-level capability claim made for CNS barrier sites and the abstract itself says functional expression there needs more analysis. Disclose the organ mismatch and the untouched OAT half. (Neutral, non-ionizable molecules lacking anionic or cationic groups are poorly recognized by renal organic-anion and organic-cation transporters.; OCTs and OCTNs, two SLC22 subfamilies, are described as having significant potential to mediate delivery of positively charged, zwitterionic AND uncharged therapeutics.)",
+      "source_species": "human (review; no species-specific experiments reported)",
+      "source_system": "review",
+      "origin": "blind_verification",
+      "scope": "The organic-CATION side only (SLC22 OCT/OCTN substrate scope), stated as delivery 'potential' in a review of blood-brain and blood-CSF barrier transport; no renal proximal-tubule data and nothing about organic-anion transporters."
+    }
+  ],
+  "citation_meta": {
+    "pipeline_version": "1.2",
+    "marker_legend": {
+      "[n]": "the source supports this assertion",
+      "[nt]": "the source confirms the terminology only; it does not establish the assertion",
+      "[nc]": "the source supports this assertion but contradicts something else in this file; see contradiction_flags and the reference's caveat",
+      "[n!]": "the source DISPUTES this assertion. It is not support. The refuting quote is in contradiction_flags"
+    },
+    "source_file": "unitox_cliff/knowledge_renal_toxicity_V7.json",
+    "attribution": "Bibliographic metadata retrieved from PubMed (U.S. National Library of Medicine). 40 of 42 references resolve through a DOI link; the remaining 2 have no DOI in PubMed and are addressed by PMID.",
+    "coverage": {
+      "segments": 108,
+      "cited": 84,
+      "uncited": 24,
+      "cited_factual": 33,
+      "cited_terminology_only": 51,
+      "contradictions": 6,
+      "references": 42,
+      "note": "`cited` counts every atom with an admissible reference. `cited_factual` excludes atoms that are bare terms rather than propositions, where the citation confirms vocabulary rather than a finding."
+    }
+  }
+}

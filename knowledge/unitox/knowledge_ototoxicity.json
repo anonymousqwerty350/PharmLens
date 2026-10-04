@@ -1,0 +1,687 @@
+{
+  "task": "ototoxicity",
+  "task_description": "Drug-induced ototoxicity prediction, including cochlear hair cell damage, vestibulotoxicity, tinnitus, and sensorineural hearing loss caused by pharmaceutical agents.",
+  "prediction_question": "Does this molecule exhibit ototoxicity? Your final answer should be formatted as either: 'Final answer: Toxicity' or 'Final answer: Non-toxicity'.",
+  "relevant_proteins": {
+    "KCNQ4": {
+      "pdb_id": "7BYN",
+      "role": "Outer hair cell potassium recycling",
+      "logic": "KCNQ4 (Kv7.4) is a voltage-gated K+ channel on the basolateral membrane of outer hair cells that mediates the K+ efflux completing cochlear K+ recycling. It is blocked by cinchona alkaloids and 4-aminoquinolines at the concentrations these drugs reach in the melanin-rich stria vascularis, and its PIP2-dependent gating is disrupted by polycationic aminoglycosides. Sustained loss of KCNQ4 conductance depolarizes outer hair cells and causes their progressive degeneration.",
+      "role_cited": "Outer hair cell potassium recycling[2]",
+      "logic_cited": "KCNQ4 (Kv7.4) is a voltage-gated K+ channel on the basolateral membrane of outer hair cells[3] that mediates the K+ efflux completing cochlear K+ recycling[4]. It is blocked by cinchona alkaloids and 4-aminoquinolines at the concentrations these drugs reach in the melanin-rich stria vascularis, and its PIP2-dependent gating is disrupted by polycationic aminoglycosides[4]. Sustained loss of KCNQ4 conductance depolarizes outer hair cells[4t][5t] and causes their progressive degeneration[5]."
+    },
+    "TRPA1": {
+      "pdb_id": "6X2J",
+      "role": "Outer hair cell cation channel and drug-entry route",
+      "logic": "TRPA1 is a calcium-permeable non-selective cation channel of outer hair cells and supporting cells. It is not opened by ordinary reversible ligand binding but by covalent modification of cysteine residues and by 4-hydroxynonenal generated during cochlear lipid peroxidation, so it becomes a drug-entry route only after an oxidative insult is already underway. Once open it lets polycationic aminoglycosides accumulate in outer hair cells independently of the mechanotransduction channel.",
+      "role_cited": "Outer hair cell cation channel and drug-entry route[6t]",
+      "logic_cited": "TRPA1 is a calcium-permeable non-selective cation channel[7t] of outer hair cells and supporting cells[6]. It is not opened by ordinary reversible ligand binding[8] but by covalent modification of cysteine residues and by 4-hydroxynonenal generated during cochlear lipid peroxidation[6t][8t], so it becomes a drug-entry route only after an oxidative insult is already underway. Once open it lets polycationic aminoglycosides accumulate in outer hair cells independently of the mechanotransduction channel[6]."
+    },
+    "COX2": {
+      "pdb_id": "5KIR",
+      "role": "Cochlear prostaglandin synthesis and blood-flow regulation",
+      "logic": "Cyclooxygenase-2 is constitutively expressed in the cochlea and synthesizes prostaglandins that help set cochlear vascular tone. Systemic inhibition by aryl-carboxylic-acid non-steroidal anti-inflammatory drugs lowers prostaglandin-dependent cochlear blood flow; the same lipophilic-anion drugs also interfere with prestin in outer hair cells, and the two effects together give the dose-dependent, usually reversible tinnitus characteristic of this class.",
+      "role_cited": "Cochlear prostaglandin synthesis and blood-flow regulation[9t]",
+      "logic_cited": "Cyclooxygenase-2 is constitutively expressed[10] in the cochlea[10] and synthesizes prostaglandins that help set cochlear vascular tone[11t]. Systemic inhibition by aryl-carboxylic-acid non-steroidal anti-inflammatory drugs lowers prostaglandin-dependent cochlear blood flow[11]; the same lipophilic-anion drugs also interfere with prestin in outer hair cells[12t], and the two effects together give the dose-dependent, usually reversible[13t] tinnitus characteristic of this class."
+    },
+    "NKCC1": {
+      "pdb_id": "9C0G",
+      "role": "Strial marginal-cell potassium uptake",
+      "logic": "NKCC1 (SLC12A2) is a Na+-K+-2Cl- cotransporter on the basolateral membrane of stria vascularis marginal cells that generates potassium-rich endolymph and the positive endocochlear potential. Only diuretics that inhibit this cotransporter itself, the loop diuretics, collapse the endocochlear potential; thiazide and thiazide-like sulfonamide diuretics act on the distal-tubule NCC cotransporter and leave the endocochlear potential intact.",
+      "role_cited": "Strial marginal-cell potassium uptake[14t]",
+      "logic_cited": "NKCC1 (SLC12A2) is a Na+-K+-2Cl- cotransporter on the basolateral membrane of stria vascularis marginal cells[14] that generates potassium-rich endolymph[15] and the positive endocochlear potential[15]. Only diuretics that inhibit this cotransporter itself, the loop diuretics, collapse the endocochlear potential[16]; thiazide and thiazide-like sulfonamide diuretics act on the distal-tubule NCC cotransporter[17] and leave the endocochlear potential intact."
+    }
+  },
+  "pathway_rules": [
+    "Ototoxicity is injury to outer hair cells, stria vascularis, or spiral ganglion neurons that presents as sensorineural hearing loss, tinnitus, or vestibular dysfunction. It arises from a small number of drug classes with defined inner-ear mechanisms, not from general pharmacological potency.",
+    "The blood-labyrinth barrier — tight junctions plus P-glycoprotein and related efflux transporters in strial capillaries — holds perilymph and endolymph drug levels far below plasma levels. Sustained cochlear exposure requires either carrier-mediated uptake into the inner ear (megalin-mediated endocytosis of aminoglycosides, copper-transporter and organic-cation-transporter uptake of platinum agents) or a small, weakly protein-bound molecule that partitions into cochlear fluids.",
+    "Affinity for a cochlear protein in a structural model shows only that the binding pocket can accommodate the molecule. Injury additionally requires that the drug reach the inner ear, modulate the target at clinically achievable concentrations, and sustain that action long enough to damage hair cells or the stria vascularis, so computed binding strength alone does not establish ototoxicity.",
+    "Aminoglycosides and platinum agents are actively concentrated in outer hair cells and stria vascularis, where they drive reactive-oxygen-species production, lipid peroxidation, and mitochondrial injury, giving permanent hair-cell loss that begins in the basal turn. TRPA1, opened by the 4-hydroxynonenal formed during this oxidative stress, provides a further entry route for small cations.",
+    "Salicylates and other cyclooxygenase-inhibiting aryl carboxylic acids act as lipophilic anions at the chloride-binding site of prestin, the outer-hair-cell motor protein, reducing electromotility and cochlear amplification. Together with reduced prostaglandin-dependent cochlear blood flow this produces dose-dependent, usually reversible tinnitus and hearing loss.",
+    "Loop diuretics inhibit strial NKCC1 and rapidly lower the endocochlear potential, causing hearing loss that is typically reversible but becomes permanent when combined with aminoglycosides or platinum agents.",
+    "Glucocorticoids act on cochlear glucocorticoid and mineralocorticoid receptors to suppress inflammation and preserve strial function; they are the standard treatment for sudden sensorineural hearing loss and reduce aminoglycoside- and platinum-induced hair-cell injury rather than causing cochlear damage."
+  ],
+  "molecular_context": {
+    "yes_features": [
+      "Aminoglycoside scaffold (2-deoxystreptamine or streptamine cyclitol glycosylated by amino sugars): a polycationic structure taken into outer hair cells by megalin-mediated endocytosis and through apical mechanotransduction and cation channels, where it drives reactive-oxygen-species-mediated hair-cell death.",
+      "Platinum coordination center (Pt bound to chloride, carboxylate, hydroxo, or amine ligands): a reactive metal complex imported by copper and organic-cation transporters that accumulates in hair cells and stria vascularis and causes oxidative and DNA damage.",
+      "Salicylate or arylalkanoic-acid non-steroidal anti-inflammatory pharmacophore (small aromatic ring bearing a free acetic, propionic, or ortho-substituted benzoic acid): a cyclooxygenase-inhibiting lipophilic anion that competes at the prestin anion-binding site of outer hair cells and lowers cochlear blood flow.",
+      "Loop diuretic scaffold (halogenated benzene carrying a free aromatic carboxylic acid together with a sulfamoyl, aryloxy, or arylamino substituent): inhibits strial NKCC1 and collapses the endocochlear potential, unlike thiazide-type sulfonamides that lack the free aromatic carboxylate.",
+      "Cinchona alkaloid (quinoline methanol linked to quinuclidine) or 4-aminoquinoline antimalarial ring system: a lipophilic base that concentrates in the melanin-rich stria vascularis and blocks outer-hair-cell KCNQ4, impairing cochlear K+ recycling.",
+      "Phosphodiesterase-5 inhibitor scaffold (pyrazolopyrimidinone or related bicyclic heterocycle bearing an arylsulfonamide): raises cyclic GMP and alters cochlear microvascular tone, a class associated with sudden sensorineural hearing loss."
+    ],
+    "no_features": [
+      "Cyclopenta[a]phenanthrene steroid nucleus, including C21 corticosteroids and sex steroids: glucocorticoids preserve strial function and are used therapeutically for sudden sensorineural hearing loss, and this nucleus carries no cochlear injury mechanism.",
+      "Beta-lactam antibacterial core (penicillin, cephalosporin, or carbapenem ring fused to a free carboxylate): an anionic, renally cleared scaffold that does not accumulate in perilymph and is the reference antibacterial class without cochlear toxicity.",
+      "Molecular weight above roughly 600 Da, or a peptidic, macrocyclic, or permanently charged structure such as a quaternary ammonium or di-anion: excluded from cochlear fluids by the tight junctions of the blood-labyrinth barrier.",
+      "Agent acting locally at its site of application — inhaled, ophthalmic, dermal, or gut-restricted — so systemic plasma levels stay too low for the cochlea to be exposed.",
+      "High lipophilicity (logP above about 4) combined with extensive plasma protein binding: leaves a small unbound fraction, and P-glycoprotein efflux at strial capillaries further limits transfer into perilymph.",
+      "No redox-active metal center, no polycationic amino-sugar recognized by inner-ear uptake carriers, and no small lipophilic-anion carboxylate: none of the routes by which drugs generate hair-cell oxidative stress, are concentrated in the cochlea, or interfere with prestin is available."
+    ],
+    "yes_features_cited": [
+      "Aminoglycoside scaffold (2-deoxystreptamine or streptamine cyclitol glycosylated by amino sugars): a polycationic structure[6t] taken into outer hair cells by megalin-mediated endocytosis[48!] and through apical mechanotransduction and cation channels[4t][48!], where it drives reactive-oxygen-species-mediated hair-cell death[40].",
+      "Platinum coordination center (Pt bound to chloride, carboxylate, hydroxo, or amine ligands): a reactive metal complex imported by copper and organic-cation transporters[25t][26t] that accumulates in hair cells and stria vascularis[29] and causes oxidative and DNA damage[18].",
+      "Salicylate or arylalkanoic-acid non-steroidal anti-inflammatory pharmacophore (small aromatic ring bearing a free acetic, propionic, or ortho-substituted benzoic acid): a cyclooxygenase-inhibiting lipophilic anion[12t] that competes at the prestin anion-binding site of outer hair cells[32t][33t] and lowers cochlear blood flow[11].",
+      "Loop diuretic scaffold (halogenated benzene carrying a free aromatic carboxylic acid together with a sulfamoyl, aryloxy, or arylamino substituent): inhibits strial NKCC1[41] and collapses the endocochlear potential[16t], unlike thiazide-type sulfonamides that lack the free aromatic carboxylate.",
+      "Cinchona alkaloid (quinoline methanol linked to quinuclidine) or 4-aminoquinoline antimalarial ring system: a lipophilic base that concentrates in the melanin-rich stria vascularis and blocks outer-hair-cell KCNQ4, impairing cochlear K+ recycling[2t].",
+      "Phosphodiesterase-5 inhibitor scaffold (pyrazolopyrimidinone or related bicyclic heterocycle bearing an arylsulfonamide): raises cyclic GMP[42] and alters cochlear microvascular tone, a class associated with sudden sensorineural hearing loss[43t]."
+    ],
+    "no_features_cited": [
+      "Cyclopenta[a]phenanthrene steroid nucleus, including C21 corticosteroids and sex steroids: glucocorticoids preserve strial function[37c] and are used therapeutically for sudden sensorineural hearing loss[39][44], and this nucleus carries no cochlear injury mechanism.",
+      "Beta-lactam antibacterial core (penicillin, cephalosporin, or carbapenem ring fused to a free carboxylate): an anionic, renally cleared scaffold[45t] that does not accumulate in perilymph and is the reference antibacterial class without cochlear toxicity.",
+      "Molecular weight above roughly 600 Da, or a peptidic, macrocyclic, or permanently charged structure such as a quaternary ammonium or di-anion: excluded from cochlear fluids by the tight junctions of the blood-labyrinth barrier[27t].",
+      "Agent acting locally at its site of application[46t] — inhaled, ophthalmic, dermal, or gut-restricted —[46t] so systemic plasma levels stay too low for the cochlea to be exposed.",
+      "High lipophilicity (logP above about 4) combined with extensive plasma protein binding[47t]: leaves a small unbound fraction, and P-glycoprotein efflux at strial capillaries further limits transfer into perilymph[23t].",
+      "No redox-active metal center, no polycationic amino-sugar recognized by inner-ear uptake carriers, and no small lipophilic-anion carboxylate: none of the routes by which drugs generate hair-cell oxidative stress[19], are concentrated in the cochlea, or interfere with prestin[32t] is available."
+    ]
+  },
+  "target_names": [
+    "Toxicity=0 (Non-toxicity)",
+    "Toxicity=1 (Toxicity)"
+  ],
+  "task_description_cited": "Drug-induced ototoxicity prediction, including cochlear hair cell damage, vestibulotoxicity, tinnitus, and sensorineural hearing loss caused by pharmaceutical agents[1t].",
+  "pathway_rules_cited": [
+    "Ototoxicity is injury to outer hair cells, stria vascularis, or spiral ganglion neurons[18][19] that presents as sensorineural hearing loss, tinnitus, or vestibular dysfunction[20t]. It arises from a small number of drug classes[21t] with defined inner-ear mechanisms[21t][22t], not from general pharmacological potency.",
+    "The blood-labyrinth barrier — tight junctions plus P-glycoprotein and related efflux transporters in strial capillaries — holds perilymph and endolymph drug levels far below plasma levels[23t][24t]. Sustained cochlear exposure requires either carrier-mediated uptake into the inner ear (megalin-mediated endocytosis of aminoglycosides, copper-transporter and organic-cation-transporter uptake of platinum agents)[25t][26t] or a small, weakly protein-bound molecule that partitions into cochlear fluids[27].",
+    "Affinity for a cochlear protein in a structural model shows only that the binding pocket can accommodate the molecule[28]. Injury additionally requires that the drug reach the inner ear[27], modulate the target at clinically achievable concentrations, and sustain that action long enough to damage hair cells or the stria vascularis, so computed binding strength alone does not establish ototoxicity[28].",
+    "Aminoglycosides and platinum agents are actively concentrated[29t] in outer hair cells and stria vascularis[29], where they drive reactive-oxygen-species production, lipid peroxidation, and mitochondrial injury[19], giving permanent hair-cell loss[30t] that begins in the basal turn[31t]. TRPA1, opened by the 4-hydroxynonenal formed during this oxidative stress, provides a further entry route for small cations[6t].",
+    "Salicylates and other cyclooxygenase-inhibiting aryl carboxylic acids act as lipophilic anions at the chloride-binding site of prestin, the outer-hair-cell motor protein[32][33][34t], reducing electromotility and cochlear amplification[34t]. Together with reduced prostaglandin-dependent cochlear blood flow this produces dose-dependent, usually reversible[13t] tinnitus and hearing loss.",
+    "Loop diuretics inhibit strial NKCC1[14] and rapidly lower the endocochlear potential[16], causing hearing loss that is typically reversible[35t] but becomes permanent when combined with aminoglycosides or platinum agents[16].",
+    "Glucocorticoids act on cochlear glucocorticoid and mineralocorticoid receptors to suppress inflammation[36][37!] and preserve strial function[37c]; they are the standard treatment[39t] for sudden sensorineural hearing loss[38][39] and reduce aminoglycoside- and platinum-induced hair-cell injury rather than causing cochlear damage."
+  ],
+  "references": {
+    "1": {
+      "mla": "Huang, Xin, et al. \"In Silico Prediction of Drug-Induced Ototoxicity Using Machine Learning and Deep Learning Methods.\" Chemical Biology & Drug Design, vol. 98, no. 2, 2021, pp. 248-257. PubMed, https://doi.org/10.1111/cbdd.13894.",
+      "pmid": "34013639",
+      "doi": "10.1111/cbdd.13894",
+      "url": "https://doi.org/10.1111/cbdd.13894",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:34013639",
+      "caveat": "[Drug-induced ototoxicity prediction, including cochlear ...] supports only “In silico prediction of drug-induced ototoxicity as a single binary endpoint, modelled over 1,102 ototoxic medications and 1,705 ...”; verifier note: The predictive task matches the atom, but the four clinical sub-endpoints it enumerates are collapsed into one binary label and the source also covers environmental chemicals."
+    },
+    "2": {
+      "mla": "Nam, Yoon Seok, et al. \"Valproic Acid Inhibits Progressive Hereditary Hearing Loss in a KCNQ4 Variant Model Through HDAC1 Suppression.\" International Journal of Molecular Sciences, vol. 24, no. 6, 2023, p. 5695. PubMed, https://doi.org/10.3390/ijms24065695.",
+      "pmid": "36982769",
+      "doi": "10.3390/ijms24065695",
+      "url": "https://doi.org/10.3390/ijms24065695",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:36982769",
+      "caveat": "[impairing cochlear K+ recycling.] supports only “Loss of KCNQ4 channel function through the p.W276S variant is associated with absent cochlear potassium recycling and hair cell loss in mice”; evidence is mouse, claim is stated for humans; [Outer hair cell potassium recycling] supports only “hair cell potassium recycling”; Contrary to the recorded audit note (which describes a different, gerbil NKCC1 paper), this abstract does tie KCNQ4 to potassium recycling and hair-cell loss and states KCNQ4's role in hair-cell membrane potential; it never separates outer from inner hair cells, so support holds only for 'hair cell potassium recycling' in a mouse variant model."
+    },
+    "3": {
+      "mla": "Kharkovets, T., et al. \"KCNQ4, a K+ Channel Mutated in a Form of Dominant Deafness, Is Expressed in the Inner Ear and the Central Auditory Pathway.\" Proceedings of the National Academy of Sciences of the United States of America, vol. 97, no. 8, 2000, pp. 4333-8. PubMed, https://doi.org/10.1073/pnas.97.8.4333.",
+      "pmid": "10760300",
+      "doi": "10.1073/pnas.97.8.4333",
+      "url": "https://doi.org/10.1073/pnas.97.8.4333",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:10760300",
+      "caveat": "[KCNQ4 (Kv7.4) is a voltage-gated K+ channel on the ...] supports only “KCNQ4 protein is situated at the basal membrane of mouse cochlear outer hair cells, where its transcript is found exclusively”; evidence is mouse, claim is stated for humans; [on the basolateral membrane of outer hair cells] supports only “KCNQ4 is situated at the basal membrane of mouse cochlear outer hair cells”; evidence is mouse, claim is stated for humans"
+    },
+    "4": {
+      "mla": "Leitner, Michael G., et al. \"Aminoglycosides Inhibit KCNQ4 Channels in Cochlear Outer Hair Cells via Depletion of phosphatidylinositol(4,5)bisphosphate.\" Molecular Pharmacology, vol. 79, no. 1, 2011, pp. 51-60. PubMed, https://doi.org/10.1124/mol.110.068130.",
+      "pmid": "20935082",
+      "doi": "10.1124/mol.110.068130",
+      "url": "https://doi.org/10.1124/mol.110.068130",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:20935082",
+      "caveat": "[and its PIP2-dependent gating is disrupted by polycationic ...] supports only “Aminoglycosides applied to rat outer hair cells inhibit the KCNQ4-mediated potassium current I(K,n).”; evidence is rat, claim is stated for humans; [that mediates the K+ efflux completing cochlear K+ ...] supports only “KCNQ4 (Kv7.4) channels mediate the potassium conductance I(K,n) on which outer hair cell survival critically depends.”; evidence is rat, claim is stated for humans; [Aminoglycoside scaffold (2-deoxystreptamine or streptamine ...] supports only “Aminoglycosides accumulate rapidly in outer hair cells through a hair-cell-specific apical entry pathway.”; evidence is rat, claim is stated for humans; [Sustained loss of KCNQ4 conductance depolarizes outer hair ...] evidence is rat, claim is stated for humans; [taken into outer hair cells through apical ...] supports only “aminoglycosides accumulate rapidly in outer hair cells via a hair cell-specific apical entry pathway”; evidence is rat, claim is stated for humans"
+    },
+    "5": {
+      "mla": "Kharkovets, Tatjana, et al. \"Mice with Altered KCNQ4 K+ Channels Implicate Sensory Outer Hair Cells in Human Progressive Deafness.\" The EMBO Journal, vol. 25, no. 3, 2006, pp. 642-52. PubMed, https://doi.org/10.1038/sj.emboj.7600951.",
+      "pmid": "16437162",
+      "doi": "10.1038/sj.emboj.7600951",
+      "url": "https://doi.org/10.1038/sj.emboj.7600951",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:16437162",
+      "caveat": "[and causes their progressive degeneration.] supports only “Chronic depolarization from genetic KCNQ4 disruption causes slow progressive degeneration of outer hair cells in mice.”; evidence is mouse, claim is stated for humans; [Sustained loss of KCNQ4 conductance depolarizes outer hair ...] supports only “Genetic KCNQ4 disruption abolishes I(K,n) in mouse outer hair cells and depolarizes them.”; evidence is mouse, claim is stated for humans; [progressive degeneration] supports only “progressive selective degeneration of outer hair cells after genetic KCNQ4 disruption in mice, paralleling progressive hearing loss”; evidence is mouse, claim is stated for humans"
+    },
+    "6": {
+      "mla": "Stepanyan, Ruben S., et al. \"TRPA1-mediated Accumulation of Aminoglycosides in Mouse Cochlear Outer Hair Cells.\" Journal of the Association for Research in Otolaryngology, vol. 12, no. 6, 2011, pp. 729-40. PubMed, https://doi.org/10.1007/s10162-011-0288-x.",
+      "pmid": "21879401",
+      "doi": "10.1007/s10162-011-0288-x",
+      "url": "https://doi.org/10.1007/s10162-011-0288-x",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:21879401",
+      "caveat": "[TRPA1, opened by the 4-hydroxynonenal formed during this ...] evidence is mouse, claim is stated for humans; [Once open it lets polycationic aminoglycosides accumulate ...] evidence is mouse, claim is stated for humans; [Outer hair cell drug-entry route] evidence is mouse, claim is stated for humans; [but by covalent modification of cysteine residues and by ...] supports only “4-Hydroxynonenal, a product of oxidative stress that accumulates in the cochlea after noise exposure, activates TRPA1 channels in mouse ...”; evidence is mouse, claim is stated for humans; [Outer hair cell cation channel and drug-entry route] evidence is mouse, claim is stated for humans; [opened by 4-hydroxynonenal generated during cochlear lipid ...] supports only “TRPA1 channels in mouse outer hair cells are opened by exogenously applied 4-hydroxynonenal, a molecule generated during oxidative stress ...”; evidence is mouse, claim is stated for humans; [a polycationic structure] supports only “a small organic cationic structure, as in the aminoglycoside gentamicin”; evidence is mouse, claim is stated for humans; [independently of the mechanotransduction channel] supports only “independently of hair cell mechanotransduction, which was disrupted by calcium-free pre-incubation in mouse organ of Corti explants”; evidence is mouse, claim is stated for humans; [TRPA1 is a calcium-permeable non-selective cation channel ...] supports only “TRPA1 channels are functional in mouse cochlear outer hair cells and some supporting cells, where activation admits small organic cations”; evidence is mouse, claim is stated for humans"
+    },
+    "7": {
+      "mla": "Zhao, Jianhua, et al. \"Irritant-Evoked Activation and Calcium Modulation of the TRPA1 Receptor.\" Nature, vol. 585, no. 7823, 2020, pp. 141-145. PubMed, https://doi.org/10.1038/s41586-020-2480-9.",
+      "pmid": "32641835",
+      "doi": "10.1038/s41586-020-2480-9",
+      "url": "https://doi.org/10.1038/s41586-020-2480-9",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:32641835",
+      "caveat": "[a calcium-permeable non-selective cation channel] supports only “Electrophile activation widens the TRPA1 selectivity filter to enhance calcium permeability.”; evidence is cell_free"
+    },
+    "8": {
+      "mla": "Macpherson, Lindsey J., et al. \"Noxious Compounds Activate TRPA1 Ion Channels Through Covalent Modification of Cysteines.\" Nature, vol. 445, no. 7127, 2007, pp. 541-5. PubMed, https://doi.org/10.1038/nature05544.",
+      "pmid": "17237762",
+      "doi": "10.1038/nature05544",
+      "url": "https://doi.org/10.1038/nature05544",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:17237762",
+      "caveat": "[but by covalent modification of cysteine residues and by ...] supports only “Covalent modification of reactive cysteines within TRPA1 can cause channel activation.”; evidence is mouse, claim is stated for humans; evidence is cell_line; [opened by covalent modification of cysteine residues] evidence is mouse, claim is stated for humans; evidence is cell_line; [It is not opened by ordinary reversible ligand binding] supports only “covalent modification of reactive cysteines activates TRPA1, producing currents that persist for at least 10 min after washout”; evidence is mouse, claim is stated for humans; evidence is cell_line"
+    },
+    "9": {
+      "mla": "Ziegler, E. A., et al. \"Immunohistochemical Localization of Cyclooxygenase Isoforms in the Organ of Corti and the Spiral Ganglion Cells of Guinea Pig Cochlea.\" ORL; Journal for Oto-Rhino-Laryngology and Its Related Specialties, vol. 66, no. 6, 2004, pp. 297-301. PubMed, https://doi.org/10.1159/000081885.",
+      "pmid": "15668527",
+      "doi": "10.1159/000081885",
+      "url": "https://doi.org/10.1159/000081885",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:15668527",
+      "caveat": "[Cochlear prostaglandin synthesis and blood-flow regulation] supports only “Cochlear prostaglandin synthesis”; evidence is other_mammal, claim is stated for humans; source does not evidence: blood-flow regulation"
+    },
+    "10": {
+      "mla": "Heinrich, Ulf-Rüdiger, et al. \"COX-2 Expression in the Guinea Pig Cochlea Is Partly Altered by Moderate Sound Exposure.\" Neuroscience Letters, vol. 394, no. 2, 2006, pp. 121-6. PubMed, https://doi.org/10.1016/j.neulet.2005.10.039.",
+      "pmid": "16289316",
+      "doi": "10.1016/j.neulet.2005.10.039",
+      "url": "https://doi.org/10.1016/j.neulet.2005.10.039",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:16289316",
+      "caveat": "[Cyclooxygenase-2 is constitutively expressed in the cochlea] supports only “COX-2 is constitutively expressed in the guinea pig inner ear.”; evidence is other_mammal, claim is stated for humans; [constitutively expressed] supports only “constitutively expressed in the guinea pig inner ear (COX-2), though downregulated in the organ of Corti by moderate noise exposure”; evidence is other_mammal, claim is stated for humans"
+    },
+    "11": {
+      "mla": "Jung, T. T., et al. \"Effect of Leukotriene Inhibitor on Cochlear Blood Flow in Salicylate Ototoxicity.\" Acta Oto-Laryngologica, vol. 115, no. 2, 1995, pp. 251-4. PubMed, https://doi.org/10.3109/00016489509139302.",
+      "pmid": "7610815",
+      "doi": "10.3109/00016489509139302",
+      "url": "https://doi.org/10.3109/00016489509139302",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:7610815",
+      "caveat": "[Systemic inhibition by aryl-carboxylic-acid non-steroidal ...] supports only “systemic or round-window salicylate moderately reduces cochlear blood flow in chinchillas, an effect prevented by a leukotriene inhibitor”; evidence is other_mammal, claim is stated for humans; [and synthesizes prostaglandins that help set cochlear ...] evidence is other_mammal, claim is stated for humans; [and lowers cochlear blood flow.] supports only “In chinchillas, salicylate treatment by either round-window application or systemic dosing moderately reduced cochlear blood flow.”; evidence is other_mammal, claim is stated for humans"
+    },
+    "12": {
+      "mla": "Duret, Guillaume, et al. \"Diflunisal Inhibits Prestin by Chloride-Dependent Mechanism.\" PloS One, vol. 12, no. 8, 2017, p. e0183046. PubMed, https://doi.org/10.1371/journal.pone.0183046.",
+      "pmid": "28817613",
+      "doi": "10.1371/journal.pone.0183046",
+      "url": "https://doi.org/10.1371/journal.pone.0183046",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:28817613",
+      "caveat": "[the same lipophilic-anion drugs also interfere with prestin ...] supports only “the salicylate derivative diflunisal inhibits prestin-dependent charge transfer and electromotility in mouse outer hair cells at ...”; evidence is mouse, claim is stated for humans; [Salicylate or arylalkanoic-acid non-steroidal ...] supports only “diflunisal is a non-steroidal anti-inflammatory drug derived from salicylate that inhibits prestin”; evidence is mouse, claim is stated for humans; [a cyclooxygenase-inhibiting lipophilic anion] evidence is mouse, claim is stated for humans"
+    },
+    "13": {
+      "mla": "Yi, Bin, et al. \"Effects of Long-Term Salicylate Administration on Synaptic Ultrastructure and Metabolic Activity in the Rat CNS.\" Scientific Reports, vol. 6, 2016, p. 24428. PubMed, https://doi.org/10.1038/srep24428.",
+      "pmid": "27068004",
+      "doi": "10.1038/srep24428",
+      "url": "https://doi.org/10.1038/srep24428",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:27068004",
+      "caveat": "[usually reversible] supports only “reversible: salicylate-induced central metabolic and synaptic ultrastructural changes in rats returned to baseline 14 days after treatment ...”; evidence is rat, claim is stated for humans"
+    },
+    "14": {
+      "mla": "Crouch, J. J., et al. \"Immunohistochemical Localization of the Na-K-Cl Co-Transporter (NKCC1) in the Gerbil Inner Ear.\" The Journal of Histochemistry and Cytochemistry, vol. 45, no. 6, 1997, pp. 773-8. PubMed, https://doi.org/10.1177/002215549704500601.",
+      "pmid": "9199662",
+      "doi": "10.1177/002215549704500601",
+      "url": "https://doi.org/10.1177/002215549704500601",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:9199662",
+      "caveat": "[Loop diuretics inhibit strial NKCC1] supports only “NKCC1 is present in the basolateral plasma membrane of stria vascularis marginal cells in the gerbil inner ear”; evidence is other_mammal, claim is stated for humans; [NKCC1 (SLC12A2) is a Na+-K+-2Cl- cotransporter on the ...] evidence is other_mammal, claim is stated for humans; [Strial marginal-cell potassium uptake] evidence is other_mammal, claim is stated for humans; [on the basolateral membrane of stria vascularis marginal ...] evidence is other_mammal, claim is stated for humans"
+    },
+    "15": {
+      "mla": "Flagella, M., et al. \"Mice Lacking the Basolateral Na-K-2Cl Cotransporter Have Impaired Epithelial Chloride Secretion and Are Profoundly Deaf.\" The Journal of Biological Chemistry, vol. 274, no. 38, 1999, pp. 26946-55. PubMed, https://doi.org/10.1074/jbc.274.38.26946.",
+      "pmid": "10480906",
+      "doi": "10.1074/jbc.274.38.26946",
+      "url": "https://doi.org/10.1074/jbc.274.38.26946",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:10480906",
+      "caveat": "[that generates potassium-rich endolymph and the positive ...] supports only “NKCC1 has a critical role in the transepithelial K+ movements involved in generating the K+-rich endolymph and the endocochlear potential ...”; evidence is mouse, claim is stated for humans; [generates potassium-rich endolymph] evidence is mouse, claim is stated for humans"
+    },
+    "16": {
+      "mla": "Rybak, L. P. \"Furosemide Ototoxicity: Clinical and Experimental Aspects.\" The Laryngoscope, vol. 95, no. 9 Pt 2 Suppl 38, 1985, pp. 1-14. PubMed, https://doi.org/10.1288/00005537-198509010-00001.",
+      "pmid": "4033342",
+      "doi": "10.1288/00005537-198509010-00001",
+      "url": "https://doi.org/10.1288/00005537-198509010-00001",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:4033342",
+      "caveat": "[and collapses the endocochlear potential,] supports only “Furosemide injection causes a rapid but reversible decrease of the endocochlear potential, with a more gradual fall in endolymph potassium.”; evidence is other_mammal, claim is stated for humans; [and rapidly lower the endocochlear potential,] evidence is other_mammal, claim is stated for humans; [rapidly lower the endocochlear potential] evidence is other_mammal, claim is stated for humans; [Only diuretics that inhibit this cotransporter itself, the ...] supports only “Furosemide, a loop diuretic, produces a rapid but reversible decrease in the endocochlear potential and eighth nerve action potential”; evidence is other_mammal, claim is stated for humans; [but becomes permanent when combined with aminoglycosides or ...] supports only “but becomes permanent when combined with aminoglycosides”; Reviewer is right for the aminoglycoside half: 4033342 reports irreversible cochlear change for furosemide plus kanamycin, contrasted with reversible change for furosemide alone. It says nothing about platinum agents, so the atom survives only in the narrowed form, and the aminoglycoside evidence is a single agent in animals.; source does not establish: platinum agents: cisplatin, carboplatin and platinum appear nowhere in the abstract; only kanamycin; aminoglycosides as a class: one aminoglycoside, kanamycin, was tested; human subjects: cats, chinchillas, guinea pigs and rats; only blood levels are compared with the clinical literature; the subject of 'becomes permanent': the reversible baseline effect is furosemide's specifically, a loop diuretic; any hearing-threshold shift in dB: endpoints are endocochlear potential, eighth nerve action potential, endolymph potassium and 'cochlear function'; the mechanism of permanence independent of the pharmacokinetic interaction (irreversibility was associated with elevated kanamycin in blood and perilymph)"
+    },
+    "17": {
+      "mla": "Needham, Patrick G., et al. \"The Thiazide-Sensitive NaCl Cotransporter Is Targeted for Chaperone-Dependent Endoplasmic Reticulum-Associated Degradation.\" The Journal of Biological Chemistry, vol. 286, no. 51, 2011, pp. 43611-43621. PubMed, https://doi.org/10.1074/jbc.M111.288928.",
+      "pmid": "22027832",
+      "doi": "10.1074/jbc.M111.288928",
+      "url": "https://doi.org/10.1074/jbc.M111.288928",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:22027832",
+      "caveat": "[thiazide and thiazide-like sulfonamide diuretics act on the ...] supports only “thiazide diuretics target the distal-nephron thiazide-sensitive NaCl cotransporter NCC (SLC12A3)”; evidence is cell_line"
+    },
+    "18": {
+      "mla": "Wang, Xilu, et al. \"Cisplatin-Induced Ototoxicity: from Signaling Network to Therapeutic Targets.\" Biomedicine & Pharmacotherapy = Biomedecine & Pharmacotherapie, vol. 157, 2023, p. 114045. PubMed, https://doi.org/10.1016/j.biopha.2022.114045.",
+      "pmid": "36455457",
+      "doi": "10.1016/j.biopha.2022.114045",
+      "url": "https://doi.org/10.1016/j.biopha.2022.114045",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:36455457",
+      "caveat": "[Ototoxicity is injury to outer hair cells, stria ...] supports only “Cisplatin-induced ototoxicity involves stria vascularis injury, spiral ganglion degeneration, and hair cell death”; verifier note: A narrative review of one drug supplies the three anatomical targets but not the general definition or the outer-hair-cell specificity."
+    },
+    "19": {
+      "mla": "Tan, Winston J. T., and Lei Song. \"Role of Mitochondrial Dysfunction and Oxidative Stress in Sensorineural Hearing Loss.\" Hearing Research, vol. 434, 2023, p. 108783. PubMed, https://doi.org/10.1016/j.heares.2023.108783.",
+      "pmid": "37167889",
+      "doi": "10.1016/j.heares.2023.108783",
+      "url": "https://doi.org/10.1016/j.heares.2023.108783",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:37167889",
+      "caveat": "[where they drive reactive-oxygen-species production, lipid ...] supports only “where they drive reactive-oxygen-species production, and mitochondrial injury,”; source does not evidence: lipid peroxidation; [Ototoxicity is injury to outer hair cells, stria ...] verifier note: The anatomy matches but the predicate differs: vulnerability to mitochondrial ROS is not a definition of ototoxic injury."
+    },
+    "20": {
+      "mla": "Govaerts, P. J., et al. \"Aminoglycoside-Induced Ototoxicity.\" Toxicology Letters, vol. 52, no. 3, 1990, pp. 227-51. PubMed, https://doi.org/10.1016/0378-4274(90)90033-i.",
+      "pmid": "2202080",
+      "doi": "10.1016/0378-4274(90)90033-i",
+      "url": "https://doi.org/10.1016/0378-4274(90)90033-i",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:2202080",
+      "caveat": "[that presents as sensorineural hearing loss, tinnitus, or ...] supports only “that presents as sensorineural hearing loss or vestibular dysfunction.”; source does not evidence: tinnitus"
+    },
+    "21": {
+      "mla": "Yorgason, Joshua G., et al. \"Understanding Drug Ototoxicity: Molecular Insights for Prevention and Clinical Management.\" Expert Opinion on Drug Safety, vol. 5, no. 3, 2006, pp. 383-99. PubMed, https://doi.org/10.1517/14740338.5.3.383.",
+      "pmid": "16610968",
+      "doi": "10.1517/14740338.5.3.383",
+      "url": "https://doi.org/10.1517/14740338.5.3.383",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:16610968",
+      "caveat": "[a small number of drug classes] verifier note: A finite enumeration supports a small-number reading only if it is taken as complete, which the source never states.; [It arises from a small number of drug classes with defined ...] verifier note: A finite list supports the small-number claim only if read as exhaustive, and the 'defined mechanisms' qualifier is undercut by the source's own framing."
+    },
+    "22": {
+      "mla": "Yorgason, Joshua G., et al. \"In Vitro and in Vivo Models of Drug Ototoxicity: Studying the Mechanisms of a Clinical Problem.\" Expert Opinion on Drug Metabolism & Toxicology, vol. 7, no. 12, 2011, pp. 1521-34. PubMed, https://doi.org/10.1517/17425255.2011.614231.",
+      "pmid": "21999330",
+      "doi": "10.1517/17425255.2011.614231",
+      "url": "https://doi.org/10.1517/17425255.2011.614231",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:21999330",
+      "caveat": "[It arises from a small number of drug classes with defined ...] verifier note: The enumeration again needs an exhaustivity assumption, and the source treats inner-ear mechanisms as under investigation rather than defined."
+    },
+    "23": {
+      "mla": "Zhang, Z. J., et al. \"Disruption of mdr1a P-Glycoprotein Gene Results in Dysfunction of Blood-Inner Ear Barrier in Mice.\" Brain Research, vol. 852, no. 1, 2000, pp. 116-26. PubMed, https://doi.org/10.1016/s0006-8993(99)02223-4.",
+      "pmid": "10661503",
+      "doi": "10.1016/s0006-8993(99)02223-4",
+      "url": "https://doi.org/10.1016/s0006-8993(99)02223-4",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:10661503",
+      "caveat": "[and P-glycoprotein efflux at strial capillaries further ...] supports only “mdr1a P-glycoprotein acts as an efflux pump at the murine blood-inner ear barrier, limiting doxorubicin and vinblastine accumulation in ...”; evidence is mouse, claim is stated for humans; [The blood-labyrinth barrier — tight junctions plus ...] supports only “mdr1a P-glycoprotein acts as an efflux pump in the inner ear that limits accumulation of P-gp substrate drugs and prevents their ototoxicity”; evidence is mouse, claim is stated for humans"
+    },
+    "24": {
+      "mla": "Le, Trung N., and Brian W. Blakley. \"Mannitol and the Blood-Labyrinth Barrier.\" Journal of Otolaryngology - Head & Neck Surgery = Le Journal D'oto-Rhino-Laryngologie Et De Chirurgie Cervico-Faciale, vol. 46, no. 1, 2017, p. 66. PubMed, https://doi.org/10.1186/s40463-017-0245-8.",
+      "pmid": "29228990",
+      "doi": "10.1186/s40463-017-0245-8",
+      "url": "https://doi.org/10.1186/s40463-017-0245-8",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:29228990",
+      "caveat": "[far below plasma levels] supports only “In guinea pigs, gentamicin concentrations in perilymph were always significantly lower than in blood.”; evidence is other_mammal, claim is stated for humans; [The blood-labyrinth barrier — tight junctions plus ...] supports only “gentamicin concentration in perilymph is always significantly lower than in blood in guinea pigs”; evidence is other_mammal, claim is stated for humans"
+    },
+    "25": {
+      "mla": "Holzer, Alison K., et al. \"The Copper Influx Transporter Human Copper Transport Protein 1 Regulates the Uptake of Cisplatin in Human Ovarian Carcinoma Cells.\" Molecular Pharmacology, vol. 66, no. 4, 2004, pp. 817-23. PubMed, https://doi.org/10.1124/mol.104.001198.",
+      "pmid": "15229296",
+      "doi": "10.1124/mol.104.001198",
+      "url": "https://doi.org/10.1124/mol.104.001198",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:15229296",
+      "caveat": "[imported by copper transporters] supports only “Overexpression of the copper influx transporter hCTR1 increases cisplatin accumulation by 46-55% in human ovarian carcinoma cells.”; evidence is cell_line; [copper-transporter and organic-cation-transporter uptake of ...] supports only “copper-transporter uptake of platinum agents”; evidence is cell_line; source does not evidence: organic-cation-transporter; [Platinum coordination center (Pt bound to chloride, ...] supports only “Platinum coordination center: a reactive metal complex imported by copper transporters”; evidence is cell_line; source does not evidence: chloride, carboxylate, hydroxo, amine ligands, organic-cation transporters"
+    },
+    "26": {
+      "mla": "Li, Jinan, et al. \"The Mechanotransduction Channel and Organic Cation Transporter Are Critical for Cisplatin Ototoxicity in Murine Hair Cells.\" Frontiers in Molecular Neuroscience, vol. 15, 2022, p. 835448. PubMed, https://doi.org/10.3389/fnmol.2022.835448.",
+      "pmid": "35221917",
+      "doi": "10.3389/fnmol.2022.835448",
+      "url": "https://doi.org/10.3389/fnmol.2022.835448",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:35221917",
+      "caveat": "[copper-transporter and organic-cation-transporter uptake of ...] supports only “organic-cation-transporter uptake of platinum agents”; evidence is mouse, claim is stated for humans; source does not evidence: copper-transporter; [Platinum coordination center (Pt bound to chloride, ...] supports only “Platinum coordination center: a reactive metal complex imported by organic-cation transporters”; evidence is mouse, claim is stated for humans; source does not evidence: chloride, carboxylate, hydroxo, amine ligands, copper transporters; [imported by organic-cation transporters] evidence is mouse, claim is stated for humans"
+    },
+    "27": {
+      "mla": "Juhn, S. K., and L. P. Rybak. \"Labyrinthine Barriers and Cochlear Homeostasis.\" Acta Oto-Laryngologica, vol. 91, no. 5-6, 1981, pp. 529-34. PubMed, https://doi.org/10.3109/00016488109138538.",
+      "pmid": "6791457",
+      "doi": "10.3109/00016488109138538",
+      "url": "https://doi.org/10.3109/00016488109138538",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:6791457",
+      "caveat": "[Injury additionally requires that the drug reach the inner ...] The abstract shows that an ototoxic drug crosses the blood-labyrinth barrier into perilymph and proposes a threshold inner-ear concentration for ototoxic effect. Reading that as a requirement for injury is one inference step, and it is an animal result.; source does not establish: necessity: 'requires' is not stated; the abstract proposes, hedged with 'may provide', that serum and inner-ear concentrations can be correlated with effect; 'additionally': the abstract makes no comparison with binding affinity or with any computational prediction; injury as endpoint: the measured readout is perilymph furosemide concentration and endocochlear-potential recovery, not hair-cell or strial damage; species: the experiments are in chinchillas and unnamed experimental animals, not humans; [or a small, weakly protein-bound molecule that partitions ...] supports only “A small molecule (low molecular weight and diameter) partitions into cochlear perilymph after systemic administration in experimental ...”; evidence is other_mammal, claim is stated for humans; [or a peptidic, macrocyclic, or permanently charged ...] supports only “or a permanently charged structure: excluded from cochlear fluids by the blood-labyrinth barrier.”; evidence is other_mammal, claim is stated for humans; source does not evidence: quaternary ammonium, di-anion"
+    },
+    "28": {
+      "mla": "Hayama, Teppei, et al. \"Comprehensive Molecular Docking on the AlphaFold-predicted Protein Structure Proteome: Identifying Target Protein Candidates for Puberulic Acid.\" The Journal of Toxicological Sciences, vol. 50, no. 7, 2025, pp. 309-324. PubMed, https://doi.org/10.2131/jts.50.309.",
+      "pmid": "40603041",
+      "doi": "10.2131/jts.50.309",
+      "url": "https://doi.org/10.2131/jts.50.309",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:40603041",
+      "caveat": "[computed binding strength alone does not establish ...] The abstract has zero ear content, and its endpoint is renal with a docking method, so it leaves the atom with a general caveat only. Because this atom is itself a statement of epistemic caution and is negative in direction, the general caveat instantiates to ototoxicity in one step and supports it; the auditory framing comes entirely from the citing text. INDIRECT stands.; source does not establish: any inner-ear, cochlear or auditory protein, tissue, cell type or endpoint: the abstract contains none; the paper's actual toxicity endpoint is renal: puberulic acid, sodium/myo-inositol cotransporter 2 (SLC5A11), and disruption of renal osmoregulation; measured affinity: the quantity is a docking score against AlphaFold2-predicted structures, with no Kd, Ki or IC50 in any unit; any experimental validation: the entire pipeline is in silico across >21,000 proteins in human and mouse; 'shows only' / 'alone' as a proven exclusivity rather than the authors' stated caution; 'ototoxicity': no auditory, cochlear or vestibular endpoint anywhere in the abstract; [shows only that the binding pocket can accommodate the ...] This atom carries no ear claim, so the absence of auditory content in the paper costs it nothing; The abstract supplies two relevant statements - docking scores are 'only theoretical binding estimates' that 'do not directly imply physiological effects', and, closer to the atom's wording, that a broad binding pocket led to inaccurate docking for carbonic anhydrase II with acetazolamide. Getting from either to 'shows only that the binding pocket can accommodate the molecule' takes one stated step. INDIRECT stands.; source does not establish: 'shows only' as an exclusivity claim: the abstract's point is that a broad pocket degrades docking accuracy, not a general statement of what a docking hit can show; the pocket-accommodation reading itself: the abstract's own framing is that docking scores are theoretical binding estimates that do not directly imply physiological effects; any measured affinity: docking scores only, with no Kd, Ki or IC50 in any unit; experimental validation: the pipeline is entirely in silico in human and mouse; any organ, tissue or cell type: the atom names none here, and the abstract's own organ is the kidney; [Affinity for a cochlear protein in a structural model shows ...] supports only “Affinity for a protein in a structural model shows only that the binding pocket can accommodate the molecule.”; On the required question: the abstract contains no inner-ear or auditory content whatsoever - no cochlea, no hair cell, no hearing endpoint. Its endpoint is renal (severe nephrotoxicity, SLC5A11, renal osmoregulation) and its method is computational docking, which leaves the atom with a generic epistemic caveat about docking scores and nothing organ-specific. But the atom is itself a statement of caution, and the paper states that caution in its own words, so it supports the atom once 'cochlear' is dropped. SCOPE_LIMITED with the organ qualifier removed is right. One correction to the record: the role should not be 'primary_support' with experimental strength - the study is purely in silico.; source does not establish: any inner-ear, cochlear or auditory protein, tissue, cell type or endpoint: the abstract contains none; the paper's actual toxicity endpoint is renal: puberulic acid, sodium/myo-inositol cotransporter 2 (SLC5A11), and disruption of renal osmoregulation; measured affinity: the quantity is a docking score against AlphaFold2-predicted structures, with no Kd, Ki or IC50 in any unit; any experimental validation: the entire pipeline is in silico across >21,000 proteins in human and mouse; 'shows only' / 'alone' as a proven exclusivity rather than the authors' stated caution; 'cochlear' as the protein's organ: the only named target is SLC5A11, a renal cotransporter; [so computed binding strength alone does not establish ...] On the required question: there is no inner-ear or auditory content at all. With a renal endpoint and a docking method, what the atom is left with is a general in-silico caveat - docking scores do not directly imply physiological effects - which instantiates to ototoxicity in one step because ototoxicity is a physiological effect. That is enough for a negative epistemic claim and would not be enough for any positive ear claim. INDIRECT stands, and the reviewer is right that this is a renal docking paper with no ear content. The recorded role 'primary_support' with primary experimental strength should be corrected: nothing in this paper is experimental.; source does not establish: any inner-ear, cochlear or auditory protein, tissue, cell type or endpoint: the abstract contains none; the paper's actual toxicity endpoint is renal: puberulic acid, sodium/myo-inositol cotransporter 2 (SLC5A11), and disruption of renal osmoregulation; measured affinity: the quantity is a docking score against AlphaFold2-predicted structures, with no Kd, Ki or IC50 in any unit; any experimental validation: the entire pipeline is in silico across >21,000 proteins in human and mouse; 'shows only' / 'alone' as a proven exclusivity rather than the authors' stated caution; 'ototoxicity': the word and the concept are absent; the paper's toxicity is nephrotoxicity from puberulic acid"
+    },
+    "29": {
+      "mla": "Breglio, Andrew M., et al. \"Cisplatin Is Retained in the Cochlea Indefinitely Following Chemotherapy.\" Nature Communications, vol. 8, no. 1, 2017, p. 1654. PubMed, https://doi.org/10.1038/s41467-017-01837-1.",
+      "pmid": "29162831",
+      "doi": "10.1038/s41467-017-01837-1",
+      "url": "https://doi.org/10.1038/s41467-017-01837-1",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:29162831",
+      "caveat": "[that accumulates in hair cells and stria vascularis] supports only “that accumulates in stria vascularis”; source does not evidence: hair cells; [actively concentrated] supports only “Cisplatin accumulates to consistently high levels in the stria vascularis of the human cochlea and is retained there long term.”; verifier note: High regional accumulation is measured, but the atom's 'actively' asserts a transport mechanism the abstract states is unresolved.; [Aminoglycosides and platinum agents are actively ...] supports only “platinum agents are actively concentrated in outer hair cells and stria vascularis,”; source does not evidence: Aminoglycosides"
+    },
+    "30": {
+      "mla": "Chen, Yingying, et al. \"Early Physiological and Cellular Indicators of Cisplatin-Induced Ototoxicity.\" Journal of the Association for Research in Otolaryngology, vol. 22, no. 2, 2021, pp. 107-126. PubMed, https://doi.org/10.1007/s10162-020-00782-z.",
+      "pmid": "33415542",
+      "doi": "10.1007/s10162-020-00782-z",
+      "url": "https://doi.org/10.1007/s10162-020-00782-z",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:33415542",
+      "caveat": "[permanent hair-cell loss] supports only “Cisplatin often causes permanent hearing loss, and in mice produces outer hair cell loss after two treatment cycles.”; evidence is mouse, claim is stated for humans"
+    },
+    "31": {
+      "mla": "Stebbins, W. C., et al. \"The Species-Specific Nature of the Ototoxicity of Dihydrostreptomycin in the Patas Monkey.\" Neurotoxicology, vol. 8, no. 1, 1987, pp. 33-44. PubMed, pubmed.ncbi.nlm.nih.gov/2436117/.",
+      "pmid": "2436117",
+      "doi": "",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/2436117/",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:2436117",
+      "caveat": "[begins in the basal turn] supports only “in the patas monkey given dihydrostreptomycin, outer hair cell and nerve fibre loss begins in the base of the cochlea and proceeds toward ...”; evidence is other_mammal, claim is stated for humans"
+    },
+    "32": {
+      "mla": "Santos-Sacchi, Joseph, et al. \"Control of Mammalian Cochlear Amplification by Chloride Anions.\" The Journal of Neuroscience, vol. 26, no. 15, 2006, pp. 3992-8. PubMed, https://doi.org/10.1523/JNEUROSCI.4548-05.2006.",
+      "pmid": "16611815",
+      "doi": "10.1523/JNEUROSCI.4548-05.2006",
+      "url": "https://doi.org/10.1523/JNEUROSCI.4548-05.2006",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:16611815",
+      "caveat": "[that competes at the prestin anion-binding site of outer ...] evidence is other_mammal, claim is stated for humans; [Salicylates and other cyclooxygenase-inhibiting aryl ...] supports only “Salicylates act as lipophilic anions at the chloride-binding site of prestin, the outer-hair-cell motor protein,”; evidence is other_mammal, claim is stated for humans; source does not evidence: other cyclooxygenase-inhibiting aryl carboxylic acids; [routes by which drugs interfere with prestin] supports only “Salicylate interferes with prestin by competing at its putative anion-binding site.”; evidence is other_mammal, claim is stated for humans"
+    },
+    "33": {
+      "mla": "Butan, Carmen, et al. \"Single Particle cryo-EM Structure of the Outer Hair Cell Motor Protein Prestin.\" Nature Communications, vol. 13, no. 1, 2022, p. 290. PubMed, https://doi.org/10.1038/s41467-021-27915-z.",
+      "pmid": "35022426",
+      "doi": "10.1038/s41467-021-27915-z",
+      "url": "https://doi.org/10.1038/s41467-021-27915-z",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:35022426",
+      "caveat": "[that competes at the prestin anion-binding site of outer ...] evidence is other_mammal, claim is stated for humans; evidence is cell_free; [Salicylates and other cyclooxygenase-inhibiting aryl ...] supports only “Salicylates act as lipophilic anions at the chloride-binding site of prestin, the outer-hair-cell motor protein,”; evidence is other_mammal, claim is stated for humans; evidence is cell_line; source does not evidence: other cyclooxygenase-inhibiting aryl carboxylic acids"
+    },
+    "34": {
+      "mla": "Oliver, D., et al. \"Intracellular Anions as the Voltage Sensor of Prestin, the Outer Hair Cell Motor Protein.\" Science (New York, N.Y.), vol. 292, no. 5525, 2001, pp. 2340-3. PubMed, https://doi.org/10.1126/science.1060939.",
+      "pmid": "11423665",
+      "doi": "10.1126/science.1060939",
+      "url": "https://doi.org/10.1126/science.1060939",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:11423665",
+      "caveat": "[reducing electromotility and cochlear amplification.] supports only “reducing electromotility.”; evidence is rat, claim is stated for humans; source does not evidence: cochlear amplification; [prestin, the outer-hair-cell motor protein] evidence is rat, claim is stated for humans"
+    },
+    "35": {
+      "mla": "Wang, Yi, et al. \"Adaptation of Cochlear Amplification to Low Endocochlear Potential.\" Biophysical Journal, vol. 116, no. 9, 2019, pp. 1769-1786. PubMed, https://doi.org/10.1016/j.bpj.2019.03.020.",
+      "pmid": "30992124",
+      "doi": "10.1016/j.bpj.2019.03.020",
+      "url": "https://doi.org/10.1016/j.bpj.2019.03.020",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:30992124",
+      "caveat": "[typically reversible] evidence is other_mammal, claim is stated for humans"
+    },
+    "36": {
+      "mla": "Nam, Sung-Il, and Taeg-Kyu Kwon. \"Dexamethasone Inhibits interleukin-1β-induced Matrix metalloproteinase-9 Expression in Cochlear Cells.\" Clinical and Experimental Otorhinolaryngology, vol. 7, no. 3, 2014, pp. 175-80. PubMed, https://doi.org/10.3342/ceo.2014.7.3.175.",
+      "pmid": "25177432",
+      "doi": "10.3342/ceo.2014.7.3.175",
+      "url": "https://doi.org/10.3342/ceo.2014.7.3.175",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:25177432",
+      "caveat": "[Glucocorticoids act on cochlear glucocorticoid and ...] supports only “Glucocorticoids act on cochlear glucocorticoid receptors to suppress inflammation”; evidence is cell_line; source does not evidence: mineralocorticoid receptors"
+    },
+    "37": {
+      "mla": "Trune, D. R., and J. B. Kempton. \"Aldosterone and Prednisolone Control of Cochlear Function in MRL/MpJ-Fas(lpr) Autoimmune Mice.\" Hearing Research, vol. 155, no. 1-2, 2001, pp. 9-20. PubMed, https://doi.org/10.1016/s0378-5955(01)00240-4.",
+      "pmid": "11335072",
+      "doi": "10.1016/s0378-5955(01)00240-4",
+      "url": "https://doi.org/10.1016/s0378-5955(01)00240-4",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:11335072",
+      "caveat": "ALSO CONTRADICTS: Glucocorticoids act on cochlear glucocorticoid and mineralocorticoid receptors to suppress inflammation; [and preserve strial function;] supports only “prednisolone and aldosterone improved stria vascularis morphology and auditory brainstem response thresholds in autoimmune MRL/MpJ-Fas(lpr) ...”; evidence is mouse, claim is stated for humans; [Cyclopenta[a]phenanthrene steroid nucleus, including C21 ...] supports only “Cyclopenta[a]phenanthrene steroid nucleus, including C21 corticosteroids: glucocorticoids preserve strial function”; evidence is mouse, claim is stated for humans; source does not evidence: sex steroids"
+    },
+    "38": {
+      "mla": "Chandrasekhar, Sujana S., et al. \"Clinical Practice Guideline: Sudden Hearing Loss (Update).\" Otolaryngology--Head and Neck Surgery, vol. 161, no. 1_suppl, 2019, pp. S1-S45. PubMed, https://doi.org/10.1177/0194599819859885.",
+      "pmid": "31369359",
+      "doi": "10.1177/0194599819859885",
+      "url": "https://doi.org/10.1177/0194599819859885",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:31369359",
+      "caveat": "[they are the standard treatment for sudden sensorineural ...] supports only “Clinicians may offer corticosteroids as an option for initial therapy of sudden sensorineural hearing loss within 2 weeks of symptom onset.”; verifier note: Corticosteroid use is endorsed only as an option, which is weaker than the atom's claim of standard treatment."
+    },
+    "39": {
+      "mla": "Devantier, Louise, et al. \"Intratympanic Corticosteroid as Salvage Therapy in Treatment of Idiopathic Sudden Sensorineural Hearing Loss: a Systematic Review and Meta-Analysis.\" Heliyon, vol. 8, no. 2, 2022, p. e08955. PubMed, https://doi.org/10.1016/j.heliyon.2022.e08955.",
+      "pmid": "35243076",
+      "doi": "10.1016/j.heliyon.2022.e08955",
+      "url": "https://doi.org/10.1016/j.heliyon.2022.e08955",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:35243076",
+      "caveat": "[they are the standard treatment for sudden sensorineural ...] supports only “Systemic oral corticosteroid is the standard treatment of idiopathic sudden sensorineural hearing loss.”; verifier note: The standard-treatment status is stated verbatim but only for idiopathic SSNHL and only for the systemic oral route."
+    },
+    "40": {
+      "mla": "McFadden, Sandra L., et al. \"M40403, a Superoxide Dismutase Mimetic, Protects Cochlear Hair Cells from Gentamicin, but Not Cisplatin Toxicity.\" Toxicology and Applied Pharmacology, vol. 186, no. 1, 2003, pp. 46-54. PubMed, https://doi.org/10.1016/s0041-008x(02)00017-0.",
+      "pmid": "12583992",
+      "doi": "10.1016/s0041-008x(02)00017-0",
+      "url": "https://doi.org/10.1016/s0041-008x(02)00017-0",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:12583992",
+      "caveat": "[where it drives reactive-oxygen-species-mediated hair-cell ...] supports only “In neonatal mouse cochlear organotypic cultures, superoxide mediates gentamicin-induced hair-cell death, since an SOD mimetic protects ...”; evidence is mouse, claim is stated for humans"
+    },
+    "41": {
+      "mla": "Haas, M., and B. Forbush. \"The Na-K-Cl Cotransporters.\" Journal of Bioenergetics and Biomembranes, vol. 30, no. 2, 1998, pp. 161-72. PubMed, https://doi.org/10.1023/a:1020521308985.",
+      "pmid": "9672238",
+      "doi": "10.1023/a:1020521308985",
+      "url": "https://doi.org/10.1023/a:1020521308985",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:9672238",
+      "caveat": "[Loop diuretic scaffold (halogenated benzene carrying a free ...] supports only “Na-K-Cl cotransporters, including the basolateral NKCC1 isoform of secretory epithelia, are inhibited by the loop diuretics bumetanide, ...”; verifier note: The pharmacological half of the atom is supported at the transporter-family level, while the strial localization and the scaffold description are absent."
+    },
+    "42": {
+      "mla": "Moreland, R. B., et al. \"Sildenafil Citrate, a Selective Phosphodiesterase Type 5 Inhibitor:.\" Trends in Endocrinology and Metabolism: TEM, vol. 10, no. 3, 1999, pp. 97-104. PubMed, https://doi.org/10.1016/s1043-2760(98)00127-1.",
+      "pmid": "10322402",
+      "doi": "10.1016/s1043-2760(98)00127-1",
+      "url": "https://doi.org/10.1016/s1043-2760(98)00127-1",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:10322402",
+      "caveat": "[Phosphodiesterase-5 inhibitor scaffold ...] supports only “Phosphodiesterase-5 inhibitor scaffold (pyrazolopyrimidinone bearing an arylsulfonamide): raises cyclic GMP”; source does not evidence: related bicyclic heterocycle"
+    },
+    "43": {
+      "mla": "Wang, Yan, et al. \"A Real-World Pharmacovigilance Study of FDA Adverse Event Reporting System Events for Sildenafil.\" Andrology, vol. 12, no. 4, 2024, pp. 785-792. PubMed, https://doi.org/10.1111/andr.13533.",
+      "pmid": "37724699",
+      "doi": "10.1111/andr.13533",
+      "url": "https://doi.org/10.1111/andr.13533",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:37724699",
+      "caveat": "[a class associated with sudden sensorineural hearing loss.] supports only “Sildenafil carries a disproportionate reporting signal for sudden hearing loss in the FDA Adverse Event Reporting System.”; verifier note: A single-drug spontaneous-report signal for sudden hearing loss supports a narrower claim than a class-wide association with sudden sensorineural hearing loss."
+    },
+    "44": {
+      "mla": "Kovács, M., et al. \"Efficacy of High Dose Systemic Versus Combined (Systemic and Intratympanic) Corticosteroid Therapy in Idiopathic Sudden Sensorineural Hearing Loss: a Prospective Randomized Trial and Risk Factor Analysis.\" American Journal of Otolaryngology, vol. 45, no. 1, 2024, p. 104099. PubMed, https://doi.org/10.1016/j.amjoto.2023.104099.",
+      "pmid": "37948820",
+      "doi": "10.1016/j.amjoto.2023.104099",
+      "url": "https://doi.org/10.1016/j.amjoto.2023.104099",
+      "source_type": "pubmed",
+      "verdict": "DIRECT",
+      "supports": "proposition",
+      "ref_id": "pmid:37948820",
+      "caveat": "[and are used therapeutically for sudden sensorineural ...] verifier note: The atom claims only therapeutic use, which the span asserts directly; its efficacy caveat does not contradict use."
+    },
+    "45": {
+      "mla": "Lepsy, Christopher S., et al. \"Effects of Organic Anion, Organic Cation, and Dipeptide Transport Inhibitors on Cefdinir in the Isolated Perfused Rat Kidney.\" Antimicrobial Agents and Chemotherapy, vol. 47, no. 2, 2003, pp. 689-96. PubMed, https://doi.org/10.1128/AAC.47.2.689-696.2003.",
+      "pmid": "12543679",
+      "doi": "10.1128/AAC.47.2.689-696.2003",
+      "url": "https://doi.org/10.1128/AAC.47.2.689-696.2003",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:12543679",
+      "caveat": "[an anionic, renally cleared scaffold] supports only “Cefdinir, an anionic cephalosporin, undergoes net renal tubular secretion predominantly by the organic anion pathway in the isolated ...”; evidence is rat, claim is stated for humans; [Beta-lactam antibacterial core (penicillin, cephalosporin, ...] supports only “Cefdinir, a cephalosporin, undergoes net renal tubular secretion (excretion ratio 5.94) in the isolated perfused rat kidney.”; evidence is rat, claim is stated for humans"
+    },
+    "46": {
+      "mla": "Daley-Yates, Peter T. \"Inhaled Corticosteroids: Potency, Dose Equivalence and Therapeutic Index.\" British Journal of Clinical Pharmacology, vol. 80, no. 3, 2015, pp. 372-80. PubMed, https://doi.org/10.1111/bcp.12637.",
+      "pmid": "25808113",
+      "doi": "10.1111/bcp.12637",
+      "url": "https://doi.org/10.1111/bcp.12637",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:25808113",
+      "caveat": "[Agent acting locally at its site of application — inhaled, ...] supports only “Agent acting locally at its site of application - inhaled -”; source does not evidence: ophthalmic, dermal, gut-restricted; [acting locally at its site of application] supports only “Inhaled corticosteroids exert their anti-inflammatory activity locally in the airways.”; verifier note: Local action at the site of administration is asserted only for the inhaled airway route, narrower than the atom's unqualified claim."
+    },
+    "47": {
+      "mla": "Talbi, Amer, et al. \"Pharmacokinetics, Tissue Distribution, Excretion and Plasma Protein Binding Studies of Wogonin in Rats.\" Molecules (Basel, Switzerland), vol. 19, no. 5, 2014, pp. 5538-49. PubMed, https://doi.org/10.3390/molecules19055538.",
+      "pmid": "24786691",
+      "doi": "10.3390/molecules19055538",
+      "url": "https://doi.org/10.3390/molecules19055538",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:24786691",
+      "caveat": "[extensive plasma protein binding] supports only “Wogonin shows over 90% plasma protein binding in rats, substantially reducing its free fraction.”; evidence is rat, claim is stated for humans"
+    },
+    "48": {
+      "mla": "Hosokawa, Seiji, et al. \"Immunohistochemical Localization of Megalin and Cubilin in the Human Inner Ear.\" Brain Research, vol. 1701, 2018, pp. 153-160. PubMed, https://doi.org/10.1016/j.brainres.2018.09.016.",
+      "pmid": "30218661",
+      "doi": "10.1016/j.brainres.2018.09.016",
+      "url": "https://doi.org/10.1016/j.brainres.2018.09.016",
+      "source_type": "pubmed",
+      "verdict": "CONTRADICTED",
+      "supports": "contradicts",
+      "ref_id": "pmid:30218661",
+      "caveat": "CONTRADICTS: Aminoglycoside scaffold (2-deoxystreptamine or streptamine cyclitol glycosylated by amino sugars): a ...; taken into outer hair cells by megalin-mediated endocytosis; The recorded quote reports where megalin IS, not that outer hair cells lack it, and the abstract's own framing (these receptors 'implicated in the transport of gentamicin') is partly supportive. The refutation reaches only the megalin sub-clause, rests on an ...; Taken with the vestibular negative, the human localization data are evidence against megalin in hair cells, but for the cochlear outer hair cells the clause names this is an argument from an omitted list entry, and quoting the vestibular sentence would ..."
+    }
+  },
+  "contradiction_flags": [
+    {
+      "json_path": "pathway_rules[6]",
+      "segment_id": "C-c65d8ab0cc#s1",
+      "segment_text": "Glucocorticoids act on cochlear glucocorticoid and mineralocorticoid receptors to suppress inflammation ",
+      "pmid": "11335072",
+      "doi": "10.1016/s0378-5955(01)00240-4",
+      "mla": "Trune, D. R., and J. B. Kempton. \"Aldosterone and Prednisolone Control of Cochlear Function in MRL/MpJ-Fas(lpr) Autoimmune Mice.\" Hearing Research, vol. 155, no. 1-2, 2001, pp. 9-20. PubMed, https://doi.org/10.1016/s0378-5955(01)00240-4.",
+      "contradicting_quote": "The comparable efficacy of prednisolone and aldosterone in restoring auditory function suggests steroid reversal of autoimmune hearing loss in mice is due to increasing stria vascularis sodium transport and not suppression of systemic autoimmune reactions.",
+      "note": "The source does contradict anti-inflammatory action as the operative cochlear mechanism, but only in one mouse autoimmune model and only against systemic immune suppression; the mineralocorticoid-receptor half of the clause and the atom's neighbouring 'preserve strial function' clause are in fact supported. (Glucocorticoids act on cochlear glucocorticoid and mineralocorticoid receptors to suppress inflammation.; Aldosterone, which has no immune-suppressive function, restored hearing as effectively as prednisolone, so the benefit was attributed to increased stria vascularis sodium transport rather than immune suppression, even though prednisolone did lower serum immune complexes.)",
+      "source_species": "mouse",
+      "source_system": "in_vivo_animal",
+      "origin": "blind_verification",
+      "scope": "MRL/MpJ-Fas(lpr) autoimmune mice, ABR-threshold restoration; the mechanism excluded is suppression of SYSTEMIC autoimmune reactions - cochlear-local inflammation was not measured."
+    },
+    {
+      "json_path": "molecular_context.yes_features[0]",
+      "segment_id": "C-4a3819c3ed#s1",
+      "segment_text": "Aminoglycoside scaffold (2-deoxystreptamine or streptamine cyclitol glycosylated by amino sugars): a polycationic structure taken into outer hair cells by megalin-mediated endocytosis and through apical mechanotransduction and cation channels, ",
+      "pmid": "30218661",
+      "doi": "10.1016/j.brainres.2018.09.016",
+      "mla": "Hosokawa, Seiji, et al. \"Immunohistochemical Localization of Megalin and Cubilin in the Human Inner Ear.\" Brain Research, vol. 1701, 2018, pp. 153-160. PubMed, https://doi.org/10.1016/j.brainres.2018.09.016.",
+      "contradicting_quote": "In the cochlea megalin and cubilin were localized in marginal cells of the stria vascularis, epithelial cells of the spiral prominence and the Reissner's membrane.",
+      "note": "The recorded quote reports where megalin IS, not that outer hair cells lack it, and the abstract's own framing (these receptors 'implicated in the transport of gentamicin') is partly supportive. The refutation reaches only the megalin sub-clause, rests on an absent entry in a positive cell list, and the explicit hair-cell negative is vestibular. (Polycationic aminoglycosides enter outer hair cells both by megalin-mediated endocytosis and through apical mechanotransduction and cation channels.; Megalin and cubilin localized to strial marginal cells, spiral prominence and Reissner's membrane in the cochlea, and to transitional and dark cells but not hair cells in the vestibular organs.)",
+      "source_species": "human",
+      "source_system": "clinical",
+      "origin": "blind_verification",
+      "scope": "human temporal-bone immunohistochemistry; the explicit hair-cell-negative finding is for VESTIBULAR hair cells, while cochlear hair cells are merely absent from the list of megalin/cubilin-positive cells; nothing in the abstract bears on the clause's apical mechanotransduction/cation-channel route"
+    },
+    {
+      "json_path": "molecular_context.yes_features[0]",
+      "segment_id": "C-4a3819c3ed#d1",
+      "segment_text": "taken into outer hair cells by megalin-mediated endocytosis",
+      "pmid": "30218661",
+      "doi": "10.1016/j.brainres.2018.09.016",
+      "mla": "Hosokawa, Seiji, et al. \"Immunohistochemical Localization of Megalin and Cubilin in the Human Inner Ear.\" Brain Research, vol. 1701, 2018, pp. 153-160. PubMed, https://doi.org/10.1016/j.brainres.2018.09.016.",
+      "contradicting_quote": "In the cochlea megalin and cubilin were localized in marginal cells of the stria vascularis, epithelial cells of the spiral prominence and the Reissner's membrane.",
+      "note": "Taken with the vestibular negative, the human localization data are evidence against megalin in hair cells, but for the cochlear outer hair cells the clause names this is an argument from an omitted list entry, and quoting the vestibular sentence would substitute a different cell type. Disclose as a scoped, indirect refutation rather than a flat contradiction. (Aminoglycosides are taken into outer hair cells by megalin-mediated endocytosis.; In the human cochlea megalin/cubilin were found in marginal cells, spiral prominence and Reissner's membrane; the only explicit hair-cell-negative statement concerns vestibular hair cells and supporting cells.)",
+      "source_species": "human",
+      "source_system": "clinical",
+      "origin": "blind_verification",
+      "scope": "human temporal-bone immunohistochemistry; the explicit hair-cell-negative finding is for VESTIBULAR hair cells, while cochlear hair cells are merely absent from the list of megalin/cubilin-positive cells"
+    }
+  ],
+  "citation_meta": {
+    "pipeline_version": "1.2",
+    "marker_legend": {
+      "[n]": "the source supports this assertion",
+      "[nt]": "the source confirms the terminology only; it does not establish the assertion",
+      "[nc]": "the source supports this assertion but contradicts something else in this file; see contradiction_flags and the reference's caveat",
+      "[n!]": "the source DISPUTES this assertion. It is not support. The refuting quote is in contradiction_flags"
+    },
+    "source_file": "unitox_cliff/knowledge_ototoxicity_V4.json",
+    "attribution": "Bibliographic metadata retrieved from PubMed (U.S. National Library of Medicine). 47 of 48 references resolve through a DOI link; the remaining 1 have no DOI in PubMed and are addressed by PMID.",
+    "coverage": {
+      "segments": 144,
+      "cited": 95,
+      "uncited": 49,
+      "cited_factual": 41,
+      "cited_terminology_only": 54,
+      "contradictions": 3,
+      "references": 48,
+      "note": "`cited` counts every atom with an admissible reference. `cited_factual` excludes atoms that are bare terms rather than propositions, where the citation confirms vocabulary rather than a finding."
+    }
+  }
+}

@@ -1,0 +1,6 @@
+PID,Source,Preferred_name,SMILES,label,measured,n_records,assay
+CHEMBL1009,ChEMBL_Km_Vmax,LEVODOPA,N[C@@H](Cc1ccc(O)c(O)c1)C(=O)O,1,Vmax,1,Drug uptake in human MCF7 cells assessed as LAT1-mediated drug transportation rate at 3.125 to 100 uM after 10 mins by LC-MS analysis
+CHEMBL153149,ChEMBL_Km_Vmax,,NC1(C(=O)O)CCc2ccc(N(CCCl)CCCl)cc2C1,1,"Km,Vmax",2,Activity at LAT1 by Michaelis-Menten constant
+CHEMBL301523,ChEMBL_Km_Vmax,PHENYLALANINE,N[C@@H](Cc1ccccc1)C(=O)O,1,Km,2,Binding affinity to LAT1 (unknown origin) by in-vitro cell uptake assay
+CHEMBL4239455,ChEMBL_Km_Vmax,,N[C@@H](Cc1ccc(OC(=O)NCCc2ccc(O)c(O)c2)cc1)C(=O)O,1,Vmax,1,Drug uptake in human MCF7 cells assessed as LAT1-mediated drug transportation rate at 25 to 50 uM after 10 mins by LC-MS analysis
+CHEMBL4242544,ChEMBL_Km_Vmax,,NC(Cc1cccc(C(=O)NCCc2ccc(O)c(O)c2)c1)C(=O)O,1,Vmax,1,Drug uptake in human MCF7 cells assessed as LAT1-mediated drug transportation rate at 25 to 50 uM after 10 mins by LC-MS analysis

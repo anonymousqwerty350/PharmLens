@@ -1,0 +1,834 @@
+[
+  {
+    "name": "BCUT2D_CHGHI",
+    "description": "(no description)"
+  },
+  {
+    "name": "BCUT2D_CHGLO",
+    "description": "(no description)"
+  },
+  {
+    "name": "BCUT2D_LOGPHI",
+    "description": "(no description)"
+  },
+  {
+    "name": "BCUT2D_LOGPLOW",
+    "description": "(no description)"
+  },
+  {
+    "name": "BCUT2D_MRHI",
+    "description": "(no description)"
+  },
+  {
+    "name": "BCUT2D_MRLOW",
+    "description": "(no description)"
+  },
+  {
+    "name": "BCUT2D_MWHI",
+    "description": "(no description)"
+  },
+  {
+    "name": "BCUT2D_MWLOW",
+    "description": "(no description)"
+  },
+  {
+    "name": "BalabanJ",
+    "description": "Calculate Balaban's J value for a molecule **Arguments** - mol: a molecule - dMat: (optional) a distance/adjacency matrix for the molecule, if this is not provide, one will be calculated - forceDMat: "
+  },
+  {
+    "name": "BertzCT",
+    "description": "A topological index meant to quantify \"complexity\" of molecules. Consists of a sum of two terms, one representing the complexity of the bonding, the other representing the complexity of the distributi"
+  },
+  {
+    "name": "Chi0",
+    "description": "From equations (1),(9) and (10) of Rev. Comp. Chem. vol 2, 367-422, (1991)"
+  },
+  {
+    "name": "Chi0n",
+    "description": "(no description)"
+  },
+  {
+    "name": "Chi0v",
+    "description": "(no description)"
+  },
+  {
+    "name": "Chi1",
+    "description": "From equations (1),(11) and (12) of Rev. Comp. Chem. vol 2, 367-422, (1991)"
+  },
+  {
+    "name": "Chi1n",
+    "description": "(no description)"
+  },
+  {
+    "name": "Chi1v",
+    "description": "(no description)"
+  },
+  {
+    "name": "Chi2n",
+    "description": "(no description)"
+  },
+  {
+    "name": "Chi2v",
+    "description": "(no description)"
+  },
+  {
+    "name": "Chi3n",
+    "description": "(no description)"
+  },
+  {
+    "name": "Chi3v",
+    "description": "(no description)"
+  },
+  {
+    "name": "Chi4n",
+    "description": "(no description)"
+  },
+  {
+    "name": "Chi4v",
+    "description": "(no description)"
+  },
+  {
+    "name": "EState_VSA1",
+    "description": "EState VSA Descriptor 1 (-inf < x < -0.39)"
+  },
+  {
+    "name": "EState_VSA10",
+    "description": "EState VSA Descriptor 10 ( 9.17 <= x < 15.00)"
+  },
+  {
+    "name": "EState_VSA11",
+    "description": "EState VSA Descriptor 11 ( 15.00 <= x < inf)"
+  },
+  {
+    "name": "EState_VSA2",
+    "description": "EState VSA Descriptor 2 ( -0.39 <= x < 0.29)"
+  },
+  {
+    "name": "EState_VSA3",
+    "description": "EState VSA Descriptor 3 ( 0.29 <= x < 0.72)"
+  },
+  {
+    "name": "EState_VSA4",
+    "description": "EState VSA Descriptor 4 ( 0.72 <= x < 1.17)"
+  },
+  {
+    "name": "EState_VSA5",
+    "description": "EState VSA Descriptor 5 ( 1.17 <= x < 1.54)"
+  },
+  {
+    "name": "EState_VSA6",
+    "description": "EState VSA Descriptor 6 ( 1.54 <= x < 1.81)"
+  },
+  {
+    "name": "EState_VSA7",
+    "description": "EState VSA Descriptor 7 ( 1.81 <= x < 2.05)"
+  },
+  {
+    "name": "EState_VSA8",
+    "description": "EState VSA Descriptor 8 ( 2.05 <= x < 4.69)"
+  },
+  {
+    "name": "EState_VSA9",
+    "description": "EState VSA Descriptor 9 ( 4.69 <= x < 9.17)"
+  },
+  {
+    "name": "ExactMolWt",
+    "description": "The exact molecular weight of the molecule >>> ExactMolWt(Chem.MolFromSmiles('CC')) 30.04... >>> ExactMolWt(Chem.MolFromSmiles('[13CH3]C')) 31.05..."
+  },
+  {
+    "name": "FpDensityMorgan1",
+    "description": "(no description)"
+  },
+  {
+    "name": "FpDensityMorgan2",
+    "description": "(no description)"
+  },
+  {
+    "name": "FpDensityMorgan3",
+    "description": "(no description)"
+  },
+  {
+    "name": "FractionCSP3",
+    "description": "CalcFractionCSP3( (Mol)mol) -> float : returns the fraction of C atoms that are SP3 hybridized C++ signature : double CalcFractionCSP3(RDKit::ROMol)"
+  },
+  {
+    "name": "HallKierAlpha",
+    "description": "(no description)"
+  },
+  {
+    "name": "HeavyAtomCount",
+    "description": "Number of heavy atoms a molecule."
+  },
+  {
+    "name": "HeavyAtomMolWt",
+    "description": "The average molecular weight of the molecule ignoring hydrogens >>> HeavyAtomMolWt(Chem.MolFromSmiles('CC')) 24.02... >>> HeavyAtomMolWt(Chem.MolFromSmiles('[NH4+].[Cl-]')) 49.46"
+  },
+  {
+    "name": "Ipc",
+    "description": "This returns the information content of the coefficients of the characteristic polynomial of the adjacency matrix of a hydrogen-suppressed graph of a molecule. 'avg = 1' returns the information conten"
+  },
+  {
+    "name": "Kappa1",
+    "description": "(no description)"
+  },
+  {
+    "name": "Kappa2",
+    "description": "(no description)"
+  },
+  {
+    "name": "Kappa3",
+    "description": "(no description)"
+  },
+  {
+    "name": "LabuteASA",
+    "description": "(no description)"
+  },
+  {
+    "name": "MaxAbsEStateIndex",
+    "description": "(no description)"
+  },
+  {
+    "name": "MaxAbsPartialCharge",
+    "description": "(no description)"
+  },
+  {
+    "name": "MaxEStateIndex",
+    "description": "(no description)"
+  },
+  {
+    "name": "MaxPartialCharge",
+    "description": "(no description)"
+  },
+  {
+    "name": "MinAbsEStateIndex",
+    "description": "(no description)"
+  },
+  {
+    "name": "MinAbsPartialCharge",
+    "description": "(no description)"
+  },
+  {
+    "name": "MinEStateIndex",
+    "description": "(no description)"
+  },
+  {
+    "name": "MinPartialCharge",
+    "description": "(no description)"
+  },
+  {
+    "name": "MolLogP",
+    "description": "Wildman-Crippen LogP value Uses an atom-based scheme based on the values in the paper: S. A. Wildman and G. M. Crippen JCICS 39 868-873 (1999) **Arguments** - inMol: a molecule - addHs: (optional) tog"
+  },
+  {
+    "name": "MolMR",
+    "description": "Wildman-Crippen MR value Uses an atom-based scheme based on the values in the paper: S. A. Wildman and G. M. Crippen JCICS 39 868-873 (1999) **Arguments** - inMol: a molecule - addHs: (optional) toggl"
+  },
+  {
+    "name": "MolWt",
+    "description": "The average molecular weight of the molecule >>> MolWt(Chem.MolFromSmiles('CC')) 30.07 >>> MolWt(Chem.MolFromSmiles('[NH4+].[Cl-]')) 53.49..."
+  },
+  {
+    "name": "NHOHCount",
+    "description": "Number of NHs or OHs"
+  },
+  {
+    "name": "NOCount",
+    "description": "Number of Nitrogens and Oxygens"
+  },
+  {
+    "name": "NumAliphaticCarbocycles",
+    "description": "CalcNumAliphaticCarbocycles( (Mol)mol) -> int : returns the number of aliphatic (containing at least one non-aromatic bond) carbocycles for a molecule C++ signature : unsigned int CalcNumAliphaticCarb"
+  },
+  {
+    "name": "NumAliphaticHeterocycles",
+    "description": "CalcNumAliphaticHeterocycles( (Mol)mol) -> int : returns the number of aliphatic (containing at least one non-aromatic bond) heterocycles for a molecule C++ signature : unsigned int CalcNumAliphaticHe"
+  },
+  {
+    "name": "NumAliphaticRings",
+    "description": "CalcNumAliphaticRings( (Mol)mol) -> int : returns the number of aliphatic (containing at least one non-aromatic bond) rings for a molecule C++ signature : unsigned int CalcNumAliphaticRings(RDKit::ROM"
+  },
+  {
+    "name": "NumAromaticCarbocycles",
+    "description": "CalcNumAromaticCarbocycles( (Mol)mol) -> int : returns the number of aromatic carbocycles for a molecule C++ signature : unsigned int CalcNumAromaticCarbocycles(RDKit::ROMol)"
+  },
+  {
+    "name": "NumAromaticHeterocycles",
+    "description": "CalcNumAromaticHeterocycles( (Mol)mol) -> int : returns the number of aromatic heterocycles for a molecule C++ signature : unsigned int CalcNumAromaticHeterocycles(RDKit::ROMol)"
+  },
+  {
+    "name": "NumAromaticRings",
+    "description": "CalcNumAromaticRings( (Mol)mol) -> int : returns the number of aromatic rings for a molecule C++ signature : unsigned int CalcNumAromaticRings(RDKit::ROMol)"
+  },
+  {
+    "name": "NumHAcceptors",
+    "description": "Number of Hydrogen Bond Acceptors"
+  },
+  {
+    "name": "NumHDonors",
+    "description": "Number of Hydrogen Bond Donors"
+  },
+  {
+    "name": "NumHeteroatoms",
+    "description": "Number of Heteroatoms"
+  },
+  {
+    "name": "NumRadicalElectrons",
+    "description": "The number of radical electrons the molecule has (says nothing about spin state) >>> NumRadicalElectrons(Chem.MolFromSmiles('CC')) 0 >>> NumRadicalElectrons(Chem.MolFromSmiles('C[CH3]')) 0 >>> NumRadi"
+  },
+  {
+    "name": "NumRotatableBonds",
+    "description": "Number of Rotatable Bonds"
+  },
+  {
+    "name": "NumSaturatedCarbocycles",
+    "description": "CalcNumSaturatedCarbocycles( (Mol)mol) -> int : returns the number of saturated carbocycles for a molecule C++ signature : unsigned int CalcNumSaturatedCarbocycles(RDKit::ROMol)"
+  },
+  {
+    "name": "NumSaturatedHeterocycles",
+    "description": "CalcNumSaturatedHeterocycles( (Mol)mol) -> int : returns the number of saturated heterocycles for a molecule C++ signature : unsigned int CalcNumSaturatedHeterocycles(RDKit::ROMol)"
+  },
+  {
+    "name": "NumSaturatedRings",
+    "description": "CalcNumSaturatedRings( (Mol)mol) -> int : returns the number of saturated rings for a molecule C++ signature : unsigned int CalcNumSaturatedRings(RDKit::ROMol)"
+  },
+  {
+    "name": "NumValenceElectrons",
+    "description": "The number of valence electrons the molecule has >>> NumValenceElectrons(Chem.MolFromSmiles('CC')) 14 >>> NumValenceElectrons(Chem.MolFromSmiles('C(=O)O')) 18 >>> NumValenceElectrons(Chem.MolFromSmile"
+  },
+  {
+    "name": "PEOE_VSA1",
+    "description": "MOE Charge VSA Descriptor 1 (-inf < x < -0.30)"
+  },
+  {
+    "name": "PEOE_VSA10",
+    "description": "MOE Charge VSA Descriptor 10 ( 0.10 <= x < 0.15)"
+  },
+  {
+    "name": "PEOE_VSA11",
+    "description": "MOE Charge VSA Descriptor 11 ( 0.15 <= x < 0.20)"
+  },
+  {
+    "name": "PEOE_VSA12",
+    "description": "MOE Charge VSA Descriptor 12 ( 0.20 <= x < 0.25)"
+  },
+  {
+    "name": "PEOE_VSA13",
+    "description": "MOE Charge VSA Descriptor 13 ( 0.25 <= x < 0.30)"
+  },
+  {
+    "name": "PEOE_VSA14",
+    "description": "MOE Charge VSA Descriptor 14 ( 0.30 <= x < inf)"
+  },
+  {
+    "name": "PEOE_VSA2",
+    "description": "MOE Charge VSA Descriptor 2 (-0.30 <= x < -0.25)"
+  },
+  {
+    "name": "PEOE_VSA3",
+    "description": "MOE Charge VSA Descriptor 3 (-0.25 <= x < -0.20)"
+  },
+  {
+    "name": "PEOE_VSA4",
+    "description": "MOE Charge VSA Descriptor 4 (-0.20 <= x < -0.15)"
+  },
+  {
+    "name": "PEOE_VSA5",
+    "description": "MOE Charge VSA Descriptor 5 (-0.15 <= x < -0.10)"
+  },
+  {
+    "name": "PEOE_VSA6",
+    "description": "MOE Charge VSA Descriptor 6 (-0.10 <= x < -0.05)"
+  },
+  {
+    "name": "PEOE_VSA7",
+    "description": "MOE Charge VSA Descriptor 7 (-0.05 <= x < 0.00)"
+  },
+  {
+    "name": "PEOE_VSA8",
+    "description": "MOE Charge VSA Descriptor 8 ( 0.00 <= x < 0.05)"
+  },
+  {
+    "name": "PEOE_VSA9",
+    "description": "MOE Charge VSA Descriptor 9 ( 0.05 <= x < 0.10)"
+  },
+  {
+    "name": "RingCount",
+    "description": "(no description)"
+  },
+  {
+    "name": "SMR_VSA1",
+    "description": "MOE MR VSA Descriptor 1 (-inf < x < 1.29)"
+  },
+  {
+    "name": "SMR_VSA10",
+    "description": "MOE MR VSA Descriptor 10 ( 4.00 <= x < inf)"
+  },
+  {
+    "name": "SMR_VSA2",
+    "description": "MOE MR VSA Descriptor 2 ( 1.29 <= x < 1.82)"
+  },
+  {
+    "name": "SMR_VSA3",
+    "description": "MOE MR VSA Descriptor 3 ( 1.82 <= x < 2.24)"
+  },
+  {
+    "name": "SMR_VSA4",
+    "description": "MOE MR VSA Descriptor 4 ( 2.24 <= x < 2.45)"
+  },
+  {
+    "name": "SMR_VSA5",
+    "description": "MOE MR VSA Descriptor 5 ( 2.45 <= x < 2.75)"
+  },
+  {
+    "name": "SMR_VSA6",
+    "description": "MOE MR VSA Descriptor 6 ( 2.75 <= x < 3.05)"
+  },
+  {
+    "name": "SMR_VSA7",
+    "description": "MOE MR VSA Descriptor 7 ( 3.05 <= x < 3.63)"
+  },
+  {
+    "name": "SMR_VSA8",
+    "description": "MOE MR VSA Descriptor 8 ( 3.63 <= x < 3.80)"
+  },
+  {
+    "name": "SMR_VSA9",
+    "description": "MOE MR VSA Descriptor 9 ( 3.80 <= x < 4.00)"
+  },
+  {
+    "name": "SlogP_VSA1",
+    "description": "MOE logP VSA Descriptor 1 (-inf < x < -0.40)"
+  },
+  {
+    "name": "SlogP_VSA10",
+    "description": "MOE logP VSA Descriptor 10 ( 0.40 <= x < 0.50)"
+  },
+  {
+    "name": "SlogP_VSA11",
+    "description": "MOE logP VSA Descriptor 11 ( 0.50 <= x < 0.60)"
+  },
+  {
+    "name": "SlogP_VSA12",
+    "description": "MOE logP VSA Descriptor 12 ( 0.60 <= x < inf)"
+  },
+  {
+    "name": "SlogP_VSA2",
+    "description": "MOE logP VSA Descriptor 2 (-0.40 <= x < -0.20)"
+  },
+  {
+    "name": "SlogP_VSA3",
+    "description": "MOE logP VSA Descriptor 3 (-0.20 <= x < 0.00)"
+  },
+  {
+    "name": "SlogP_VSA4",
+    "description": "MOE logP VSA Descriptor 4 ( 0.00 <= x < 0.10)"
+  },
+  {
+    "name": "SlogP_VSA5",
+    "description": "MOE logP VSA Descriptor 5 ( 0.10 <= x < 0.15)"
+  },
+  {
+    "name": "SlogP_VSA6",
+    "description": "MOE logP VSA Descriptor 6 ( 0.15 <= x < 0.20)"
+  },
+  {
+    "name": "SlogP_VSA7",
+    "description": "MOE logP VSA Descriptor 7 ( 0.20 <= x < 0.25)"
+  },
+  {
+    "name": "SlogP_VSA8",
+    "description": "MOE logP VSA Descriptor 8 ( 0.25 <= x < 0.30)"
+  },
+  {
+    "name": "SlogP_VSA9",
+    "description": "MOE logP VSA Descriptor 9 ( 0.30 <= x < 0.40)"
+  },
+  {
+    "name": "TPSA",
+    "description": "(no description)"
+  },
+  {
+    "name": "VSA_EState1",
+    "description": "VSA EState Descriptor 1 (-inf < x < 4.78)"
+  },
+  {
+    "name": "VSA_EState10",
+    "description": "VSA EState Descriptor 10 ( 11.00 <= x < inf)"
+  },
+  {
+    "name": "VSA_EState2",
+    "description": "VSA EState Descriptor 2 ( 4.78 <= x < 5.00)"
+  },
+  {
+    "name": "VSA_EState3",
+    "description": "VSA EState Descriptor 3 ( 5.00 <= x < 5.41)"
+  },
+  {
+    "name": "VSA_EState4",
+    "description": "VSA EState Descriptor 4 ( 5.41 <= x < 5.74)"
+  },
+  {
+    "name": "VSA_EState5",
+    "description": "VSA EState Descriptor 5 ( 5.74 <= x < 6.00)"
+  },
+  {
+    "name": "VSA_EState6",
+    "description": "VSA EState Descriptor 6 ( 6.00 <= x < 6.07)"
+  },
+  {
+    "name": "VSA_EState7",
+    "description": "VSA EState Descriptor 7 ( 6.07 <= x < 6.45)"
+  },
+  {
+    "name": "VSA_EState8",
+    "description": "VSA EState Descriptor 8 ( 6.45 <= x < 7.00)"
+  },
+  {
+    "name": "VSA_EState9",
+    "description": "VSA EState Descriptor 9 ( 7.00 <= x < 11.00)"
+  },
+  {
+    "name": "fr_Al_COO",
+    "description": "Number of aliphatic carboxylic acids"
+  },
+  {
+    "name": "fr_Al_OH",
+    "description": "Number of aliphatic hydroxyl groups"
+  },
+  {
+    "name": "fr_Al_OH_noTert",
+    "description": "Number of aliphatic hydroxyl groups excluding tert-OH"
+  },
+  {
+    "name": "fr_ArN",
+    "description": "Number of N functional groups attached to aromatics"
+  },
+  {
+    "name": "fr_Ar_COO",
+    "description": "Number of Aromatic carboxylic acide"
+  },
+  {
+    "name": "fr_Ar_N",
+    "description": "Number of aromatic nitrogens"
+  },
+  {
+    "name": "fr_Ar_NH",
+    "description": "Number of aromatic amines"
+  },
+  {
+    "name": "fr_Ar_OH",
+    "description": "Number of aromatic hydroxyl groups"
+  },
+  {
+    "name": "fr_COO",
+    "description": "Number of carboxylic acids"
+  },
+  {
+    "name": "fr_COO2",
+    "description": "Number of carboxylic acids"
+  },
+  {
+    "name": "fr_C_O",
+    "description": "Number of carbonyl O"
+  },
+  {
+    "name": "fr_C_O_noCOO",
+    "description": "Number of carbonyl O, excluding COOH"
+  },
+  {
+    "name": "fr_C_S",
+    "description": "Number of thiocarbonyl"
+  },
+  {
+    "name": "fr_HOCCN",
+    "description": "Number of C(OH)CCN-Ctert-alkyl or C(OH)CCNcyclic"
+  },
+  {
+    "name": "fr_Imine",
+    "description": "Number of Imines"
+  },
+  {
+    "name": "fr_NH0",
+    "description": "Number of Tertiary amines"
+  },
+  {
+    "name": "fr_NH1",
+    "description": "Number of Secondary amines"
+  },
+  {
+    "name": "fr_NH2",
+    "description": "Number of Primary amines"
+  },
+  {
+    "name": "fr_N_O",
+    "description": "Number of hydroxylamine groups"
+  },
+  {
+    "name": "fr_Ndealkylation1",
+    "description": "Number of XCCNR groups"
+  },
+  {
+    "name": "fr_Ndealkylation2",
+    "description": "Number of tert-alicyclic amines (no heteroatoms, not quinine-like bridged N)"
+  },
+  {
+    "name": "fr_Nhpyrrole",
+    "description": "Number of H-pyrrole nitrogens"
+  },
+  {
+    "name": "fr_SH",
+    "description": "Number of thiol groups"
+  },
+  {
+    "name": "fr_aldehyde",
+    "description": "Number of aldehydes"
+  },
+  {
+    "name": "fr_alkyl_carbamate",
+    "description": "Number of alkyl carbamates (subject to hydrolysis)"
+  },
+  {
+    "name": "fr_alkyl_halide",
+    "description": "Number of alkyl halides"
+  },
+  {
+    "name": "fr_allylic_oxid",
+    "description": "Number of allylic oxidation sites excluding steroid dienone"
+  },
+  {
+    "name": "fr_amide",
+    "description": "Number of amides"
+  },
+  {
+    "name": "fr_amidine",
+    "description": "Number of amidine groups"
+  },
+  {
+    "name": "fr_aniline",
+    "description": "Number of anilines"
+  },
+  {
+    "name": "fr_aryl_methyl",
+    "description": "Number of aryl methyl sites for hydroxylation"
+  },
+  {
+    "name": "fr_azide",
+    "description": "Number of azide groups"
+  },
+  {
+    "name": "fr_azo",
+    "description": "Number of azo groups"
+  },
+  {
+    "name": "fr_barbitur",
+    "description": "Number of barbiturate groups"
+  },
+  {
+    "name": "fr_benzene",
+    "description": "Number of benzene rings"
+  },
+  {
+    "name": "fr_benzodiazepine",
+    "description": "Number of benzodiazepines with no additional fused rings"
+  },
+  {
+    "name": "fr_bicyclic",
+    "description": "Bicyclic"
+  },
+  {
+    "name": "fr_diazo",
+    "description": "Number of diazo groups"
+  },
+  {
+    "name": "fr_dihydropyridine",
+    "description": "Number of dihydropyridines"
+  },
+  {
+    "name": "fr_epoxide",
+    "description": "Number of epoxide rings"
+  },
+  {
+    "name": "fr_ester",
+    "description": "Number of esters"
+  },
+  {
+    "name": "fr_ether",
+    "description": "Number of ether oxygens (including phenoxy)"
+  },
+  {
+    "name": "fr_furan",
+    "description": "Number of furan rings"
+  },
+  {
+    "name": "fr_guanido",
+    "description": "Number of guanidine groups"
+  },
+  {
+    "name": "fr_halogen",
+    "description": "Number of halogens"
+  },
+  {
+    "name": "fr_hdrzine",
+    "description": "Number of hydrazine groups"
+  },
+  {
+    "name": "fr_hdrzone",
+    "description": "Number of hydrazone groups"
+  },
+  {
+    "name": "fr_imidazole",
+    "description": "Number of imidazole rings"
+  },
+  {
+    "name": "fr_imide",
+    "description": "Number of imide groups"
+  },
+  {
+    "name": "fr_isocyan",
+    "description": "Number of isocyanates"
+  },
+  {
+    "name": "fr_isothiocyan",
+    "description": "Number of isothiocyanates"
+  },
+  {
+    "name": "fr_ketone",
+    "description": "Number of ketones"
+  },
+  {
+    "name": "fr_ketone_Topliss",
+    "description": "Number of ketones excluding diaryl, a,b-unsat. dienones, heteroatom on Calpha"
+  },
+  {
+    "name": "fr_lactam",
+    "description": "Number of beta lactams"
+  },
+  {
+    "name": "fr_lactone",
+    "description": "Number of cyclic esters (lactones)"
+  },
+  {
+    "name": "fr_methoxy",
+    "description": "Number of methoxy groups -OCH3"
+  },
+  {
+    "name": "fr_morpholine",
+    "description": "Number of morpholine rings"
+  },
+  {
+    "name": "fr_nitrile",
+    "description": "Number of nitriles"
+  },
+  {
+    "name": "fr_nitro",
+    "description": "Number of nitro groups"
+  },
+  {
+    "name": "fr_nitro_arom",
+    "description": "Number of nitro benzene ring substituents"
+  },
+  {
+    "name": "fr_nitro_arom_nonortho",
+    "description": "Number of non-ortho nitro benzene ring substituents"
+  },
+  {
+    "name": "fr_nitroso",
+    "description": "Number of nitroso groups, excluding NO2"
+  },
+  {
+    "name": "fr_oxazole",
+    "description": "Number of oxazole rings"
+  },
+  {
+    "name": "fr_oxime",
+    "description": "Number of oxime groups"
+  },
+  {
+    "name": "fr_para_hydroxylation",
+    "description": "Number of para-hydroxylation sites"
+  },
+  {
+    "name": "fr_phenol",
+    "description": "Number of phenols"
+  },
+  {
+    "name": "fr_phenol_noOrthoHbond",
+    "description": "Number of phenolic OH excluding ortho intramolecular Hbond substituents"
+  },
+  {
+    "name": "fr_phos_acid",
+    "description": "Number of phosphoric acid groups"
+  },
+  {
+    "name": "fr_phos_ester",
+    "description": "Number of phosphoric ester groups"
+  },
+  {
+    "name": "fr_piperdine",
+    "description": "Number of piperdine rings"
+  },
+  {
+    "name": "fr_piperzine",
+    "description": "Number of piperzine rings"
+  },
+  {
+    "name": "fr_priamide",
+    "description": "Number of primary amides"
+  },
+  {
+    "name": "fr_prisulfonamd",
+    "description": "Number of primary sulfonamides"
+  },
+  {
+    "name": "fr_pyridine",
+    "description": "Number of pyridine rings"
+  },
+  {
+    "name": "fr_quatN",
+    "description": "Number of quaternary nitrogens"
+  },
+  {
+    "name": "fr_sulfide",
+    "description": "Number of thioether"
+  },
+  {
+    "name": "fr_sulfonamd",
+    "description": "Number of sulfonamides"
+  },
+  {
+    "name": "fr_sulfone",
+    "description": "Number of sulfone groups"
+  },
+  {
+    "name": "fr_term_acetylene",
+    "description": "Number of terminal acetylenes"
+  },
+  {
+    "name": "fr_tetrazole",
+    "description": "Number of tetrazole rings"
+  },
+  {
+    "name": "fr_thiazole",
+    "description": "Number of thiazole rings"
+  },
+  {
+    "name": "fr_thiocyan",
+    "description": "Number of thiocyanates"
+  },
+  {
+    "name": "fr_thiophene",
+    "description": "Number of thiophene rings"
+  },
+  {
+    "name": "fr_unbrch_alkane",
+    "description": "Number of unbranched alkanes of at least 4 members (excludes halogenated alkanes)"
+  },
+  {
+    "name": "fr_urea",
+    "description": "Number of urea groups"
+  },
+  {
+    "name": "qed",
+    "description": "Calculate the weighted sum of ADS mapped properties some examples from the QED paper, reference values from Peter G's original implementation >>> m = Chem.MolFromSmiles('N=C(CCSCc1csc(N=C(N)N)n1)NS(N)"
+  }
+]

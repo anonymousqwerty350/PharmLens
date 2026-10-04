@@ -1,0 +1,649 @@
+{
+  "task": "pulmonary toxicity",
+  "task_description": "Pulmonary toxicity prediction — predict whether a drug causes toxic damage to the lungs or respiratory system (e.g., interstitial lung disease, pulmonary fibrosis, pneumonitis, respiratory depression, bronchospasm)",
+  "prediction_question": "Does this molecule exhibit pulmonary toxicity? Your final answer should be formatted as either: 'Final answer: Toxicity' or 'Final answer: Non-toxicity'.",
+  "relevant_proteins": {
+    "EGFR": {
+      "pdb_id": "4WKQ",
+      "role": "Receptor tyrosine kinase; alveolar epithelial repair",
+      "logic": "EGFR signaling drives proliferation and repair of alveolar type II pneumocytes after epithelial injury. Strong binding at the EGFR ATP site inhibits this regenerative response, and impaired alveolar epithelial repair underlies interstitial lung disease and pneumonitis. Weak binding leaves the repair pathway intact.",
+      "role_cited": "Receptor tyrosine kinase[3t]; alveolar epithelial repair[4t]",
+      "logic_cited": "EGFR signaling drives proliferation and repair of alveolar type II pneumocytes after epithelial injury[4]. Strong binding at the EGFR ATP site inhibits this regenerative response[3], and impaired alveolar epithelial repair underlies interstitial lung disease and pneumonitis. Weak binding leaves the repair pathway intact."
+    },
+    "VEGFR2": {
+      "pdb_id": "4ASD",
+      "role": "Endothelial receptor tyrosine kinase; pulmonary vascular integrity",
+      "logic": "VEGFR2 (KDR) mediates endothelial survival signaling that maintains the alveolar-capillary barrier. Strong binding at the VEGFR2 ATP site blocks this survival signal and destabilizes the endothelium, contributing to pulmonary hypertension, pleural effusion and pulmonary edema. Weak binding leaves barrier maintenance intact.",
+      "role_cited": "Endothelial receptor tyrosine kinase[5c]; pulmonary vascular integrity[5c]",
+      "logic_cited": "VEGFR2 (KDR) mediates endothelial survival signaling that maintains the alveolar-capillary barrier[5c]. Strong binding at the VEGFR2 ATP site blocks this survival signal[5c] and destabilizes the endothelium[5c], contributing to pulmonary hypertension, pleural effusion[6t] and pulmonary edema[6t]. Weak binding leaves barrier maintenance intact."
+    },
+    "ACE": {
+      "pdb_id": "1O86",
+      "role": "Peptidase (kininase II); degrades bradykinin and substance P in lung",
+      "logic": "ACE degrades bradykinin and substance P in the pulmonary vasculature and airways. Strong binding at the catalytic zinc site blocks this degradation, so the peptides accumulate, sensitize airway sensory nerves and cause persistent dry cough and occasional angioedema. Weak binding does not perturb pulmonary kinin turnover.",
+      "role_cited": "Peptidase (kininase II)[7t]; degrades bradykinin and substance P in lung[8t]",
+      "logic_cited": "ACE degrades bradykinin and substance P in the pulmonary vasculature and airways[8t]. Strong binding at the catalytic zinc site blocks this degradation[8], so the peptides accumulate[10!], sensitize airway sensory nerves and cause persistent dry cough[10c] and occasional angioedema[9]. Weak binding does not perturb pulmonary kinin turnover."
+    },
+    "mTOR": {
+      "pdb_id": "4JSX",
+      "role": "Serine/threonine kinase; cell growth and immune regulation",
+      "logic": "mTOR regulates growth, proliferation and autophagy in alveolar epithelial and immune cells. Strong binding at the mTOR kinase site suppresses these programs and is associated with lymphocytic alveolitis and non-infectious interstitial pneumonitis. Weak binding leaves alveolar immune homeostasis intact.",
+      "role_cited": "Serine/threonine kinase[11t]; cell growth and immune regulation[11t]",
+      "logic_cited": "mTOR regulates growth, proliferation and autophagy in alveolar epithelial and immune cells[11t]. Strong binding at the mTOR kinase site suppresses these programs[12] and is associated with lymphocytic alveolitis and non-infectious interstitial pneumonitis[13]. Weak binding leaves alveolar immune homeostasis intact."
+    }
+  },
+  "pathway_rules": [
+    "Blocking alveolar epithelial repair (EGFR) or endothelial survival signaling (VEGFR2) prevents regeneration of the alveolar-capillary unit, the mechanism of drug-induced interstitial lung disease, pneumonitis and pulmonary edema.",
+    "Blocking pulmonary ACE lets bradykinin and substance P accumulate in the airway wall, sensitizing sensory C-fibers and causing persistent dry cough and angioedema.",
+    "Suppressing mTOR-dependent growth and autophagy in alveolar epithelium and lung immune cells promotes lymphocytic alveolitis and non-infectious pneumonitis.",
+    "Injury is also produced outside these four targets: depression of brainstem respiratory drive, reactive-metabolite or oxidant damage to alveolar epithelium, lysosomal phospholipid accumulation in alveolar macrophages, and embolic obstruction of pulmonary capillaries by oily depot vehicles.",
+    "The lung defends itself continuously: alveolar macrophages phagocytose and degrade material reaching the alveolar surface, the mucociliary escalator clears the airways, and the pulmonary endothelium metabolizes and inactivates circulating xenobiotics on first pass. This reserve absorbs ordinary drug exposure, so parenchymal or airway injury appears only when one of the mechanisms above is actively engaged; a molecule that engages none of them leaves lung structure and function unchanged."
+  ],
+  "molecular_context": {
+    "yes_features": [
+      "Fused 1,4-benzodiazepine ring, with or without a triazolo or imidazo ring fused to it: depresses the brainstem respiratory rhythm and causes dose-dependent hypoventilation.",
+      "Opioid agonist scaffold — morphinan, 4-aryl- or 4-anilido-piperidine, or diphenylheptanone: suppresses the medullary response to CO2, causing respiratory depression and arrest.",
+      "Bis(2-chloroethyl)amine or oxazaphosphorine ring: alkylates alveolar epithelium and capillary endothelium, giving pneumonitis that can progress to pulmonary fibrosis.",
+      "Antifolate — a 2,4-diaminopteridine or fused pyrimidine linked to a benzoyl-glutamate arm: causes hypersensitivity pneumonitis and interstitial lung disease independent of cumulative dose.",
+      "Purine bearing a sulfur substituent at the 6-position: thiopurine immunosuppression is associated with reversible interstitial pneumonitis.",
+      "ATP-competitive kinase inhibitor head — a 2-aminopyrimidine or 2-anilinopyrimidine fused to a bicyclic heteroaryl, an N-alkoxy benzamide MEK head, or an acrylamide covalent warhead on an amino-heterocycle: interstitial lung disease is a recognized class effect of CDK4/6, MEK, BTK and multi-kinase inhibitors.",
+      "Straight-chain aliphatic acyl ester of eight carbons or longer on a steroid or neuroleptic alcohol: this oily intramuscular depot design can enter the venous circulation and lodge in pulmonary capillaries as microemboli, causing cough, dyspnea and syncope after injection.",
+      "Tricyclic fused aromatic system (phenothiazine, thieno-benzodiazepine, dibenz-oxazepine or -azepine) carrying a protonatable amine on a short side chain: this cationic amphiphile is trapped in lysosomes of alveolar macrophages and type II pneumocytes and produces phospholipidosis and alveolitis."
+    ],
+    "no_features": [
+      "Four-membered beta-lactam fused to a thiazolidine or dihydrothiazine ring and bearing a free carboxylate (penicillin or cephalosporin): acts on bacterial transpeptidase, stays ionized and is renally cleared within hours.",
+      "Nitro group attached to an imidazole or other azole ring of an antimicrobial scaffold: reduction to a reactive species requires the low-redox-potential ferredoxin systems of anaerobic organisms and does not occur in oxygenated lung tissue.",
+      "Endogenous metabolite or close analogue — amino acid, nucleobase, simple sugar or polyol, vitamin, or seco-steroid: distribution and elimination follow physiological transporter and renal routes without lung retention.",
+      "Azole ring joined to a tertiary carbinol or a benzylic nitrile in an antifungal or aromatase-inhibitor scaffold: the target is a fungal or steroidogenic cytochrome P450 that has no counterpart in alveolar epithelium or endothelium.",
+      "Multiply ionized polar structure — geminal bisphosphonate, biphenyl-tetrazole, quaternary ammonium, or a zwitterion with two or more acid groups: low passive permeability confines the compound near extracellular water and prevents accumulation in lung lipid.",
+      "Steroid nucleus carrying only small polar groups (11-hydroxy or 11-keto, 16,17-acetonide, free hydroxyl, or a short C2-C4 ester): these receptor agonists suppress alveolar inflammatory transcription and are the standard treatment for inflammatory and fibrosing lung disease.",
+      "Small single-ring anilide, phenol, oxazolone or simple azine/azole scaffold cleared by direct glucuronidation or sulfation: conjugative elimination competes with oxidative bioactivation, so no reactive intermediate reaches alveolar tissue.",
+      "Simple inorganic salt or a small radiolabelled tracer analogue given at sub-pharmacological diagnostic doses: the administered amount is orders of magnitude below any dose that could injure lung tissue."
+    ],
+    "yes_features_cited": [
+      "Fused 1,4-benzodiazepine ring, with or without a triazolo or imidazo ring fused to it: depresses the brainstem respiratory rhythm[21t] and causes dose-dependent[21t] hypoventilation[21].",
+      "Opioid agonist scaffold — morphinan, 4-aryl- or 4-anilido-piperidine, or diphenylheptanone: suppresses the medullary response to CO2[16], causing respiratory depression and arrest[16].",
+      "Bis(2-chloroethyl)amine or oxazaphosphorine ring: alkylates alveolar epithelium and capillary endothelium[22t], giving pneumonitis that can progress to pulmonary fibrosis[22][23t].",
+      "Antifolate — a 2,4-diaminopteridine or fused pyrimidine linked to a benzoyl-glutamate arm: causes hypersensitivity pneumonitis[23] and interstitial lung disease independent of cumulative dose.",
+      "Purine bearing a sulfur substituent at the 6-position: thiopurine immunosuppression is associated with reversible interstitial pneumonitis[24][25t].",
+      "ATP-competitive kinase inhibitor head — a 2-aminopyrimidine or 2-anilinopyrimidine fused to a bicyclic heteroaryl, an N-alkoxy benzamide MEK head, or an acrylamide covalent warhead on an amino-heterocycle[27t]: interstitial lung disease is a recognized class effect of CDK4/6, MEK, BTK and multi-kinase inhibitors[26].",
+      "Straight-chain aliphatic acyl ester of eight carbons or longer on a steroid or neuroleptic alcohol: this oily intramuscular depot design can enter the venous circulation[18] and lodge in pulmonary capillaries as microemboli[28t], causing cough, dyspnea and syncope after injection[28t].",
+      "Tricyclic fused aromatic system (phenothiazine, thieno-benzodiazepine, dibenz-oxazepine or -azepine) carrying a protonatable amine on a short side chain: this cationic amphiphile is trapped in lysosomes of alveolar macrophages and type II pneumocytes[17] and produces phospholipidosis and alveolitis[29]."
+    ],
+    "no_features_cited": [
+      "Four-membered beta-lactam fused to a thiazolidine or dihydrothiazine ring and bearing a free carboxylate (penicillin or cephalosporin): acts on bacterial transpeptidase[30], stays ionized and is renally cleared within hours[31].",
+      "Nitro group attached to an imidazole or other azole ring of an antimicrobial scaffold: reduction to a reactive species requires the low-redox-potential ferredoxin systems of anaerobic organisms[37!] and does not occur in oxygenated lung tissue.",
+      "Endogenous metabolite or close analogue — amino acid, nucleobase, simple sugar or polyol, vitamin, or seco-steroid: distribution and elimination follow physiological transporter and renal routes without lung retention.",
+      "Azole ring joined to a tertiary carbinol or a benzylic nitrile in an antifungal or aromatase-inhibitor scaffold: the target is a fungal or steroidogenic cytochrome P450[32] that has no counterpart in alveolar epithelium or endothelium.",
+      "Multiply ionized polar structure — geminal bisphosphonate, biphenyl-tetrazole, quaternary ammonium, or a zwitterion with two or more acid groups: low passive permeability confines the compound near extracellular water and prevents accumulation in lung lipid.",
+      "Steroid nucleus carrying only small polar groups (11-hydroxy or 11-keto, 16,17-acetonide, free hydroxyl, or a short C2-C4 ester): these receptor agonists suppress alveolar inflammatory transcription[33t] and are the standard treatment[34] for inflammatory and fibrosing lung disease[38!].",
+      "Small single-ring anilide, phenol, oxazolone or simple azine/azole scaffold cleared by direct glucuronidation or sulfation: conjugative elimination competes with oxidative bioactivation[35t][39!], so no reactive intermediate reaches alveolar tissue.",
+      "Simple inorganic salt or a small radiolabelled tracer analogue given at sub-pharmacological diagnostic doses[36t]: the administered amount is orders of magnitude below any dose that could injure lung tissue."
+    ]
+  },
+  "target_names": [
+    "Toxicity=0 (Non-toxicity)",
+    "Toxicity=1 (Toxicity)"
+  ],
+  "task_description_cited": "Pulmonary toxicity prediction — predict whether a drug causes toxic damage to the lungs or respiratory system (e.g., interstitial lung disease, pulmonary fibrosis, pneumonitis, respiratory depression, bronchospasm)[1][2]",
+  "pathway_rules_cited": [
+    "Blocking alveolar epithelial repair (EGFR) or endothelial survival signaling (VEGFR2) prevents regeneration of the alveolar-capillary unit[5!], the mechanism of drug-induced interstitial lung disease[14t], pneumonitis and pulmonary edema.",
+    "Blocking pulmonary ACE lets bradykinin and substance P accumulate in the airway wall, sensitizing sensory C-fibers and causing persistent dry cough[10c] and angioedema[9t].",
+    "Suppressing mTOR-dependent growth and autophagy in alveolar epithelium and lung immune cells promotes lymphocytic alveolitis and non-infectious pneumonitis[13][15].",
+    "Injury is also produced outside these four targets: depression of brainstem respiratory drive[16], reactive-metabolite or oxidant damage to alveolar epithelium, lysosomal phospholipid accumulation in alveolar macrophages[17t], and embolic obstruction of pulmonary capillaries by oily depot vehicles[18t].",
+    "The lung defends itself continuously[19t]: alveolar macrophages phagocytose and degrade material reaching the alveolar surface[19t], the mucociliary escalator clears the airways[20t], and the pulmonary endothelium metabolizes and inactivates circulating xenobiotics on first pass. This reserve absorbs ordinary drug exposure, so parenchymal or airway injury appears only when one of the mechanisms above is actively engaged; a molecule that engages none of them leaves lung structure and function unchanged."
+  ],
+  "references": {
+    "1": {
+      "mla": "Smith, Charlotte L. C., et al. \"Feasibility of Using 18F-FDG PET/CT Radiomics and Machine Learning to Detect Drug-Induced Interstitial Lung Disease.\" Diagnostics (Basel, Switzerland), vol. 14, no. 22, 2024, p. 2531. PubMed, https://doi.org/10.3390/diagnostics14222531.",
+      "pmid": "39594197",
+      "doi": "10.3390/diagnostics14222531",
+      "url": "https://doi.org/10.3390/diagnostics14222531",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:39594197",
+      "caveat": "[Pulmonary toxicity prediction — predict whether a drug ...] supports only “bleomycin causes drug-induced interstitial lung disease and interstitial pulmonary fibrosis in treated patients”; verifier note: Only the interstitial-lung-disease and fibrosis examples are supported, for one drug, and the paper's own prediction accuracy is 50%."
+    },
+    "2": {
+      "mla": "Rosenow, E. C. \"Drug-Induced Pulmonary Disease.\" Disease-A-Month, vol. 40, no. 5, 1994, pp. 253-310. PubMed, https://doi.org/10.1016/0011-5029(94)90025-6.",
+      "pmid": "8174459",
+      "doi": "10.1016/0011-5029(94)90025-6",
+      "url": "https://doi.org/10.1016/0011-5029(94)90025-6",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:8174459",
+      "caveat": "[Pulmonary toxicity prediction — predict whether a drug ...] supports only “drugs cause toxic damage to the lungs, including cough and asthma, interstitial pneumonitis, noncardiac pulmonary edema and pleural ...”; verifier note: Three of the atom's five example phenotypes are supported; fibrosis, respiratory depression and bronchospasm are not, and nothing supports the prediction framing."
+    },
+    "3": {
+      "mla": "Shaykhiev, Renat, et al. \"Microbial Patterns Signaling via Toll-Like Receptors 2 and 5 Contribute to Epithelial Repair, Growth and Survival.\" PloS One, vol. 3, no. 1, 2008, p. e1393. PubMed, https://doi.org/10.1371/journal.pone.0001393.",
+      "pmid": "18167552",
+      "doi": "10.1371/journal.pone.0001393",
+      "url": "https://doi.org/10.1371/journal.pone.0001393",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "mixed",
+      "ref_id": "pmid:18167552",
+      "caveat": "[Strong binding at the EGFR ATP site inhibits this ...] verifier note: EGFR-dependence of epithelial repair is established, but translating that into an ATP-site binding claim needs one step and no binding data exist in the abstract.; [Receptor tyrosine kinase;] verifier note: The span names EGFR and the RTK array that found it, so the class assignment follows in one step rather than being stated."
+    },
+    "4": {
+      "mla": "Desai, Tushar J., et al. \"Alveolar Progenitor and Stem Cells in Lung Development, Renewal and Cancer.\" Nature, vol. 507, no. 7491, 2014, pp. 190-4. PubMed, https://doi.org/10.1038/nature12930.",
+      "pmid": "24499815",
+      "doi": "10.1038/nature12930",
+      "url": "https://doi.org/10.1038/nature12930",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:24499815",
+      "caveat": "[alveolar epithelial repair] evidence is mouse, claim is stated for humans; [EGFR signaling drives proliferation and repair of alveolar ...] supports only “In mouse lung, EGFR ligands selectively induce self-renewal of mature alveolar type II cells in vitro, and AT2 stem-cell function is ...”; evidence is mouse, claim is stated for humans"
+    },
+    "5": {
+      "mla": "Kasahara, Y., et al. \"Inhibition of VEGF Receptors Causes Lung Cell Apoptosis and Emphysema.\" The Journal of Clinical Investigation, vol. 106, no. 11, 2000, pp. 1311-9. PubMed, https://doi.org/10.1172/JCI10259.",
+      "pmid": "11104784",
+      "doi": "10.1172/JCI10259",
+      "url": "https://doi.org/10.1172/JCI10259",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:11104784",
+      "caveat": "ALSO CONTRADICTS: Blocking alveolar epithelial repair (EGFR) or endothelial survival signaling (VEGFR2) prevents regeneration ...; Blocking endothelial survival signaling (VEGFR2) prevents regeneration of the alveolar-capillary unit; [Strong binding at the VEGFR2 ATP site blocks this survival ...] supports only “The VEGF receptor inhibitor SU5416 reduces phosphorylated VEGFR-2 and VEGFR-2-associated Akt-1 in rat lung and induces alveolar septal cell ...”; evidence is rat, claim is stated for humans; [pulmonary vascular integrity] supports only “pulmonary arterial tree structure in rat lung, which is lost after chronic VEGF receptor blockade”; evidence is rat, claim is stated for humans; [VEGFR2 (KDR) mediates endothelial survival signaling that ...] supports only “VEGF receptor signaling, with reduced VEGFR-2 phosphorylation and Akt-1 association, is required in rat lung for maintenance of alveolar ...”; evidence is rat, claim is stated for humans; [Endothelial receptor tyrosine kinase;] supports only “VEGF receptor, whose ligand is a trophic factor required for endothelial cell survival and is abundantly expressed in lung”; evidence is rat, claim is stated for humans; [and destabilizes the endothelium,] evidence is rat, claim is stated for humans"
+    },
+    "6": {
+      "mla": "Cortes, Jorge E., et al. \"Final 5-Year Study Results of DASISION: the Dasatinib Versus Imatinib Study in Treatment-Naïve Chronic Myeloid Leukemia Patients Trial.\" Journal of Clinical Oncology, vol. 34, no. 20, 2016, pp. 2333-40. PubMed, https://doi.org/10.1200/JCO.2015.64.8899.",
+      "pmid": "27217448",
+      "doi": "10.1200/JCO.2015.64.8899",
+      "url": "https://doi.org/10.1200/JCO.2015.64.8899",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:27217448",
+      "caveat": "[contributing to pleural effusion] supports only “pleural effusion, reported in 28% of dasatinib-treated versus 0.8% of imatinib-treated patients over five years”; verifier note: A large randomised trial establishes the incidence and drug attribution of pleural effusion with dasatinib but offers nothing about the mechanism the atom's 'contributing to' implies.; [contributing to pulmonary hypertension, pleural effusion ...] supports only “contributing to pleural effusion.”; source does not evidence: pulmonary hypertension, pulmonary edema"
+    },
+    "7": {
+      "mla": "Ryan, J. W., et al. \"Angiotensin-Converting Enzyme: I. New Strategies for Assay.\" Environmental Health Perspectives, vol. 35, 1980, pp. 165-70. PubMed, https://doi.org/10.1289/ehp.8035165.",
+      "pmid": "6250809",
+      "doi": "10.1289/ehp.8035165",
+      "url": "https://doi.org/10.1289/ehp.8035165",
+      "source_type": "pubmed",
+      "verdict": "DIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:6250809",
+      "caveat": "[Peptidase (kininase II);] evidence is cell_free"
+    },
+    "8": {
+      "mla": "Dicpinigaitis, P. V., and J. B. Dobkin. \"Effect of Angiotensin-Converting Enzyme Inhibition on Bronchial Responsiveness.\" Journal of Clinical Pharmacology, vol. 36, no. 4, 1996, pp. 361-4. PubMed, https://doi.org/10.1002/j.1552-4604.1996.tb04213.x.",
+      "pmid": "8728351",
+      "doi": "10.1002/j.1552-4604.1996.tb04213.x",
+      "url": "https://doi.org/10.1002/j.1552-4604.1996.tb04213.x",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:8728351",
+      "caveat": "[ACE degrades bradykinin and substance P in the pulmonary ...] supports only “ACE degrades bradykinin and substance P, potent bronchoconstrictors, whose accumulation would occur in the lung on enzyme inhibition.”; verifier note: The substrate specificity of ACE is stated as background, but the atom's dual anatomical localization is not established.; [Strong binding at the catalytic zinc site blocks this ...] supports only “Inhibition of ACE blocks its degradation of bradykinin and substance P.”; verifier note: Blockade of the degradation step is supported, but nothing about the zinc active site or binding strength appears in the source.; [degrades substance P in lung] supports only “angiotensin-converting enzyme degrades bradykinin and substance P, whose accumulation in the lung is expected when the enzyme is inhibited”; verifier note: Substance P degradation by ACE appears only as introductory background in a trial that measured neither the peptide nor its pulmonary levels, and whose functional result was negative."
+    },
+    "9": {
+      "mla": "Bezalel, Shira, et al. \"Angiotensin-Converting Enzyme Inhibitor-Induced Angioedema.\" The American Journal of Medicine, vol. 128, no. 2, 2015, pp. 120-5. PubMed, https://doi.org/10.1016/j.amjmed.2014.07.011.",
+      "pmid": "25058867",
+      "doi": "10.1016/j.amjmed.2014.07.011",
+      "url": "https://doi.org/10.1016/j.amjmed.2014.07.011",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:25058867",
+      "caveat": "[and cause persistent dry cough and occasional angioedema.] supports only “and cause cough in 5%-35% and angioedema in up to 0.7% of patients treated with angiotensin-converting enzyme inhibitors”; verifier note: Both adverse effects and their incidences are stated for ACE inhibitors, but the atom's 'persistent dry' characterisation of the cough has no basis in the abstract.; [cause occasional angioedema] supports only “angiotensin-converting enzyme inhibitors cause angioedema in up to 0.7% of treated patients”; verifier note: The angioedema incidence is stated for ACE inhibitors, so the atom holds once the drug class is named, though 'occasional' remains uncalibrated."
+    },
+    "10": {
+      "mla": "Okumura, H., et al. \"No Relation Between Angiotensin-Converting Enzyme (ACE) Inhibitor-Induced Cough and ACE Gene Polymorphism, Plasma Bradykinin, Substance P and ACE Inhibitor Concentration in Japanese Patients.\" Yakugaku Zasshi, vol. 121, no. 3, 2001, pp. 253-7. PubMed, https://doi.org/10.1248/yakushi.121.253.",
+      "pmid": "11265121",
+      "doi": "10.1248/yakushi.121.253",
+      "url": "https://doi.org/10.1248/yakushi.121.253",
+      "source_type": "pubmed",
+      "verdict": "DIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:11265121",
+      "caveat": "ALSO CONTRADICTS: so the peptides accumulate,; [persistent dry cough] verifier note: The span states the atom verbatim together with its causal attribution to ACE inhibitors, requiring no word outside the span, though it is background rather than this paper's finding."
+    },
+    "11": {
+      "mla": "Kim, Young Chul, and Kun-Liang Guan. \"mTOR: a Pharmacologic Target for Autophagy Regulation.\" The Journal of Clinical Investigation, vol. 125, no. 1, 2015, pp. 25-32. PubMed, https://doi.org/10.1172/JCI73939.",
+      "pmid": "25654547",
+      "doi": "10.1172/JCI73939",
+      "url": "https://doi.org/10.1172/JCI73939",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:25654547",
+      "caveat": "[cell growth and immune regulation] supports only “cell growth”; source does not evidence: immune regulation; [mTOR regulates growth, proliferation and autophagy in ...] supports only “mTOR regulates cell growth, proliferation and autophagy, without specification of cell type.”; verifier note: The three regulated processes are asserted exactly, but only generically, so the atom's alveolar-epithelial and immune-cell localisation is unsupported."
+    },
+    "12": {
+      "mla": "Yang, Haijuan, et al. \"mTOR Kinase Structure, Mechanism and Regulation.\" Nature, vol. 497, no. 7448, 2013, pp. 217-23. PubMed, https://doi.org/10.1038/nature12122.",
+      "pmid": "23636326",
+      "doi": "10.1038/nature12122",
+      "url": "https://doi.org/10.1038/nature12122",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "proposition",
+      "ref_id": "pmid:23636326",
+      "caveat": "[Strong binding at the mTOR kinase site suppresses these ...] evidence is cell_free"
+    },
+    "13": {
+      "mla": "Pham, Phuong-Thu T., et al. \"Sirolimus-Associated Pulmonary Toxicity.\" Transplantation, vol. 77, no. 8, 2004, pp. 1215-20. PubMed, https://doi.org/10.1097/01.tp.0000118413.92211.b6.",
+      "pmid": "15114088",
+      "doi": "10.1097/01.tp.0000118413.92211.b6",
+      "url": "https://doi.org/10.1097/01.tp.0000118413.92211.b6",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:15114088",
+      "caveat": "[Suppressing mTOR-dependent growth and autophagy in alveolar ...] supports only “promotes lymphocytic alveolitis and non-infectious pneumonitis”; source does not evidence: Suppressing mTOR-dependent growth, autophagy; [and is associated with lymphocytic alveolitis and ...] verifier note: Lymphocytic alveolitis and interstitial pneumonitis are named directly, and only the non-infectious qualifier needs one step from the adjacent exclusion statement."
+    },
+    "14": {
+      "mla": "Essaadouni, L., and L. Benjilali. \"Drug Induced Interstitial Lung Disease in Systemic Diseases.\" Revue De Pneumologie Clinique, vol. 69, no. 6, 2013, pp. 307-14. PubMed, https://doi.org/10.1016/j.pneumo.2013.08.001.",
+      "pmid": "24183295",
+      "doi": "10.1016/j.pneumo.2013.08.001",
+      "url": "https://doi.org/10.1016/j.pneumo.2013.08.001",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:24183295",
+      "caveat": "[the mechanism of drug-induced interstitial lung disease] supports only “Cytotoxicity and hypersensitivity are the main mechanisms of pulmonary toxicity from immunosuppressants and immunomodulators used in ...”; verifier note: The source addresses the topic at a coarse level (two mechanism categories) and explicitly disclaims a unified account, so it cannot establish 'the mechanism'."
+    },
+    "15": {
+      "mla": "Vandewiele, Bert, et al. \"Diffuse Alveolar Hemorrhage Induced by Everolimus.\" Chest, vol. 137, no. 2, 2010, pp. 456-9. PubMed, https://doi.org/10.1378/chest.09-0780.",
+      "pmid": "20133293",
+      "doi": "10.1378/chest.09-0780",
+      "url": "https://doi.org/10.1378/chest.09-0780",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:20133293",
+      "caveat": "[promotes non-infectious pneumonitis] supports only “proliferation signal inhibitors, including everolimus, are reported to cause interstitial pneumonitis among a range of pulmonary toxicities”; verifier note: Pneumonitis is listed among proliferation signal inhibitor pulmonary toxicities as background, while the paper's own contribution is a single case of diffuse alveolar haemorrhage."
+    },
+    "16": {
+      "mla": "Czapla, Marc A., and James E. Zadina. \"Reduced Suppression of CO2-induced Ventilatory Stimulation by Endomorphins Relative to Morphine.\" Brain Research, vol. 1059, no. 2, 2005, pp. 159-66. PubMed, https://doi.org/10.1016/j.brainres.2005.08.020.",
+      "pmid": "16223471",
+      "doi": "10.1016/j.brainres.2005.08.020",
+      "url": "https://doi.org/10.1016/j.brainres.2005.08.020",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:16223471",
+      "caveat": "[diphenylheptanone suppresses the medullary response to CO2] evidence is rat, claim is stated for humans; [Opioid agonist scaffold — morphinan, 4-aryl- or ...] supports only “Opioid agonist scaffold - morphinan: suppresses the medullary response to CO2,”; evidence is rat, claim is stated for humans; source does not evidence: 4-aryl-piperidine, 4-anilido-piperidine, diphenylheptanone; [depression of brainstem respiratory drive] supports only “centrally mediated mu-opioid depression of the hypercapnic ventilatory response in conscious rats”; evidence is rat, claim is stated for humans; [causing respiratory depression and arrest.] supports only “causing respiratory depression”; The abstract states opioid-induced respiratory depression and shows that morphine and DAMGO blunt the hypercapnic ventilatory response at low doses, which is the atom's CO2-response suppression leading to respiratory depression; respiratory arrest is never reported, and the data are conscious rats, with endomorphins depressing ventilation only far above analgesic doses."
+    },
+    "17": {
+      "mla": "Marchlinski, F. E., et al. \"Amiodarone Pulmonary Toxicity.\" Annals of Internal Medicine, vol. 97, no. 6, 1982, pp. 839-45. PubMed, https://doi.org/10.7326/0003-4819-97-6-839.",
+      "pmid": "7149492",
+      "doi": "10.7326/0003-4819-97-6-839",
+      "url": "https://doi.org/10.7326/0003-4819-97-6-839",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:7149492",
+      "caveat": "[lysosomal phospholipid accumulation in alveolar macrophages] supports only “amiodarone pulmonary toxicity shows foamy macrophages in alveolar spaces with lamellar membranous structures within distended lysosomes”; verifier note: Lysosomal lamellar inclusions in alveolar macrophages are described morphologically; their phospholipid identity is assumed, not shown.; [trapped in lysosomes of type II pneumocytes] supports only “trapped in lysosomes”; The abstract reports the classic phospholipidosis lesion, lamellar membranous structures within distended lysosomes, in lung tissue from amiodarone-treated patients, supporting lysosomal trapping by a cationic amphiphile; it does not assign those lysosomes to type II pneumocytes, which appear only as hyperplasia, so the cell-type half of the atom is not established."
+    },
+    "18": {
+      "mla": "Pastuszak, Alexander W., et al. \"Occurrence of Pulmonary Oil Microembolism After Testosterone Undecanoate Injection: a Postmarketing Safety Analysis.\" Sexual Medicine, vol. 8, no. 2, 2020, pp. 237-242. PubMed, https://doi.org/10.1016/j.esxm.2020.01.009.",
+      "pmid": "32184081",
+      "doi": "10.1016/j.esxm.2020.01.009",
+      "url": "https://doi.org/10.1016/j.esxm.2020.01.009",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:32184081",
+      "caveat": "[Straight-chain aliphatic acyl ester of eight carbons or ...] supports only “Straight-chain aliphatic acyl ester of eight carbons or longer on a steroid: this oily intramuscular depot design can enter the venous ...”; source does not evidence: neuroleptic alcohol; [embolic obstruction of pulmonary capillaries by oily depot ...] supports only “Pulmonary oil microembolism is a recognised, rare adverse event after intramuscular injection of the oily depot preparation testosterone ...”; verifier note: The clinical entity and its association with an oily depot injection are established, while the capillary-obstruction mechanism is assumed by the diagnostic label."
+    },
+    "19": {
+      "mla": "Lugg, Sebastian T., et al. \"Cigarette Smoke Exposure and Alveolar Macrophages: Mechanisms for Lung Disease.\" Thorax, vol. 77, no. 1, 2022, pp. 94-101. PubMed, https://doi.org/10.1136/thoraxjnl-2020-216296.",
+      "pmid": "33986144",
+      "doi": "10.1136/thoraxjnl-2020-216296",
+      "url": "https://doi.org/10.1136/thoraxjnl-2020-216296",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:33986144",
+      "caveat": "[The lung defends itself continuously] supports only “Alveolar macrophages are the most abundant lung immune cells and the first line of defence against inhaled particulates and pathogens.”; verifier note: First-line pulmonary defence by alveolar macrophages is stated, but the atom's unqualified, continuous self-defence framing is broader than the span.; [The lung defends itself continuously: alveolar macrophages ...] supports only “alveolar macrophages are the most abundant immune cells at the airway-alveolar interface and the first line of defence against inhaled ...”; verifier note: The sentinel and phagocytic role is stated for inhaled particulates and pathogens, but degradation of drug material is not, and the review's thesis is that these functions are readily dysregulated."
+    },
+    "20": {
+      "mla": "Gudis, David A., and Noam A. Cohen. \"Cilia Dysfunction.\" Otolaryngologic Clinics of North America, vol. 43, no. 3, 2010, pp. 461-72, vii. PubMed, https://doi.org/10.1016/j.otc.2010.02.007.",
+      "pmid": "20525503",
+      "doi": "10.1016/j.otc.2010.02.007",
+      "url": "https://doi.org/10.1016/j.otc.2010.02.007",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:20525503",
+      "caveat": "[the mucociliary escalator clears the airways,] supports only “Mucociliary clearance is the primary means by which the upper airway clears itself of pathogens, allergens, debris, and toxins.”; verifier note: The clearing function is directly asserted but restricted to the upper airway, narrower than the atom's the airways."
+    },
+    "21": {
+      "mla": "Olkkola, K. T., and J. Ahonen. \"Midazolam and Other Benzodiazepines.\" Handbook of Experimental Pharmacology, no. 182, 2008, pp. 335-60. PubMed, https://doi.org/10.1007/978-3-540-74806-9_16.",
+      "pmid": "18175099",
+      "doi": "10.1007/978-3-540-74806-9_16",
+      "url": "https://doi.org/10.1007/978-3-540-74806-9_16",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:18175099",
+      "caveat": "[Fused 1,4-benzodiazepine ring, with or without a triazolo ...] supports only “Benzodiazepines have a dose-dependent ventilatory depressant effect, mediated by potentiation of GABA-A receptor inhibition”; verifier note: Dose-dependent ventilatory depression by benzodiazepines is stated, but the atom's anatomical localisation to the brainstem rhythm generator and its whole structural premise are absent from the source."
+    },
+    "22": {
+      "mla": "Malik, S. W., et al. \"Lung Toxicity Associated with Cyclophosphamide Use. Two Distinct Patterns.\" American Journal of Respiratory and Critical Care Medicine, vol. 154, no. 6 Pt 1, 1996, pp. 1851-6. PubMed, https://doi.org/10.1164/ajrccm.154.6.8970380.",
+      "pmid": "8970380",
+      "doi": "10.1164/ajrccm.154.6.8970380",
+      "url": "https://doi.org/10.1164/ajrccm.154.6.8970380",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:8970380",
+      "caveat": "[giving pneumonitis that can progress to pulmonary fibrosis.] supports only “giving cyclophosphamide-induced late-onset pneumonitis that progresses to pulmonary fibrosis with bilateral pleural thickening, while ...”; verifier note: Progression from pneumonitis to pulmonary fibrosis is documented, but only for the late-onset pattern in five patients, while the early-onset pattern resolved on drug withdrawal.; [Bis(2-chloroethyl)amine or oxazaphosphorine ring: alkylates ...] supports only “oxazaphosphorine ring: alkylates alveolar epithelium and capillary endothelium,”; source does not evidence: Bis(2-chloroethyl)amine"
+    },
+    "23": {
+      "mla": "Fauroux, B., et al. \"Cytotoxic Drug-Induced Pulmonary Disease in Infants and Children.\" Pediatric Pulmonology, vol. 18, no. 6, 1994, pp. 347-55. PubMed, https://doi.org/10.1002/ppul.1950180602.",
+      "pmid": "7892068",
+      "doi": "10.1002/ppul.1950180602",
+      "url": "https://doi.org/10.1002/ppul.1950180602",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:7892068",
+      "caveat": "[Antifolate — a 2,4-diaminopteridine or fused pyrimidine ...] verifier note: The clinical half of the atom (antifolate causes hypersensitivity pneumonitis) is supported once methotrexate is identified as an antifolate; the scaffold description is not evidenced at all.; [progress to pulmonary fibrosis] supports only “Six children treated with cyclophosphamide, bleomycin, BCNU or melphalan developed a chronic pneumonitis/fibrosis pattern.”; verifier note: Fibrosis is documented in a subset of cytotoxic-drug-exposed children, but the source does not establish progression as a general course."
+    },
+    "24": {
+      "mla": "Weisenburger, D. D. \"Interstitial Pneumonitis Associated with Azathioprine Therapy.\" American Journal of Clinical Pathology, vol. 69, no. 2, 1978, pp. 181-5. PubMed, https://doi.org/10.1093/ajcp/69.2.181.",
+      "pmid": "629226",
+      "doi": "10.1093/ajcp/69.2.181",
+      "url": "https://doi.org/10.1093/ajcp/69.2.181",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:629226",
+      "caveat": "[Purine bearing a sulfur substituent at the 6-position: ...] supports only “In one reported patient, azathioprine was thought to have caused acute interstitial pneumonitis that reversed on withdrawal of the drug.”; verifier note: Reversible interstitial pneumonitis attributed to azathioprine is reported once; the thiopurine-class and structural claims of the atom go well beyond it."
+    },
+    "25": {
+      "mla": "Nagy, Ferenc, et al. \"Azathioprine-Associated Interstitial Pneumonitis.\" Orvosi Hetilap, vol. 147, no. 6, 2006, pp. 259-62. PubMed, pubmed.ncbi.nlm.nih.gov/16610616/.",
+      "pmid": "16610616",
+      "doi": "",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/16610616/",
+      "source_type": "pubmed",
+      "verdict": "DIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:16610616",
+      "caveat": ""
+    },
+    "26": {
+      "mla": "Nawa, Hideki, et al. \"Evaluation of Potential Complication of Interstitial Lung Disease with Abemaciclib and Palbociclib Treatments.\" Cancer Reports (Hoboken, N.J.), vol. 5, no. 1, 2022, p. e1402. PubMed, https://doi.org/10.1002/cnr2.1402.",
+      "pmid": "33939324",
+      "doi": "10.1002/cnr2.1402",
+      "url": "https://doi.org/10.1002/cnr2.1402",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:33939324",
+      "caveat": "[interstitial lung disease is a recognized class effect of ...] supports only “interstitial lung disease is a reported potential complication of the CDK4/6 inhibitors abemaciclib and palbociclib, detected as a ...”; The abstract's hedge is about incidence, not about recognition; it records an MHLW warning naming ILD as an adverse effect of CDK4/6 inhibitors and detects a signal in two databases for both drugs tested. Regulatory class warning to 'recognized class effect' is one step, so INDIRECT. Incidence, causality and other CDK4/6 inhibitors remain unestablished.; source does not establish: generalisation from the paper's own data beyond the two drugs studied, abemaciclib and palbociclib; any incidence or risk magnitude with a unit; only RORs with 95% CI lower limits >1 and onset medians of 56.0 and 38.0 days are reported; causality, as opposed to a pharmacovigilance disproportionality signal; histological or radiological confirmation of the reported interstitial lung disease; that 'recognized' rests on the paper's own evidence: recognition is attributed to a Japanese regulatory warning reported secondhand, and the authors call occurrence 'unclear'; other CDK4/6 inhibitors, e.g. ribociclib, are not examined; [ATP-competitive kinase inhibitor head — a 2-aminopyrimidine ...] supports only “interstitial lung disease is a recognized class effect of CDK4/6 inhibitors”; Same atom and source as X009, in the V6 file; The abstract reports a regulator's class-level ILD warning for CDK4/6 inhibitors but studies only abemaciclib and palbociclib and calls the occurrence unclear, so it covers one of the atom's four inhibitor classes and none of its structural descriptors. SCOPE_LIMITED stands.; source does not establish: every structural descriptor in the atom: 2-aminopyrimidine, 2-anilinopyrimidine, bicyclic heteroaryl, N-alkoxy benzamide MEK head, acrylamide covalent warhead, amino-heterocycle - none appears in the abstract; the ATP-competitive binding mode; MEK inhibitors as a class; BTK inhibitors as a class; multi-kinase inhibitors as a class; causality: the design is disproportionality analysis of spontaneous reports (ROR) in JADER and FAERS, not a causal or incidence study"
+    },
+    "27": {
+      "mla": "Estupiñán, H. Yesid, et al. \"Comparative Analysis of BTK Inhibitors and Mechanisms Underlying Adverse Effects.\" Frontiers in Cell and Developmental Biology, vol. 9, 2021, p. 630942. PubMed, https://doi.org/10.3389/fcell.2021.630942.",
+      "pmid": "33777941",
+      "doi": "10.3389/fcell.2021.630942",
+      "url": "https://doi.org/10.3389/fcell.2021.630942",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:33777941",
+      "caveat": "[an acrylamide covalent warhead on an amino-heterocycle] supports only “an irreversible covalent binder forming a bond to a cysteine in the BTK catalytic region, as in ibrutinib”; verifier note: Covalent cysteine binding is established for ibrutinib, but the atom's specific acrylamide warhead and amino-heterocycle scaffold, and any pulmonary toxicity, are absent."
+    },
+    "28": {
+      "mla": "Adam, Jarren A., et al. \"Occurrence of Pulmonary Oil Microembolism (POME) with Intramuscular Testosterone Undecanoate Injection: Literature Review.\" International Journal of Impotence Research, vol. 35, no. 5, 2023, pp. 439-446. PubMed, https://doi.org/10.1038/s41443-022-00585-1.",
+      "pmid": "35610506",
+      "doi": "10.1038/s41443-022-00585-1",
+      "url": "https://doi.org/10.1038/s41443-022-00585-1",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:35610506",
+      "caveat": "[causing cough, dyspnea and syncope after injection.] supports only “causing cough after injection.”; source does not evidence: dyspnea, syncope; [and lodge in pulmonary capillaries as microemboli,] supports only “intramuscular oil-based testosterone undecanoate is associated with pulmonary oil microembolism, which is rare and usually resolves ...”; verifier note: Microembolism after oil-depot injection is supported as a named clinical entity, but capillary lodging is not demonstrated and the event is rare."
+    },
+    "29": {
+      "mla": "Carvalho, C. R., et al. \"Chronic Amiodarone Ingestion Induces Pulmonary Toxicity in Rats.\" Brazilian Journal of Medical and Biological Research = Revista Brasileira De Pesquisas Medicas E Biologicas, vol. 29, no. 6, 1996, pp. 779-91. PubMed, pubmed.ncbi.nlm.nih.gov/9070391/.",
+      "pmid": "9070391",
+      "doi": "",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/9070391/",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:9070391",
+      "caveat": "[produces alveolitis] supports only “chronic oral amiodarone at about 50 mg/kg/day in rats produces a focal alveolar inflammatory reaction with reactive alveolar epithelium ...”; evidence is rat, claim is stated for humans; [and produces phospholipidosis and alveolitis.] The abstract states phospholipidosis in so many words and reports an alveolar inflammatory reaction with reactive alveolar epithelium, which is alveolitis under a different name - one restatement step, hence INDIRECT rather than DIRECT. Rat-only and amiodarone-only; the atom is species- and drug-free.; source does not establish: the word and entity 'alveolitis': the abstract reports 'a focal inflammatory reaction with reactive alveolar epithelium', which must be read as alveolitis; human species: male Wistar rats, 133-167 g, n = 97; the subject of 'produces': the atom names no drug; the abstract covers amiodarone only, about 50 mg/kg daily by mouth; simultaneity: phospholipidosis appeared at 3 weeks, the alveolar inflammatory reaction only after 6 and mainly 13 months; fibrosis by light microscopy (visible only by electron microscopy); [and produces phospholipidosis and alveolitis.] Identical atom to X001 in the V6 file, and the reviewer's specific point checks out: 9070391 carries both halves of the claim, phospholipidosis verbatim and alveolitis as an alveolar inflammatory reaction. Recording it as 'searched, nothing found' while the same abstract is cited elsewhere in the file was an error.; source does not establish: the word and entity 'alveolitis': the abstract says 'a focal inflammatory reaction with reactive alveolar epithelium'; human species: male Wistar rats, 133-167 g; the subject of 'produces': amiodarone only, about 50 mg/kg daily; simultaneity of the two findings: phospholipidosis at 3 weeks, alveolar inflammation after 6-13 months; fibrosis by light microscopy"
+    },
+    "30": {
+      "mla": "Peacock, Sharon J., and Gavin K. Paterson. \"Mechanisms of Methicillin Resistance in Staphylococcus Aureus.\" Annual Review of Biochemistry, vol. 84, 2015, pp. 577-601. PubMed, https://doi.org/10.1146/annurev-biochem-060614-034516.",
+      "pmid": "26034890",
+      "doi": "10.1146/annurev-biochem-060614-034516",
+      "url": "https://doi.org/10.1146/annurev-biochem-060614-034516",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "proposition",
+      "ref_id": "pmid:26034890",
+      "caveat": "[Four-membered beta-lactam fused to a thiazolidine or ...] evidence is non_mammal, claim is stated for humans"
+    },
+    "31": {
+      "mla": "Fu, K. P., et al. \"Pharmacokinetics of Cefotaxime.\" Antimicrobial Agents and Chemotherapy, vol. 16, no. 5, 1979, pp. 592-7. PubMed, https://doi.org/10.1128/AAC.16.5.592.",
+      "pmid": "526000",
+      "doi": "10.1128/AAC.16.5.592",
+      "url": "https://doi.org/10.1128/AAC.16.5.592",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:526000",
+      "caveat": "[and is renally cleared within hours.] supports only “Cefotaxime has a serum half-life of about 1.1-1.3 h in humans with a renal clearance of 130 ml/min per 1.73 m2.”; verifier note: An hours-scale half-life and measurable renal clearance are directly reported, but the source does not support renal clearance as the dominant route.; [renally cleared within hours] supports only “Cefotaxime has a serum half-life of about 1.1-1.3 h in humans with a renal clearance of 130 ml/min per 1.73 m2.”; verifier note: An hours-scale half-life and a measured renal clearance are reported, but not that renal elimination accounts for the bulk of clearance."
+    },
+    "32": {
+      "mla": "Tatsumi, Yoshiyuki, et al. \"Mechanism of Action of Efinaconazole, a Novel Triazole Antifungal Agent.\" Antimicrobial Agents and Chemotherapy, vol. 57, no. 5, 2013, pp. 2405-9. PubMed, https://doi.org/10.1128/AAC.02063-12.",
+      "pmid": "23459486",
+      "doi": "10.1128/AAC.02063-12",
+      "url": "https://doi.org/10.1128/AAC.02063-12",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:23459486",
+      "caveat": "[Azole ring joined to a tertiary carbinol or a benzylic ...] supports only “Azole ring joined to a tertiary carbinol in an antifungal scaffold: the target is a fungal cytochrome P450”; evidence is non_mammal, claim is stated for humans; source does not evidence: aromatase-inhibitor scaffold"
+    },
+    "33": {
+      "mla": "Barnes, P. J. \"Anti-Inflammatory Actions of Glucocorticoids: Molecular Mechanisms.\" Clinical Science, vol. 94, no. 6, 1998, pp. 557-72. PubMed, https://doi.org/10.1042/cs0940557.",
+      "pmid": "9854452",
+      "doi": "10.1042/cs0940557",
+      "url": "https://doi.org/10.1042/cs0940557",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:9854452",
+      "caveat": "[Steroid nucleus carrying only small polar groups ...] supports only “these receptor agonists suppress inflammatory transcription”; Source establishes the mechanism only: glucocorticoids bind cytoplasmic glucocorticoid receptors and inhibit the expression of multiple inflammatory genes via NF-kappaB and AP-1 and histone deacetylation. It contains no steroid substituent chemistry - no 11-hydroxy/11-keto, 16,17-acetonide, free hydroxyl or C2-C4 ester - so none of those four chemotype items is evidenced, and it addresses airway rather than specifically alveolar inflammation."
+    },
+    "34": {
+      "mla": "van den Bosch, Laura, et al. \"Immunomodulatory Treatment of Interstitial Lung Disease.\" Therapeutic Advances in Respiratory Disease, vol. 16, 2022, p. 17534666221117002. PubMed, https://doi.org/10.1177/17534666221117002.",
+      "pmid": "35938712",
+      "doi": "10.1177/17534666221117002",
+      "url": "https://doi.org/10.1177/17534666221117002",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "proposition",
+      "ref_id": "pmid:35938712",
+      "caveat": "[the standard treatment] I read the fragment as the parent uses it: corticosteroids are the standard treatment for inflammatory and fibrosing lung disease. The span makes immunosuppression the cornerstone of therapy in non-IPF ILD and lists corticosteroids first among those agents, so steroid standard-of-care follows in one step; the atom's exclusivity and its reach to IPF-type fibrosing disease are not carried by the span.; source does not establish: exclusivity: 'the standard treatment' - corticosteroids are one of six listed agents, and the cornerstone status is asserted for immunosuppression as a class, not for steroids alone; fibrosing lung disease: IPF, the prototypical fibrosing ILD, is explicitly placed outside the span's scope; the steroid nucleus and its permitted substituents (11-hydroxy or 11-keto, 16,17-acetonide, free hydroxyl, short C2-C4 ester); receptor agonism at the glucocorticoid receptor; suppression of alveolar inflammatory transcription; no dose, duration or other number with a unit"
+    },
+    "35": {
+      "mla": "Madhu, C., and C. D. Klaassen. \"Protective Effect of pregnenolone-16 Alpha-Carbonitrile on Acetaminophen-Induced Hepatotoxicity in Hamsters.\" Toxicology and Applied Pharmacology, vol. 109, no. 2, 1991, pp. 305-13. PubMed, https://doi.org/10.1016/0041-008x(91)90177-g.",
+      "pmid": "2068728",
+      "doi": "10.1016/0041-008x(91)90177-g",
+      "url": "https://doi.org/10.1016/0041-008x(91)90177-g",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:2068728",
+      "caveat": "[Small single-ring anilide, phenol, oxazolone or simple ...] supports only “Small single-ring anilide, phenol scaffold cleared by direct glucuronidation or sulfation: conjugative elimination competes with oxidative ...”; evidence is other_mammal, claim is stated for humans; source does not evidence: oxazolone, simple azine/azole; [conjugative elimination competes with oxidative ...] supports only “in hamster liver, PCN pretreatment raises acetaminophen glucuronidation while lowering cytochrome P450 formation of its reactive metabolite”; evidence is other_mammal, claim is stated for humans"
+    },
+    "36": {
+      "mla": "Wagner, Claudia C., et al. \"A Combined Accelerator Mass Spectrometry-Positron Emission Tomography Human Microdose Study with 14C- and 11C-labelled Verapamil.\" Clinical Pharmacokinetics, vol. 50, no. 2, 2011, pp. 111-20. PubMed, https://doi.org/10.2165/11537250-000000000-00000.",
+      "pmid": "21142292",
+      "doi": "10.2165/11537250-000000000-00000",
+      "url": "https://doi.org/10.2165/11537250-000000000-00000",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:21142292",
+      "caveat": "[given at sub-pharmacological diagnostic doses] verifier note: The sub-pharmacological dose magnitude is documented, but the atom's 'diagnostic' framing has no counterpart in the source."
+    },
+    "37": {
+      "mla": "Leitsch, David, et al. \"The Flavin Inhibitor Diphenyleneiodonium Renders Trichomonas Vaginalis Resistant to Metronidazole, Inhibits Thioredoxin Reductase and Flavin Reductase, and Shuts off Hydrogenosomal Enzymatic Pathways.\" Molecular and Biochemical Parasitology, vol. 171, no. 1, 2010, pp. 17-24. PubMed, https://doi.org/10.1016/j.molbiopara.2010.01.001.",
+      "pmid": "20093143",
+      "doi": "10.1016/j.molbiopara.2010.01.001",
+      "url": "https://doi.org/10.1016/j.molbiopara.2010.01.001",
+      "source_type": "pubmed",
+      "verdict": "CONTRADICTED",
+      "supports": "contradicts",
+      "ref_id": "pmid:20093143",
+      "caveat": "CONTRADICTS: Nitro group attached to an imidazole or other azole ring of an antimicrobial scaffold: reduction to a ...; requires the low-redox-potential ferredoxin systems of anaerobic organisms; Duplicate of F092 (pulmonary_V6): the recorded quote restates the clause's own anaerobe-selectivity premise and never mentions ferredoxin; the flavin-enzyme sentence is the refuting span. (For a nitro-azole antimicrobial, nitro-group reduction to a reactive ...; Duplicate of F093 (pulmonary_V6): the recorded quote supports the clause's anaerobe half, so the ferredoxin requirement must be refuted by the thioredoxin-reductase sentence instead. (Nitro-group reduction requires the low-redox-potential ferredoxin systems ..."
+    },
+    "38": {
+      "mla": "Suchy, R., and M. Pfeifer. \"Therapeutic Relevance of HRCT Findings from a Pneumological Viewpoint.\" Der Radiologe, vol. 54, no. 12, 2014, pp. 1199-203. PubMed, https://doi.org/10.1007/s00117-014-2739-y.",
+      "pmid": "25432871",
+      "doi": "10.1007/s00117-014-2739-y",
+      "url": "https://doi.org/10.1007/s00117-014-2739-y",
+      "source_type": "pubmed",
+      "verdict": "CONTRADICTED",
+      "supports": "contradicts",
+      "ref_id": "pmid:25432871",
+      "caveat": "CONTRADICTS: and are the standard treatment for inflammatory and fibrosing lung disease.; Duplicate of F094 (pulmonary_V6): the recorded COP sentence exemplifies the clause; the IPF sentence is what contradicts the 'fibrosing' half. (Corticosteroids are the standard treatment for inflammatory AND fibrosing lung disease.; IPF is treated with ..."
+    },
+    "39": {
+      "mla": "Fayz, S., et al. \"Inhibition of Acetaminophen Sulfation by 2,6-dichloro-4-nitrophenol in the Perfused Rat Liver Preparation. Lack of a Compensatory Increase of Glucuronidation.\" Drug Metabolism and Disposition: the Biological Fate of Chemicals, vol. 12, no. 3, 1984, pp. 323-9. PubMed, pubmed.ncbi.nlm.nih.gov/6145559/.",
+      "pmid": "6145559",
+      "doi": "",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/6145559/",
+      "source_type": "pubmed",
+      "verdict": "CONTRADICTED",
+      "supports": "contradicts",
+      "ref_id": "pmid:6145559",
+      "caveat": "CONTRADICTS: Small single-ring anilide, phenol, oxazolone or simple azine/azole scaffold cleared by direct glucuronidation ...; Duplicate of F095 (pulmonary_V6): the competition claim is contradicted, but only for acetaminophen in one perfused rat liver at low substrate concentrations. (For small anilide/phenol/oxazolone/azine-azole scaffolds, conjugative elimination competes with ..."
+    }
+  },
+  "contradiction_flags": [
+    {
+      "json_path": "relevant_proteins.ACE.logic",
+      "segment_id": "C-e775701960#s3",
+      "segment_text": "so the peptides accumulate, ",
+      "pmid": "11265121",
+      "doi": "10.1248/yakushi.121.253",
+      "mla": "Okumura, H., et al. \"No Relation Between Angiotensin-Converting Enzyme (ACE) Inhibitor-Induced Cough and ACE Gene Polymorphism, Plasma Bradykinin, Substance P and ACE Inhibitor Concentration in Japanese Patients.\" Yakugaku Zasshi, vol. 121, no. 3, 2001, pp. 253-7. PubMed, https://doi.org/10.1248/yakushi.121.253.",
+      "contradicting_quote": "The plasma levels of BK and SP did not significantly change after trandolapril administration in the patients with and without coughs.",
+      "note": "Duplicate of F088 (same segment in pulmonary_V6): the null plasma result conflicts with systemic accumulation but not with local airway/vascular accumulation, and rests on 12 patients at 1 mg trandolapril. (With ACE inhibited, bradykinin and substance P accumulate (per the preceding clause, in the pulmonary vasculature and airways).; Plasma BK and SP did not change significantly after trandolapril in patients with or without cough, and did not differ between the two groups.)",
+      "source_species": "human",
+      "source_system": "clinical",
+      "origin": "blind_verification",
+      "scope": "plasma bradykinin and substance P in 12 patients on trandolapril 1 mg/day; local pulmonary vascular/airway tissue peptide levels, which the atom's sentence is about, were never measured"
+    },
+    {
+      "json_path": "pathway_rules[0]",
+      "segment_id": "C-e2471d8b2c#s1",
+      "segment_text": "Blocking alveolar epithelial repair (EGFR) or endothelial survival signaling (VEGFR2) prevents regeneration of the alveolar-capillary unit, ",
+      "pmid": "11104784",
+      "doi": "10.1172/JCI10259",
+      "mla": "Kasahara, Y., et al. \"Inhibition of VEGF Receptors Causes Lung Cell Apoptosis and Emphysema.\" The Journal of Clinical Investigation, vol. 106, no. 11, 2000, pp. 1311-9. PubMed, https://doi.org/10.1172/JCI10259.",
+      "contradicting_quote": "The VEGF receptor inhibitor SU5416 induced alveolar septal cell apoptosis but did not inhibit lung cell proliferation.",
+      "note": "Duplicate of F089 (pulmonary_V6): preserved proliferation contradicts 'prevents regeneration' for the VEGFR2 arm in rats only, with the EGFR half untested. (Blocking EGFR-driven alveolar epithelial repair or VEGFR2-driven endothelial survival prevents regeneration of the alveolar-capillary unit.; SU5416 caused alveolar septal cell apoptosis and emphysema in rats but did not inhibit lung cell proliferation.)",
+      "source_species": "rat",
+      "source_system": "in_vivo_animal",
+      "origin": "blind_verification",
+      "scope": "rat, VEGF-receptor blockade by SU5416 only; the EGFR/alveolar-epithelial-repair half of the clause is untested and 'regeneration' is probed only as lung cell proliferation"
+    },
+    {
+      "json_path": "pathway_rules[0]",
+      "segment_id": "C-e2471d8b2c#d2",
+      "segment_text": "Blocking endothelial survival signaling (VEGFR2) prevents regeneration of the alveolar-capillary unit",
+      "pmid": "11104784",
+      "doi": "10.1172/JCI10259",
+      "mla": "Kasahara, Y., et al. \"Inhibition of VEGF Receptors Causes Lung Cell Apoptosis and Emphysema.\" The Journal of Clinical Investigation, vol. 106, no. 11, 2000, pp. 1311-9. PubMed, https://doi.org/10.1172/JCI10259.",
+      "contradicting_quote": "The VEGF receptor inhibitor SU5416 induced alveolar septal cell apoptosis but did not inhibit lung cell proliferation.",
+      "note": "Duplicate of F090 (pulmonary_V6): the recorded quote supports maintenance-by-VEGFR and contradicts nothing; the proliferation sentence is the refuting span. (Blocking endothelial survival signaling (VEGFR2) prevents regeneration of the alveolar-capillary unit.; Caspase inhibition prevented SU5416-induced apoptosis and emphysema, supporting VEGF-receptor dependence of alveolar MAINTENANCE; separately, SU5416 did not inhibit lung cell proliferation.)",
+      "source_species": "rat",
+      "source_system": "in_vivo_animal",
+      "origin": "blind_verification",
+      "scope": "whole atom"
+    },
+    {
+      "json_path": "molecular_context.no_features[1]",
+      "segment_id": "C-b1c18de966#s1",
+      "segment_text": "Nitro group attached to an imidazole or other azole ring of an antimicrobial scaffold: reduction to a reactive species requires the low-redox-potential ferredoxin systems of anaerobic organisms ",
+      "pmid": "20093143",
+      "doi": "10.1016/j.molbiopara.2010.01.001",
+      "mla": "Leitsch, David, et al. \"The Flavin Inhibitor Diphenyleneiodonium Renders Trichomonas Vaginalis Resistant to Metronidazole, Inhibits Thioredoxin Reductase and Flavin Reductase, and Shuts off Hydrogenosomal Enzymatic Pathways.\" Molecular and Biochemical Parasitology, vol. 171, no. 1, 2010, pp. 17-24. PubMed, https://doi.org/10.1016/j.molbiopara.2010.01.001.",
+      "contradicting_quote": "In our previous work we identified the flavin enzyme thioredoxin reductase as an electron donor to 5-nitroimidazole drugs in T. vaginalis and observed that highly metronidazole-resistant cell lines lack thioredoxin reductase and flavin reductase activities.",
+      "note": "Duplicate of F092 (pulmonary_V6): the recorded quote restates the clause's own anaerobe-selectivity premise and never mentions ferredoxin; the flavin-enzyme sentence is the refuting span. (For a nitro-azole antimicrobial, nitro-group reduction to a reactive species requires the low-redox-potential ferredoxin systems of anaerobic organisms.; Thioredoxin reductase, a flavin enzyme, donates electrons to 5-nitroimidazoles in T. vaginalis, and the flavin inhibitor DPI abolished metronidazole activation.)",
+      "source_species": "Trichomonas vaginalis (microaerophilic protozoan)",
+      "source_system": "cell_line",
+      "origin": "blind_verification",
+      "scope": "whole atom"
+    },
+    {
+      "json_path": "molecular_context.no_features[1]",
+      "segment_id": "C-b1c18de966#d1",
+      "segment_text": "requires the low-redox-potential ferredoxin systems of anaerobic organisms",
+      "pmid": "20093143",
+      "doi": "10.1016/j.molbiopara.2010.01.001",
+      "mla": "Leitsch, David, et al. \"The Flavin Inhibitor Diphenyleneiodonium Renders Trichomonas Vaginalis Resistant to Metronidazole, Inhibits Thioredoxin Reductase and Flavin Reductase, and Shuts off Hydrogenosomal Enzymatic Pathways.\" Molecular and Biochemical Parasitology, vol. 171, no. 1, 2010, pp. 17-24. PubMed, https://doi.org/10.1016/j.molbiopara.2010.01.001.",
+      "contradicting_quote": "In our previous work we identified the flavin enzyme thioredoxin reductase as an electron donor to 5-nitroimidazole drugs in T. vaginalis and observed that highly metronidazole-resistant cell lines lack thioredoxin reductase and flavin reductase activities.",
+      "note": "Duplicate of F093 (pulmonary_V6): the recorded quote supports the clause's anaerobe half, so the ferredoxin requirement must be refuted by the thioredoxin-reductase sentence instead. (Nitro-group reduction requires the low-redox-potential ferredoxin systems of anaerobic organisms.; A flavin enzyme (thioredoxin reductase) plus free flavins, not ferredoxin, supply the reducing electrons in T. vaginalis; resistant lines lack these flavin activities.)",
+      "source_species": "Trichomonas vaginalis (microaerophilic protozoan)",
+      "source_system": "cell_line",
+      "origin": "blind_verification",
+      "scope": "whole atom"
+    },
+    {
+      "json_path": "molecular_context.no_features[5]",
+      "segment_id": "C-381a6dabee#s2",
+      "segment_text": "and are the standard treatment for inflammatory and fibrosing lung disease.",
+      "pmid": "25432871",
+      "doi": "10.1007/s00117-014-2739-y",
+      "mla": "Suchy, R., and M. Pfeifer. \"Therapeutic Relevance of HRCT Findings from a Pneumological Viewpoint.\" Der Radiologe, vol. 54, no. 12, 2014, pp. 1199-203. PubMed, https://doi.org/10.1007/s00117-014-2739-y.",
+      "contradicting_quote": "In IPF antifibrotic therapy with pirfenidone (approval since 2011) or the triple tyrosine kinase inhibitor nintendanib (pending approval in 2015) can reduce disease progression but therapy with acetylcysteine alone or in combination with prednisolone and azathioprine failed to meet efficacy endpoints.",
+      "note": "Duplicate of F094 (pulmonary_V6): the recorded COP sentence exemplifies the clause; the IPF sentence is what contradicts the 'fibrosing' half. (Corticosteroids are the standard treatment for inflammatory AND fibrosing lung disease.; IPF is treated with antifibrotics while prednisolone-containing regimens failed efficacy endpoints; corticosteroids remain standard only in cryptogenic organizing pneumonia among the entities reviewed.)",
+      "source_species": "human",
+      "source_system": "clinical",
+      "origin": "blind_verification",
+      "scope": "whole atom"
+    },
+    {
+      "json_path": "molecular_context.no_features[6]",
+      "segment_id": "C-a4384bddce#s1",
+      "segment_text": "Small single-ring anilide, phenol, oxazolone or simple azine/azole scaffold cleared by direct glucuronidation or sulfation: conjugative elimination competes with oxidative bioactivation, ",
+      "pmid": "6145559",
+      "doi": "",
+      "mla": "Fayz, S., et al. \"Inhibition of Acetaminophen Sulfation by 2,6-dichloro-4-nitrophenol in the Perfused Rat Liver Preparation. Lack of a Compensatory Increase of Glucuronidation.\" Drug Metabolism and Disposition: the Biological Fate of Chemicals, vol. 12, no. 3, 1984, pp. 323-9. PubMed, pubmed.ncbi.nlm.nih.gov/6145559/.",
+      "contradicting_quote": "The formation of glucuronide and glutathione conjugates of acetaminophen was insignificant under conditions when sulfation was suppressed either by the absence of inorganic sulfate or the presence of DCNP",
+      "note": "Duplicate of F095 (pulmonary_V6): the competition claim is contradicted, but only for acetaminophen in one perfused rat liver at low substrate concentrations. (For small anilide/phenol/oxazolone/azine-azole scaffolds, conjugative elimination competes with oxidative bioactivation.; Suppressing sulfation produced no meaningful rise in glucuronide or glutathione conjugate formation (glucuronidation +28%, glutathione conjugation unaffected), i.e. no competing shift toward bioactivation.)",
+      "source_species": "rat",
+      "source_system": "in_vivo_animal",
+      "origin": "blind_verification",
+      "scope": "acetaminophen alone, once-through perfused rat liver, sulfation suppressed by sulfate-free perfusate or DCNP at low/tracer substrate concentrations"
+    }
+  ],
+  "citation_meta": {
+    "pipeline_version": "1.2",
+    "marker_legend": {
+      "[n]": "the source supports this assertion",
+      "[nt]": "the source confirms the terminology only; it does not establish the assertion",
+      "[nc]": "the source supports this assertion but contradicts something else in this file; see contradiction_flags and the reference's caveat",
+      "[n!]": "the source DISPUTES this assertion. It is not support. The refuting quote is in contradiction_flags"
+    },
+    "source_file": "unitox_cliff/knowledge_pulmonary_V5.json",
+    "attribution": "Bibliographic metadata retrieved from PubMed (U.S. National Library of Medicine). 36 of 39 references resolve through a DOI link; the remaining 3 have no DOI in PubMed and are addressed by PMID.",
+    "coverage": {
+      "segments": 128,
+      "cited": 67,
+      "uncited": 61,
+      "cited_factual": 30,
+      "cited_terminology_only": 37,
+      "contradictions": 7,
+      "references": 39,
+      "note": "`cited` counts every atom with an admissible reference. `cited_factual` excludes atoms that are bare terms rather than propositions, where the citation confirms vocabulary rather than a finding."
+    },
+    "duplicate_of": "unitox_cliff/knowledge_pulmonary_V6.json is a strict superset of this file (V6 adds one yes_feature and one no_feature). Do not count both when aggregating."
+  }
+}

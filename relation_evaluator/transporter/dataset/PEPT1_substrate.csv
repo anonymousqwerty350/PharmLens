@@ -1,0 +1,13 @@
+PID,Source,Preferred_name,SMILES,label,measured,n_records,assay
+CHEMBL1201110,ChEMBL_Km_Vmax,VALACYCLOVIR HYDROCHLORIDE,CC(C)[C@H](N)C(=O)OCCOCn1cnc2c(=O)nc(N)[nH]c21,1,Km,4,Permeability of the compound assessed as human PepT1-mediated drug uptake in CHO cells at pH 7.9
+CHEMBL175737,ChEMBL_Km_Vmax,GLYCYLSARCOSINE,CN(CC(=O)O)C(=O)CN,1,Km,9,TP_TRANSPORTER: uptake in PEPT1-overexpressing Caco-2 cells
+CHEMBL2074761,ChEMBL_Km_Vmax,,O=C1N[C@@H](Cc2ccccc2)C(=O)N[C@H]1CO,1,Km,1,TP_TRANSPORTER: uptake in Caco-2 cells
+CHEMBL2074804,ChEMBL_Km_Vmax,,O=C1N[C@@H](Cc2ccc(O)cc2)C(=O)N[C@H]1CO,1,Km,1,TP_TRANSPORTER: uptake in Caco-2 cells
+CHEMBL2074827,ChEMBL_Km_Vmax,,O=C1CNC(=O)[C@H](Cc2ccc(O)cc2)N1,1,Km,1,TP_TRANSPORTER: uptake in Caco-2 cells
+CHEMBL2074841,ChEMBL_Km_Vmax,,O=C1CNC(=O)[C@H](Cc2ccccc2)N1,1,Km,1,TP_TRANSPORTER: uptake in Caco-2 cells
+CHEMBL2229108,ChEMBL_Km_Vmax,,O=C1N[C@@H](CO)C(=O)N2C[C@H](O)C[C@@H]12,1,Km,1,Substrate activity at PEPT1 in human Caco2 cells assessed as Km measured after 10 mins by Eadie-Hofstee plot analysis
+CHEMBL3707141,ChEMBL_Km_Vmax,,[3H]C(C(=O)O)N(C)C(=O)CN,1,"Km,Vmax,Vmax/Km",3,Activity at human recombinant PEPT1 expressed in Pichia pastoris GS115 after 30s by dual-channel liquid scintillation counting analysis
+CHEMBL4460144,ChEMBL_Km_Vmax,,O=C(O)[C@H](CO)NC(=O)[C@@H]1C[C@@H](O)CN1,1,Km,1,Substrate activity at PEPT1 in human Caco2 cells assessed as Km measured after 10 mins by Eadie-Hofstee plot analysis
+CHEMBL4540326,ChEMBL_Km_Vmax,,CC(C)[C@H](N)C(=O)OC[C@@H]1NC(=O)[C@@H]2C[C@@H](O)CN2C1=O,1,Km,1,Substrate activity at PEPT1 in human Caco2 cells assessed as Km measured after 10 mins by Eadie-Hofstee plot analysis
+CHEMBL485830,ChEMBL_Km_Vmax,,NC(=O)CC[C@H](N)C(=O)N[C@@H](CO)C(=O)N1CCC[C@H]1C(=O)O,1,Km,1,Activity of human PepT1 expressed in xenopus laevis oocyte assessed as induction of inward current
+CHEMBL486028,ChEMBL_Km_Vmax,,CC(=O)N1CCC[C@H]1C(=O)N[C@@H](C)C(=O)N[C@@H](CS)C(=O)O,1,Km,1,Activity of human PepT1 expressed in xenopus laevis oocyte assessed as induction of inward current

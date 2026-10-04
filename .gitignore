@@ -1,0 +1,24 @@
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Secrets. .env.example is tracked; .env is not.
+.env
+
+# Memoized work, not pipeline stages: caches are rebuilt on demand, only slower and more
+# expensive. See docs/framework_overview.md.
+agent/cache/
+
+# Run output.
+agent/results/
+*.log
+
+# Dataset-build scratch: the raw ChEMBL responses (~700 MB) and the paper-SI working
+# directory. Both are re-fetched by the build scripts; only the CSVs they distil into
+# */dataset/ are tracked.
+relation_evaluator/.chembl_cache/
+relation_evaluator/transporter/data/
+
+# The two trees too large to ship — see README.md.
+/dataset/
+docking_pipeline/results/

@@ -1,0 +1,21 @@
+PID,Source,Preferred_name,SMILES,label,measured,n_records,assay
+CHEMBL1162495,ChEMBL_Km_Vmax,GLUTARATE,O=C(O)CCCC(=O)O,1,Km,1,TP_TRANSPORTER: uptake in OAT1-expressing CHO cells
+CHEMBL1231562,ChEMBL_Km_Vmax,,CCCc1oc(CCC(=O)O)c(C(=O)O)c1C,1,Km,1,TP_TRANSPORTER: uptake in OAT1-expressing HEK293 cell
+CHEMBL1233636,ChEMBL_Km_Vmax,INDOXYL SULFATE,O=S(=O)(O)Oc1c[nH]c2ccccc12,1,Km,1,TP_TRANSPORTER: uptake in OAT1-expressing HEK293 cell
+CHEMBL129,ChEMBL_Km_Vmax,ZIDOVUDINE,Cc1cn([C@H]2C[C@H](N=[N+]=[N-])[C@@H](CO)O2)c(=O)[nH]c1=O,1,Km,1,TP_TRANSPORTER: uptake in OAT1-expressing S2 cells
+CHEMBL182,ChEMBL_Km_Vmax,GANCICLOVIR,Nc1nc2c(ncn2COC(CO)CO)c(=O)[nH]1,1,Km,1,TP_TRANSPORTER: uptake in OAT1-expressing S2 cells
+CHEMBL184,ChEMBL_Km_Vmax,ACYCLOVIR,Nc1nc2c(ncn2COCCO)c(=O)[nH]1,1,"Jmax,Km",3,TP_TRANSPORTER: uptake in OAT1-expressing S2 cells
+CHEMBL2074590,ChEMBL_Km_Vmax,INDOLE ACETATE,CC(=O)Oc1c[nH]c2ccccc12,1,Km,1,TP_TRANSPORTER: uptake in OAT1-expressing HEK293 cell
+CHEMBL252036,ChEMBL_Km_Vmax,GS-9148,Nc1ncnc2c1ncn2[C@@H]1O[C@H](OCP(=O)(O)O)C=C1F,1,"Km,Vmax",2,Activity of human OAT1 transfected in CHO cells
+CHEMBL318164,ChEMBL_Km_Vmax,6-Carboxyfluorescein,O=C(O)c1ccc(C(=O)O)c(-c2c3ccc(=O)cc-3oc3cc(O)ccc23)c1,1,Km,1,TP_TRANSPORTER: uptake in OAT1-expressing CHO cells
+CHEMBL34259,ChEMBL_Km_Vmax,METHOTREXATE,CN(Cc1cnc2nc(N)nc(N)c2n1)c1ccc(C(=O)N[C@@H](CCC(=O)O)C(=O)O)cc1,1,Km,1,TP_TRANSPORTER: uptake in OAT1-expressing S2 cells
+CHEMBL392630,ChEMBL_Km_Vmax,CYCLIC CIDOFOVIR,Nc1ccn(C[C@H]2COP(=O)(O)CO2)c(=O)n1,1,Km,1,TP_TRANSPORTER: uptake in OAT1-expressing CHO cells
+CHEMBL461,ChEMBL_Km_Vmax,HIPPURIC ACID,O=C(O)CNC(=O)c1ccccc1,1,Km,1,TP_TRANSPORTER: uptake in OAT1-expressing HEK293 cell
+CHEMBL463,ChEMBL_Km_Vmax,AMINOHIPPURIC ACID,Nc1ccc(C(=O)NCC(=O)O)cc1,1,"Jmax,Km",10,TP_TRANSPORTER: uptake in OAT1-expressing CHO cells
+CHEMBL483,ChEMBL_Km_Vmax,TENOFOVIR ANHYDROUS,C[C@H](Cn1cnc2c(N)ncnc21)OCP(=O)(O)O,1,"Km,Vmax",2,Activity of human OAT1 transfected in CHO cells
+CHEMBL484,ChEMBL_Km_Vmax,ADEFOVIR,Nc1ncnc2c1ncn2CCOCP(=O)(O)O,1,"Km,Vmax",4,Activity of human OAT1 transfected in CHO cells
+CHEMBL5314375,ChEMBL_Km_Vmax,CIDOFOVIR,Nc1ccn(C[C@@H](CO)OCP(=O)(O)O)c(=O)n1,1,"Km,Vmax",4,Activity of human OAT1 transfected in CHO cells
+CHEMBL548,ChEMBL_Km_Vmax,DINOPROSTONE,CCCCC[C@H](O)/C=C/[C@H]1[C@H](O)CC(=O)[C@@H]1C/C=C\CCCC(=O)O,1,Km,1,TP_TRANSPORTER: uptake in OAT1-expressing S2 cells
+CHEMBL589366,ChEMBL_Km_Vmax,3R14S-OCHRATOXIN A,C[C@@H]1Cc2c(Cl)cc(C(=O)N[C@@H](Cc3ccccc3)C(=O)O)c(O)c2C(=O)O1,1,Km,1,TP_TRANSPORTER: uptake in OAT1-expressing S2 cells
+CHEMBL792,ChEMBL_Km_Vmax,URIC ACID,Oc1nc(O)c2nc(O)[nH]c2n1,1,Km,1,TP_TRANSPORTER: uptake in OAT1-expressing S2 cells
+CHEMBL815,ChEMBL_Km_Vmax,DINOPROST,CCCCC[C@H](O)/C=C/[C@@H]1[C@@H](C/C=C\CCCC(=O)O)[C@@H](O)C[C@H]1O,1,Km,1,TP_TRANSPORTER: uptake in OAT1-expressing S2 cells

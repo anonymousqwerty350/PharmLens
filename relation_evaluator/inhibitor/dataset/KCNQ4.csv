@@ -1,0 +1,2 @@
+smiles,label,type,pChEMBL,n_records,chembl_ids
+CC[C@H](C(=O)Nc1ccccc1N1CCCC1)c1ccccc1,1,IC50,6.7,1,CHEMBL2164048

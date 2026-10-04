@@ -1,0 +1,747 @@
+{
+  "task": "hia",
+  "task_description": "Human Intestinal Absorption (HIA) prediction",
+  "prediction_question": "Is this molecule well absorbed in the human intestine (HIA-positive)? Your final answer must be formatted as either: 'Final answer: Absorption' or 'Final answer: Non-Absorption'.",
+  "relevant_proteins": {
+    "PEPT1": {
+      "pdb_id": "7PMX",
+      "role": "Intestinal peptide influx",
+      "logic": "Proton-coupled oligopeptide transporter (SLC15A1) on the apical membrane of small-intestinal enterocytes. Although named for di- and tripeptides, its role in drug absorption is as a carrier-mediated uptake route for small-molecule drugs presenting a dipeptide-like scaffold. Its broad recognition of di-/tripeptide geometry is why chemically distinct classes are transported: beta-lactam antibiotics, ACE inhibitors, and amino-acid ester prodrugs. Molecules larger than a tripeptide are generally not transported.",
+      "role_cited": "Intestinal peptide influx[2t]",
+      "logic_cited": "Proton-coupled oligopeptide transporter (SLC15A1)[3t] on the apical membrane of small-intestinal enterocytes[4t]. Although named for di- and tripeptides[5t], its role in drug absorption is as a carrier-mediated uptake route for small-molecule drugs presenting a dipeptide-like scaffold[4]. Its broad recognition of di-/tripeptide geometry[4t] is why chemically distinct classes are transported: beta-lactam antibiotics, ACE inhibitors, and amino-acid ester prodrugs[5]. Molecules larger than a tripeptide are generally not transported."
+    },
+    "Pgp": {
+      "pdb_id": "9CTF",
+      "role": "Intestinal apical efflux",
+      "logic": "ATP-binding cassette efflux transporter (ABCB1) on the apical membrane of enterocytes. It captures lipophilic and amphiphilic substrates from the membrane inner leaflet and extrudes them back into the lumen. Its transport capacity is finite and becomes saturated at the drug concentrations reached in the lumen after an ordinary oral dose, so it slows rather than prevents the net movement of a permeable molecule.",
+      "role_cited": "Intestinal apical efflux[6]",
+      "logic_cited": "ATP-binding cassette efflux transporter (ABCB1) on the apical membrane of enterocytes[6t]. It captures lipophilic and amphiphilic substrates from the membrane inner leaflet[7t] and extrudes them back into the lumen[6]. Its transport capacity is finite[8] and becomes saturated at the drug concentrations reached in the lumen after an ordinary oral dose[8t], so it slows rather than prevents the net movement[8] of a permeable molecule[8]."
+    },
+    "BCRP": {
+      "pdb_id": "6VXI",
+      "role": "Intestinal apical efflux",
+      "logic": "Homodimeric ATP-binding cassette efflux transporter (ABCG2) on the apical brush-border membrane. It preferentially effluxes planar aromatic and heterocyclic compounds and their sulfate and glucuronide conjugates. Like P-gp it is saturable and its substrate space overlaps with P-gp, and it opposes rather than abolishes the absorption of a passively permeable molecule.",
+      "role_cited": "Intestinal apical efflux[9c]",
+      "logic_cited": "Homodimeric ATP-binding cassette efflux transporter (ABCG2)[10t] on the apical brush-border membrane[10t]. It preferentially effluxes planar aromatic and heterocyclic compounds and their sulfate and glucuronide conjugates[10t]. Like P-gp it is saturable[11][48!] and its substrate space overlaps with P-gp[12t], and it opposes rather than abolishes the absorption[13] of a passively permeable molecule."
+    },
+    "CYP3A4": {
+      "pdb_id": "5TE8",
+      "role": "Intracellular Phase I metabolism (post-absorption)",
+      "logic": "The most abundant drug-metabolizing cytochrome P450 in enterocytes and liver, catalyzing oxidative metabolism of lipophilic substrates. It resides INSIDE the enterocyte and therefore acts only on drug that has already crossed the apical membrane. It lowers the fraction of absorbed drug reaching the circulation intact, which is a bioavailability effect occurring downstream of the absorption step this task asks about.",
+      "role_cited": "Intracellular Phase I metabolism (post-absorption)[14t][15t]",
+      "logic_cited": "The most abundant drug-metabolizing cytochrome P450[16c] in enterocytes and liver[16c][17t], catalyzing oxidative metabolism of lipophilic substrates[18]. It resides INSIDE the enterocyte and therefore acts only on drug that has already crossed the apical membrane. It lowers the fraction of absorbed drug reaching the circulation intact[19], which is a bioavailability effect occurring downstream of the absorption step this task asks about[19]."
+    }
+  },
+  "pathway_rules": [
+    "HIA is the fraction of an orally administered dose that crosses the intestinal epithelium from the lumen into the enterocyte and the portal blood. It is distinct from systemic bioavailability, which additionally reflects first-pass metabolism in the gut wall and liver acting on drug that has already been absorbed.",
+    "PEPT1 (SLC15A1) is a proton-coupled oligopeptide transporter on the apical membrane of small-intestinal enterocytes. It mediates carrier-mediated influx of di- and tripeptides and of peptidomimetic drugs sharing that scaffold, including beta-lactam antibiotics, ACE inhibitors, and amino-acid ester prodrugs; molecules larger than a tripeptide are not transported.",
+    "P-glycoprotein (ABCB1) is an ATP-driven efflux transporter on the apical membrane of enterocytes. It binds lipophilic and amphiphilic substrates within the inner leaflet of the membrane and extrudes them back into the intestinal lumen. Its transport capacity is finite and becomes saturated at the luminal drug concentrations reached after an ordinary oral dose.",
+    "BCRP (ABCG2) is a homodimeric ATP-driven efflux transporter on the apical brush-border membrane of enterocytes. It preferentially extrudes planar aromatic and heterocyclic compounds and their sulfate and glucuronide conjugates. Its substrate specificity overlaps with that of P-glycoprotein, and like P-glycoprotein it is saturable at luminal concentrations.",
+    "CYP3A4 is the most abundant drug-metabolizing cytochrome P450 in enterocytes and hepatocytes and catalyzes oxidative Phase I metabolism of lipophilic substrates. It is located intracellularly and acts only on drug that has already crossed the apical membrane, contributing to gut-wall and hepatic first-pass metabolism downstream of the absorption step."
+  ],
+  "molecular_context": {
+    "yes_features": [
+      "Beta-lactam ring (penicillin, cephalosporin, carbapenem scaffold): recognized by PEPT1 as a dipeptide mimic through its amide carbonyl and nitrogen H-bond geometry, giving carrier-mediated apical uptake even when passive permeability is low.",
+      "Free alpha-amino-acid backbone, or an amino-acid ester appended to a polar scaffold: recognized by PEPT1 through its di-/tripeptide-like geometry, the basis of amino-acid ester prodrugs that gain carrier-mediated apical uptake.",
+      "Short-chain aliphatic monocarboxylate (C1-C4 acid without bulky or additional ionizable substituents): its small size and the neutral fraction present at intestinal pH permit passive transcellular and paracellular absorption.",
+      "Small neutral molecule (molecular weight below ~250) with TPSA below ~80 A^2 and no permanently charged centre: absorbed efficiently by transcellular diffusion and by the paracellular route, regardless of low lipophilicity.",
+      "Neutral scaffold carrying no more than one hydrogen-bond donor with TPSA below ~90 A^2: the low desolvation cost permits efficient partitioning into the apical membrane even at low or negative logP.",
+      "N-methylated amide bonds in cyclic or macrocyclic peptides: removing hydrogen-bond-donor NH groups raises passive membrane permeability without adding lipophilicity, enabling absorption of some large macrocyclic peptides."
+    ],
+    "no_features": [
+      "Permanent quaternary ammonium (fixed positive charge at all physiological pH): no neutral fraction exists, precluding passive transcellular diffusion and peptide-transporter recognition.",
+      "Geminal bisphosphonate group (multiple ionizable phosphonate protons): heavily anionic across intestinal pH and strongly hydrated, blocking both passive diffusion and carrier recognition.",
+      "Aminoglycoside-like scaffold: two or more glycosidic linkages bearing multiple free amino and hydroxyl groups, giving a large hydrated polar surface that cannot partition into the apical membrane.",
+      "Peptide backbone of four or more residues with free, non-N-methylated amide NH groups: too large for PEPT1, which is limited to di- and tripeptide geometry, and carrying too many hydrogen-bond donors for passive permeability.",
+      "TPSA above ~140 A^2 together with more than 5 hydrogen-bond donors: the combined desolvation penalty is too large for the passive transcellular route, and the molecule is also too polar for membrane partitioning.",
+      "logP above ~5 combined with molecular weight above ~600: dissolution in intestinal fluid becomes the limiting step, so little drug is available in solution to be absorbed despite a membrane-permeable scaffold."
+    ],
+    "yes_features_cited": [
+      "Beta-lactam ring (penicillin, cephalosporin, carbapenem scaffold): recognized by PEPT1 as a dipeptide mimic[23c][33t] through its amide carbonyl and nitrogen H-bond geometry[23c], giving carrier-mediated apical uptake[33t] even when passive permeability is low[33].",
+      "Free alpha-amino-acid backbone, or an amino-acid ester appended to a polar scaffold: recognized by PEPT1[23!][24t] through its di-/tripeptide-like geometry[23c], the basis of amino-acid ester prodrugs that gain carrier-mediated apical uptake[24t].",
+      "Short-chain aliphatic monocarboxylate (C1-C4 acid without bulky or additional ionizable substituents)[35t]: its small size and the neutral fraction present at intestinal pH[34t] permit passive transcellular and paracellular absorption[34t][36t].",
+      "Small neutral molecule (molecular weight below ~250) with TPSA below ~80 A^2 and no permanently charged centre[37t]: absorbed efficiently by transcellular diffusion and by the paracellular route, regardless of low lipophilicity[36t][38t].",
+      "Neutral scaffold carrying no more than one hydrogen-bond donor with TPSA below ~90 A^2: the low desolvation cost permits efficient partitioning into the apical membrane even at low or negative logP.",
+      "N-methylated amide bonds in cyclic or macrocyclic peptides: removing hydrogen-bond-donor NH groups raises passive membrane permeability[39][40!] without adding lipophilicity[40c], enabling absorption of some large macrocyclic peptides[39t]."
+    ],
+    "no_features_cited": [
+      "Permanent quaternary ammonium (fixed positive charge at all physiological pH): no neutral fraction exists[37t], precluding passive transcellular diffusion and peptide-transporter recognition.",
+      "Geminal bisphosphonate group (multiple ionizable phosphonate protons): heavily anionic across intestinal pH[41] and strongly hydrated, blocking both passive diffusion and carrier recognition.",
+      "Aminoglycoside-like scaffold: two or more glycosidic linkages bearing multiple free amino and hydroxyl groups, giving a large hydrated polar surface[42t] that cannot partition into the apical membrane[49!].",
+      "Peptide backbone of four or more residues with free, non-N-methylated amide NH groups[43t]: too large for PEPT1[5t], which is limited to di- and tripeptide geometry[23c], and carrying too many hydrogen-bond donors[44c] for passive permeability[44c].",
+      "TPSA above ~140 A^2 together with more than 5 hydrogen-bond donors[44c]: the combined desolvation penalty is too large for the passive transcellular route[45], and the molecule is also too polar for membrane partitioning[45][46].",
+      "logP above ~5[44c] combined with molecular weight above ~600[44c][50!]: dissolution in intestinal fluid becomes the limiting step[47t], so little drug is available in solution to be absorbed despite a membrane-permeable scaffold[47]."
+    ]
+  },
+  "target_names": [
+    "HIA=0 (low absorption)",
+    "HIA=1 (high absorption)"
+  ],
+  "task_description_cited": "Human Intestinal Absorption (HIA) prediction[1t]",
+  "pathway_rules_cited": [
+    "HIA is the fraction of an orally administered dose that crosses the intestinal epithelium from the lumen into the enterocyte and the portal blood. It is distinct from systemic bioavailability[20], which additionally reflects first-pass metabolism in the gut wall and liver acting on drug that has already been absorbed[15][20].",
+    "PEPT1 (SLC15A1) is a proton-coupled oligopeptide transporter[2] on the apical membrane of small-intestinal enterocytes[4t][21t][22t]. It mediates carrier-mediated influx of di- and tripeptides and of peptidomimetic drugs sharing that scaffold[23c], including beta-lactam antibiotics, ACE inhibitors, and amino-acid ester prodrugs[2t][24t]; molecules larger than a tripeptide are not transported[23c].",
+    "P-glycoprotein (ABCB1) is an ATP-driven efflux transporter[25][26] on the apical membrane of enterocytes[6t]. It binds lipophilic and amphiphilic substrates within the inner leaflet of the membrane[7t][26][27] and extrudes them back into the intestinal lumen[6][14]. Its transport capacity is finite[28] and becomes saturated at the luminal drug concentrations reached after an ordinary oral dose[28t].",
+    "BCRP (ABCG2) is a homodimeric ATP-driven efflux transporter[29][30] on the apical brush-border membrane[10t] of enterocytes[9c]. It preferentially extrudes[9!] planar aromatic and heterocyclic compounds and their sulfate and glucuronide conjugates[31]. Its substrate specificity overlaps with that of P-glycoprotein[32t], and like P-glycoprotein it is saturable at luminal concentrations.",
+    "CYP3A4 is the most abundant drug-metabolizing cytochrome P450[16c] in enterocytes and hepatocytes[16c] and catalyzes oxidative Phase I metabolism of lipophilic substrates[15]. It is located intracellularly[14] and acts only on drug that has already crossed the apical membrane[14], contributing to gut-wall and hepatic first-pass metabolism downstream of the absorption step[15t][20t]."
+  ],
+  "references": {
+    "1": {
+      "mla": "De Vrieze, Mike, et al. \"In Vitro Prediction of Human Intestinal Absorption and Blood-Brain Barrier Partitioning: Development of a Lipid Analog for Micellar Liquid Chromatography.\" Analytical and Bioanalytical Chemistry, vol. 407, no. 24, 2015, pp. 7453-66. PubMed, https://doi.org/10.1007/s00216-015-8911-z.",
+      "pmid": "26277183",
+      "doi": "10.1007/s00216-015-8911-z",
+      "url": "https://doi.org/10.1007/s00216-015-8911-z",
+      "source_type": "pubmed",
+      "verdict": "DIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:26277183",
+      "caveat": ""
+    },
+    "2": {
+      "mla": "Lee, V. H. \"Membrane Transporters.\" European Journal of Pharmaceutical Sciences, vol. 11 Suppl 2, 2000, pp. S41-50. PubMed, https://doi.org/10.1016/s0928-0987(00)00163-9.",
+      "pmid": "11033426",
+      "doi": "10.1016/s0928-0987(00)00163-9",
+      "url": "https://doi.org/10.1016/s0928-0987(00)00163-9",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:11033426",
+      "caveat": "[Intestinal peptide influx] verifier note: The span establishes carrier-mediated peptide uptake serving oral drug absorption, but the intestinal localization needed by the atom sits outside the span.; [PEPT1 (SLC15A1) is a proton-coupled oligopeptide transporter] evidence is other_mammal, claim is stated for humans; [including beta-lactam antibiotics, ACE inhibitors, and ...] supports only “including beta-lactam antibiotics, ACE inhibitors;”; source does not evidence: amino-acid ester prodrugs"
+    },
+    "3": {
+      "mla": "Bockman, D. E., et al. \"Localization of Peptide Transporter in Nuclei and Lysosomes of the Pancreas.\" International Journal of Pancreatology, vol. 22, no. 3, 1997, pp. 221-5. PubMed, https://doi.org/10.1007/BF02788388.",
+      "pmid": "9444554",
+      "doi": "10.1007/BF02788388",
+      "url": "https://doi.org/10.1007/BF02788388",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:9444554",
+      "caveat": "[Proton-coupled oligopeptide transporter (SLC15A1)] supports only “PEPT1, a transporter of di- and tripeptides driven by an electrochemical proton gradient”; evidence is rat, claim is stated for humans"
+    },
+    "4": {
+      "mla": "Geillinger, Kerstin E., et al. \"Nrf2 Regulates the Expression of the Peptide Transporter PEPT1 in the Human Colon Carcinoma Cell Line Caco-2.\" Biochimica Et Biophysica Acta, vol. 1840, no. 6, 2014, pp. 1747-54. PubMed, https://doi.org/10.1016/j.bbagen.2013.12.026.",
+      "pmid": "24380877",
+      "doi": "10.1016/j.bbagen.2013.12.026",
+      "url": "https://doi.org/10.1016/j.bbagen.2013.12.026",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:24380877",
+      "caveat": "[its role in drug absorption is as a carrier-mediated uptake ...] evidence is cell_line; [broad recognition of di-/tripeptide geometry] evidence is cell_line; [on the apical membrane of small-intestinal enterocytes] supports only “PEPT1 resides in the apical membrane of intestinal epithelial cells.”; evidence is cell_line; [on the apical membrane of small-intestinal enterocytes.] supports only “PEPT1 is a transport protein of the apical membrane of intestinal epithelial cells.”; evidence is cell_line"
+    },
+    "5": {
+      "mla": "Brandsch, Matthias, et al. \"Pharmaceutical and Pharmacological Importance of Peptide Transporters.\" The Journal of Pharmacy and Pharmacology, vol. 60, no. 5, 2008, pp. 543-85. PubMed, https://doi.org/10.1211/jpp.60.5.0002.",
+      "pmid": "18416933",
+      "doi": "10.1211/jpp.60.5.0002",
+      "url": "https://doi.org/10.1211/jpp.60.5.0002",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:18416933",
+      "caveat": "[Peptide backbone of four or more residues with free, ...] verifier note: Di- and tripeptide-like recognition is asserted, and the atom's size exclusion follows by one inferential step that the abstract never makes explicit.; [Its broad recognition of di-/tripeptide geometry is why ...] supports only “Its broad recognition of di-/tripeptide geometry is why chemically distinct classes are transported: beta-lactam antibiotics, and ...”; source does not evidence: ACE inhibitors; [Although named for di- and tripeptides,] verifier note: The span establishes the wider drug substrate range and the di-/tripeptide template, but the nomenclature clause of the atom requires one step beyond the span's words."
+    },
+    "6": {
+      "mla": "Thiebaut, F., et al. \"Cellular Localization of the Multidrug-Resistance Gene Product P-Glycoprotein in Normal Human Tissues.\" Proceedings of the National Academy of Sciences of the United States of America, vol. 84, no. 21, 1987, pp. 7735-8. PubMed, https://doi.org/10.1073/pnas.84.21.7735.",
+      "pmid": "2444983",
+      "doi": "10.1073/pnas.84.21.7735",
+      "url": "https://doi.org/10.1073/pnas.84.21.7735",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:2444983",
+      "caveat": "[and extrudes them back into the intestinal lumen.] verifier note: The luminal-extrusion claim appears only as an author inference from staining pattern, one step removed from direct demonstration.; [Intestinal apical efflux] Immunohistochemistry of normal human tissues places P-glycoprotein at high levels on the apical surface of jejunal and colonic epithelium, so the intestinal and apical parts of the atom are stated outright and only efflux function requires the single step from localization to activity (which the abstract's own discussion proposes as secretion into the gut lumen).; source does not establish: efflux - the study is monoclonal-antibody immunolocalization, no transport, flux or ATPase measurement is reported; directionality of transport (lumen-ward) as measured rather than inferred; quantitative contribution to intestinal drug absorption; whole small intestine - only jejunum (and colon) were examined; [on the apical membrane of enterocytes.] verifier note: Apical localization in human jejunal epithelium is shown directly; only the naming of those cells as enterocytes comes from outside the span.; [and extrudes them back into the lumen.] verifier note: The span asserts a suggested secretory role into the GI lumen based on apical localization, which requires one inferential step to become the atom's efflux claim.; [ATP-binding cassette efflux transporter (ABCB1) on the ...] supports only “P-glycoprotein is present at high levels on the apical surface of superficial columnar epithelial cells of human jejunum and colon.”; verifier note: Apical intestinal localisation in human is directly shown, but the atom's transporter-class and efflux-function assertions are not established by this abstract."
+    },
+    "7": {
+      "mla": "Lugo, Miguel R., and Frances J. Sharom. \"Interaction of LDS-751 with P-Glycoprotein and Mapping of the Location of the R Drug Binding Site.\" Biochemistry, vol. 44, no. 2, 2005, pp. 643-55. PubMed, https://doi.org/10.1021/bi0485326.",
+      "pmid": "15641790",
+      "doi": "10.1021/bi0485326",
+      "url": "https://doi.org/10.1021/bi0485326",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:15641790",
+      "caveat": "[It captures lipophilic and amphiphilic substrates from the ...] supports only “the R drug-binding site of purified P-glycoprotein, probed with the dye LDS-751, lies in a hydrophobic environment close to the ...”; evidence is cell_free; [within the inner leaflet of the membrane] evidence is cell_free; [captures substrates from the membrane inner leaflet] evidence is cell_free"
+    },
+    "8": {
+      "mla": "Tubic, Marija, et al. \"In Silico Modeling of Non-Linear Drug Absorption for the P-gp Substrate Talinolol and of Consequences for the Resulting Pharmacodynamic Effect.\" Pharmaceutical Research, vol. 23, no. 8, 2006, pp. 1712-20. PubMed, https://doi.org/10.1007/s11095-006-9020-7.",
+      "pmid": "16832615",
+      "doi": "10.1007/s11095-006-9020-7",
+      "url": "https://doi.org/10.1007/s11095-006-9020-7",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:16832615",
+      "caveat": "[so it slows rather than prevents the net movement of a ...] verifier note: Non-zero bioavailability under active efflux plus its rise on saturation supports opposition rather than prevention, via one inferential step.; [and becomes saturated at the drug concentrations reached in ...] supports only “Intestinal P-glycoprotein is progressively saturated by talinolol across oral doses of 25 to 400 mg, producing a non-linear dose-AUC ...”; verifier note: Dose-dependent saturation is supported for talinolol via a fitted simulation, but the atom's general claim about ordinary oral doses of P-gp substrates is broader than the evidence.; [Its transport capacity is finite] verifier note: Finite capacity follows in one step from the reported saturation, but the saturation itself is a simulation output for a single drug.; [slows rather than prevents net movement] verifier note: The 'slows not prevents' conclusion follows in one arithmetic step from a substantial baseline bioavailability, for one drug in a simulation."
+    },
+    "9": {
+      "mla": "Kawahara, Iichiro, et al. \"The Impact of Breast Cancer Resistance Protein (BCRP/ABCG2) on Drug Transport Across Caco-2 Cell Monolayers.\" Drug Metabolism and Disposition: the Biological Fate of Chemicals, vol. 48, no. 6, 2020, pp. 491-498. PubMed, https://doi.org/10.1124/dmd.119.088674.",
+      "pmid": "32193356",
+      "doi": "10.1124/dmd.119.088674",
+      "url": "https://doi.org/10.1124/dmd.119.088674",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "mixed",
+      "ref_id": "pmid:32193356",
+      "caveat": "ALSO CONTRADICTS: preferentially extrudes; [Intestinal apical efflux] The span states apical localization in small intestinal epithelium plus efflux-pump function, which is exactly the atom; the paper's own Caco-2 data further show substantial BCRP-mediated efflux for topotecan, SN-38 and sulfasalazine. The caveat is that the sentence is background and the experimental system is a cell line, not intact human intestine.; source does not establish: that this sentence is this paper's own finding - it is a background statement, the paper's data are Caco-2 monolayers; in vivo human intestinal efflux; the magnitude of BCRP's contribution, which the same abstract reports as minimal for estrone-3-sulfate, ciprofloxacin, daidzein and nitrofurantoin; [on the apical brush-border membrane of enterocytes.] evidence is cell_line"
+    },
+    "10": {
+      "mla": "Mao, Qingcheng, and Jashvant D. Unadkat. \"Role of the Breast Cancer Resistance Protein (ABCG2) in Drug Transport.\" The AAPS Journal, vol. 7, no. 1, 2005, pp. E118-33. PubMed, https://doi.org/10.1208/aapsj070112.",
+      "pmid": "16146333",
+      "doi": "10.1208/aapsj070112",
+      "url": "https://doi.org/10.1208/aapsj070112",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:16146333",
+      "caveat": "[Homodimeric ATP-binding cassette efflux transporter (ABCG2)] supports only “BCRP (ABCG2) is an ABC half-transporter with one nucleotide-binding domain and one membrane-spanning domain that may function as a ...”; verifier note: The half-transporter architecture is supported, but the atom's definite 'homodimeric' is stated only as one of two possibilities.; [on the apical brush-border membrane.] verifier note: Apical small-intestinal localization is stated, and only the brush-border synonym needs to be supplied.; [It preferentially effluxes planar aromatic and heterocyclic ...] supports only “BCRP actively transports structurally diverse organic molecules, conjugated or unconjugated, including estrone-3-sulfate and ...”; verifier note: Transport of sulfate and glucuronide conjugates is supported by example, but the planar-aromatic/heterocyclic preference is neither stated nor implied."
+    },
+    "11": {
+      "mla": "Ma, Liping, et al. \"Aristolochic Acid I Is a Substrate of BCRP but Not P-Glycoprotein or MRP2.\" Journal of Ethnopharmacology, vol. 172, 2015, pp. 430-5. PubMed, https://doi.org/10.1016/j.jep.2015.07.011.",
+      "pmid": "26183576",
+      "doi": "10.1016/j.jep.2015.07.011",
+      "url": "https://doi.org/10.1016/j.jep.2015.07.011",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:26183576",
+      "caveat": "[Like P-gp it is saturable] supports only “BCRP-mediated efflux of aristolochic acid I falls with increasing substrate concentration (net efflux ratio 13.8 at 20 microM to 7.0 at 80 ...”; evidence is cell_line"
+    },
+    "12": {
+      "mla": "van Hoppe, Stéphanie, et al. \"Breast Cancer Resistance Protein (BCRP/ABCG2) and P-Glycoprotein (P-gp/ABCB1) Transport Afatinib and Restrict Its Oral Availability and Brain Accumulation.\" Pharmacological Research, vol. 120, 2017, pp. 43-50. PubMed, https://doi.org/10.1016/j.phrs.2017.01.035.",
+      "pmid": "28288939",
+      "doi": "10.1016/j.phrs.2017.01.035",
+      "url": "https://doi.org/10.1016/j.phrs.2017.01.035",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:28288939",
+      "caveat": "[and its substrate space overlaps with P-gp,] supports only “afatinib is transported well by both human ABCB1 (P-gp) and ABCG2 (BCRP) in vitro, so at least this substrate is shared between the two ...”; evidence is mouse, claim is stated for humans; evidence is cell_line"
+    },
+    "13": {
+      "mla": "Kruijtzer, C. M. F., et al. \"Increased Oral Bioavailability of Topotecan in Combination with the Breast Cancer Resistance Protein and P-Glycoprotein Inhibitor GF120918.\" Journal of Clinical Oncology, vol. 20, no. 13, 2002, pp. 2943-50. PubMed, https://doi.org/10.1200/JCO.2002.12.116.",
+      "pmid": "12089223",
+      "doi": "10.1200/JCO.2002.12.116",
+      "url": "https://doi.org/10.1200/JCO.2002.12.116",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "proposition",
+      "ref_id": "pmid:12089223",
+      "caveat": "[opposes rather than abolishes absorption] The abstract reports that bioavailability was already 40.0% without inhibitor and rose to 97.1% with it, so one arithmetic step gives efflux that opposes rather than abolishes absorption. The step is single but the inhibitor is dual-specificity, so BCRP-specific attribution rests on the paper's separate mouse work rather than on this span.; source does not establish: attribution to BCRP alone - GF120918 inhibits both BCRP and P-gp, so the span cannot separate the two transporters; absorption as distinct from apparent oral bioavailability, which also contains first-pass metabolism and systemic clearance; generality beyond one substrate (topotecan) and one 8-patient cohort; that the residual 40% reflects transporter saturation rather than another mechanism"
+    },
+    "14": {
+      "mla": "Ito, K., et al. \"Effects of Intestinal CYP3A4 and P-Glycoprotein on Oral Drug Absorption--Theoretical Approach.\" Pharmaceutical Research, vol. 16, no. 2, 1999, pp. 225-31. PubMed, https://doi.org/10.1023/a:1018872207437.",
+      "pmid": "10100307",
+      "doi": "10.1023/a:1018872207437",
+      "url": "https://doi.org/10.1023/a:1018872207437",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "mixed",
+      "ref_id": "pmid:10100307",
+      "caveat": "[and extrudes them back into the intestinal lumen.] verifier note: The span literally states P-gp-mediated efflux into the lumen, but only as a structural assumption of a theoretical pharmacokinetic model.; [Intracellular Phase I metabolism (post-absorption)] verifier note: The span locates CYP3A4 metabolism inside enterocytes but only as a model structure, and the 'Phase I' label requires a definitional step.; [and acts only on drug that has already crossed the apical ...] verifier note: The model localizes metabolism intracellularly, but the atom's 'only' is an assumption of that model rather than a finding.; [It is located intracellularly] verifier note: The span places CYP3A4 metabolism inside the epithelial cells, which states the atom, though only as a structural assumption of a simulation."
+    },
+    "15": {
+      "mla": "Paine, M. F., et al. \"First-Pass Metabolism of Midazolam by the Human Intestine.\" Clinical Pharmacology and Therapeutics, vol. 60, no. 1, 1996, pp. 14-24. PubMed, https://doi.org/10.1016/S0009-9236(96)90162-9.",
+      "pmid": "8689807",
+      "doi": "10.1016/S0009-9236(96)90162-9",
+      "url": "https://doi.org/10.1016/S0009-9236(96)90162-9",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:8689807",
+      "caveat": "[and catalyzes oxidative Phase I metabolism of lipophilic ...] supports only “Mucosal CYP3A4 catalyzes oxidative first-pass metabolism of midazolam in the human small intestine, metabolizing on average 43% of the ...”; verifier note: Oxidative CYP3A4 metabolism is demonstrated in humans for midazolam alone, so support is narrower than the atom's substrate-class claim.; [Intracellular Phase I metabolism (post-absorption)] verifier note: The span shows a large fraction of absorbed midazolam is metabolized while crossing the mucosa, which reaches the atom after one labelling/localization step.; [which additionally reflects first-pass metabolism in the ...] supports only “which additionally reflects first-pass metabolism in the gut wall acting on drug that has already been absorbed.”; source does not evidence: liver; [contributing to gut-wall and hepatic first-pass metabolism ...] supports only “contributing to gut-wall first-pass metabolism downstream of the absorption step.”; source does not evidence: hepatic first-pass metabolism"
+    },
+    "16": {
+      "mla": "Paine, Mary F., et al. \"The Human Intestinal Cytochrome P450 \"Pie\".\" Drug Metabolism and Disposition: the Biological Fate of Chemicals, vol. 34, no. 5, 2006, pp. 880-6. PubMed, https://doi.org/10.1124/dmd.105.008672.",
+      "pmid": "16467132",
+      "doi": "10.1124/dmd.105.008672",
+      "url": "https://doi.org/10.1124/dmd.105.008672",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:16467132",
+      "caveat": "[CYP3A4 is the most abundant drug-metabolizing cytochrome ...] supports only “CYP3A (CYP3A4 plus CYP3A5) is the most abundant immunoquantified cytochrome P450 in human duodenal/jejunal mucosa, accounting on average ...”; verifier note: The paper quantifies CYP3A as a family in intestinal mucosa and says nothing in the span about hepatocytes, so it supports a narrower, intestine-and-family-level version of the atom.; [most abundant drug-metabolizing cytochrome P450] supports only “CYP3A is the most abundant cytochrome P450 in human small-intestinal mucosa, accounting on average for 80% of total immunoquantified P450s.”; verifier note: Predominant abundance is established for the small intestine specifically and at the subfamily level, narrower than the atom's unqualified claim.; [The most abundant drug-metabolizing cytochrome P450 in ...] supports only “CYP3A is the most abundant immunoquantified cytochrome P450 in human small-intestinal mucosa, averaging 80% of the total”; verifier note: Intestinal abundance is measured directly; the atom's paired claim about liver is only quoted background, and CYP3A is not resolved to CYP3A4."
+    },
+    "17": {
+      "mla": "Zanger, Ulrich M., and Matthias Schwab. \"Cytochrome P450 Enzymes in Drug Metabolism: Regulation of Gene Expression, Enzyme Activities, and Impact of Genetic Variation.\" Pharmacology & Therapeutics, vol. 138, no. 1, 2013, pp. 103-41. PubMed, https://doi.org/10.1016/j.pharmthera.2012.12.007.",
+      "pmid": "23333322",
+      "doi": "10.1016/j.pharmthera.2012.12.007",
+      "url": "https://doi.org/10.1016/j.pharmthera.2012.12.007",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:23333322",
+      "caveat": "[The most abundant drug-metabolizing cytochrome P450 in ...] supports only “The most abundant drug-metabolizing cytochrome P450 in liver,”; source does not evidence: cytochrome P450 in enterocytes"
+    },
+    "18": {
+      "mla": "Lafite, Pierre, et al. \"Unusual Regioselectivity and Active Site Topology of Human Cytochrome P450 2J2.\" Biochemistry, vol. 46, no. 36, 2007, pp. 10237-47. PubMed, https://doi.org/10.1021/bi700876a.",
+      "pmid": "17705402",
+      "doi": "10.1021/bi700876a",
+      "url": "https://doi.org/10.1021/bi700876a",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "proposition",
+      "ref_id": "pmid:17705402",
+      "caveat": "[catalyzing oxidative metabolism of lipophilic substrates.] evidence is cell_free"
+    },
+    "19": {
+      "mla": "Thummel, K. E., et al. \"Oral First-Pass Elimination of Midazolam Involves Both Gastrointestinal and Hepatic CYP3A-mediated Metabolism.\" Clinical Pharmacology and Therapeutics, vol. 59, no. 5, 1996, pp. 491-502. PubMed, https://doi.org/10.1016/S0009-9236(96)90177-0.",
+      "pmid": "8646820",
+      "doi": "10.1016/S0009-9236(96)90177-0",
+      "url": "https://doi.org/10.1016/S0009-9236(96)90177-0",
+      "source_type": "pubmed",
+      "verdict": "DIRECT",
+      "supports": "proposition",
+      "ref_id": "pmid:8646820",
+      "caveat": ""
+    },
+    "20": {
+      "mla": "Kato, Motohiro, et al. \"The Intestinal First-Pass Metabolism of Substrates of CYP3A4 and P-Glycoprotein-Quantitative Analysis Based on Information from the Literature.\" Drug Metabolism and Pharmacokinetics, vol. 18, no. 6, 2003, pp. 365-72. PubMed, https://doi.org/10.2133/dmpk.18.365.",
+      "pmid": "15618757",
+      "doi": "10.2133/dmpk.18.365",
+      "url": "https://doi.org/10.2133/dmpk.18.365",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:15618757",
+      "caveat": "[distinct from systemic bioavailability] verifier note: The decomposition of bioavailability into Fa, Fg and Fh implies the distinction the atom draws, but the source never states it and cannot separate Fa from Fg.; [which additionally reflects first-pass metabolism in the ...] supports only “which additionally reflects CYP3A4-mediated intestinal first-pass metabolism, estimated as the combined term FaFg for ten CYP3A4 substrates”; verifier note: Intestinal first-pass metabolism by CYP3A4 is supported, but the paper cannot resolve it from absorption itself and finds no relationship between the intestinal and hepatic availability terms the atom joins together.; [contributing to gut-wall and hepatic first-pass metabolism ...] supports only “contributing to CYP3A4-mediated intestinal first-pass metabolism, estimated as the combined term FaFg for ten CYP3A4 substrates”; verifier note: Intestinal first-pass metabolism by CYP3A4 is supported, but the paper cannot resolve absorption from gut-wall availability, so the atom's sequential ordering is not established.; [It is distinct from systemic bioavailability,] verifier note: The paper operationalises the distinction without asserting it, and only for CYP3A4 substrates."
+    },
+    "21": {
+      "mla": "Thamotharan, M., et al. \"Functional and Molecular Expression of Intestinal Oligopeptide Transporter (Pept-1) After a Brief Fast.\" Metabolism: Clinical and Experimental, vol. 48, no. 6, 1999, pp. 681-4. PubMed, https://doi.org/10.1016/s0026-0495(99)90164-6.",
+      "pmid": "10381139",
+      "doi": "10.1016/s0026-0495(99)90164-6",
+      "url": "https://doi.org/10.1016/s0026-0495(99)90164-6",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:10381139",
+      "caveat": "[on the apical membrane of small-intestinal enterocytes.] evidence is rat, claim is stated for humans"
+    },
+    "22": {
+      "mla": "Freeman, T. C., et al. \"H+/di-Tripeptide Transporter (PepT1) Expression in the Rabbit Intestine.\" Pflugers Archiv, vol. 430, no. 3, 1995, pp. 394-400. PubMed, https://doi.org/10.1007/BF00373915.",
+      "pmid": "7491264",
+      "doi": "10.1007/BF00373915",
+      "url": "https://doi.org/10.1007/BF00373915",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:7491264",
+      "caveat": "[on the apical membrane of small-intestinal enterocytes.] supports only “PepT1 mRNA is expressed in the epithelium all along the rabbit small intestine, most abundantly in duodenal and jejunal enterocytes”; evidence is other_mammal, claim is stated for humans"
+    },
+    "23": {
+      "mla": "Terada, T., et al. \"Structural Requirements for Determining the Substrate Affinity of Peptide Transporters PEPT1 and PEPT2.\" Pflugers Archiv, vol. 440, no. 5, 2000, pp. 679-84. PubMed, https://doi.org/10.1007/s004240000339.",
+      "pmid": "11007306",
+      "doi": "10.1007/s004240000339",
+      "url": "https://doi.org/10.1007/s004240000339",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:11007306",
+      "caveat": "ALSO CONTRADICTS: Free alpha-amino-acid backbone, or an amino-acid ester appended to a polar scaffold: recognized by PEPT1; [Beta-lactam ring (penicillin, cephalosporin, carbapenem ...] supports only “Beta-lactam antibiotics lacking an alpha-amino group are the only known substrates preferring PEPT1 over PEPT2 in rat ...”; evidence is rat, claim is stated for humans; evidence is cell_line; [molecules larger than a tripeptide are not transported.] evidence is rat, claim is stated for humans; evidence is cell_line; [through its amide carbonyl and nitrogen H-bond geometry,] supports only “An alpha- or beta-amino carbonyl function is the key structural determinant of higher substrate affinity for PEPT2 than for PEPT1.”; evidence is rat, claim is stated for humans; evidence is cell_line; [It mediates carrier-mediated influx of di- and tripeptides ...] supports only “rat PEPT1 and PEPT2 recognize di- and tripeptides, but not amino acids, tetrapeptides or most cyclic dipeptides”; evidence is rat, claim is stated for humans; evidence is cell_line; [through its di-/tripeptide-like geometry,] supports only “an alpha- or beta-amino carbonyl function is the key structural feature determining peptide transporter affinity”; evidence is rat, claim is stated for humans; evidence is cell_line; [which is limited to di- and tripeptide geometry,] Reviewer is right: 11007306 is in the file and reports exactly the pattern claimed - inhibition by di- and tripeptides but not by amino acids or tetrapeptides. INDIRECT rather than DIRECT because the endpoint is competitive inhibition of glycylsarcosine uptake rather than measured transport of each probe, and because the same abstract's first sentence notes nonpeptidic substrates, so 'limited to' is not strict exclusivity.; source does not establish: transport of the test compounds themselves: the endpoint is inhibition of [14C]glycylsarcosine uptake, i.e. competition, not translocation; exclusivity of the peptide geometry: the same abstract reports nonpeptidic substrates (valacyclovir, eight-amino-octanoic acid); human transporters: rat PEPT1/PEPT2 expressed in LLC-PK1 porcine kidney cells; intestinal tissue or enterocyte: transfected cell line only, and PEPT2 is not the intestinal isoform; geometry as the operative variable: the abstract attributes affinity to the alpha- or beta-amino carbonyl function, not to geometry; that all dipeptides qualify: most cyclic dipeptides did not inhibit uptake; [limited to di- and tripeptide geometry] NEGATION_UNFALSIFIABLE is the wrong code. The negation is not unfalsifiable at all: the abstract states the exclusion explicitly and positively tested it, reporting no inhibition by amino acids, tetrapeptides or most cyclic dipeptides. That is a measured negative result, so the atom is supported, with the same two caveats as X007 (competition endpoint; nonpeptidic substrates exist).; source does not establish: transport of the test compounds themselves: the endpoint is inhibition of [14C]glycylsarcosine uptake, i.e. competition, not translocation; exclusivity of the peptide geometry: the same abstract reports nonpeptidic substrates (valacyclovir, eight-amino-octanoic acid); human transporters: rat PEPT1/PEPT2 expressed in LLC-PK1 porcine kidney cells; intestinal tissue or enterocyte: transfected cell line only, and PEPT2 is not the intestinal isoform; geometry as the operative variable: the abstract attributes affinity to the alpha- or beta-amino carbonyl function, not to geometry; that all dipeptides qualify: most cyclic dipeptides did not inhibit uptake"
+    },
+    "24": {
+      "mla": "Ganapathy, M. E., et al. \"Valacyclovir: a Substrate for the Intestinal and Renal Peptide Transporters PEPT1 and PEPT2.\" Biochemical and Biophysical Research Communications, vol. 246, no. 2, 1998, pp. 470-5. PubMed, https://doi.org/10.1006/bbrc.1998.8628.",
+      "pmid": "9610386",
+      "doi": "10.1006/bbrc.1998.8628",
+      "url": "https://doi.org/10.1006/bbrc.1998.8628",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:9610386",
+      "caveat": "[the basis of amino-acid ester prodrugs that gain ...] supports only “Valacyclovir, an amino-acid ester prodrug, is a substrate for the peptide transporters PEPT1 and PEPT2.”; evidence is cell_line; [including beta-lactam antibiotics, ACE inhibitors, and ...] supports only “including amino-acid ester prodrugs;”; evidence is cell_line; source does not evidence: beta-lactam antibiotics, ACE inhibitors; [Free alpha-amino-acid backbone, or an amino-acid ester ...] supports only “valacyclovir, an amino-acid ester prodrug, is a substrate for PEPT1 and PEPT2, showing that a peptide bond is not required for recognition”; evidence is cell_line"
+    },
+    "25": {
+      "mla": "Watchko, J. F., et al. \"P-Glycoprotein and Bilirubin Disposition.\" Journal of Perinatology, vol. 21 Suppl 1, 2001, pp. S43-7; discussion S59-62. PubMed, https://doi.org/10.1038/sj.jp.7210633.",
+      "pmid": "11803416",
+      "doi": "10.1038/sj.jp.7210633",
+      "url": "https://doi.org/10.1038/sj.jp.7210633",
+      "source_type": "pubmed",
+      "verdict": "DIRECT",
+      "supports": "proposition",
+      "ref_id": "pmid:11803416",
+      "caveat": "[P-glycoprotein (ABCB1) is an ATP-driven efflux transporter] verifier note: The span asserts both elements of the atom verbatim (P-glycoprotein; ATP-dependent efflux pump), and the ABCB1/Pgp identity is confirmed by the record's own MeSH indexing rather than by outside argument."
+    },
+    "26": {
+      "mla": "Clay, Adam T., and Frances J. Sharom. \"Lipid Bilayer Properties Control Membrane Partitioning, Binding, and Transport of P-Glycoprotein Substrates.\" Biochemistry, vol. 52, no. 2, 2013, pp. 343-54. PubMed, https://doi.org/10.1021/bi301532c.",
+      "pmid": "23268645",
+      "doi": "10.1021/bi301532c",
+      "url": "https://doi.org/10.1021/bi301532c",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:23268645",
+      "caveat": "[It binds lipophilic and amphiphilic substrates within the ...] supports only “purified P-glycoprotein reconstituted in phospholipid bilayers binds and transports substrates from within the lipid bilayer, with weak ...”; evidence is other_mammal, claim is stated for humans; evidence is cell_free; [P-glycoprotein (ABCB1) is an ATP-driven efflux transporter] supports only “P-glycoprotein (ABCB1) is an ABC-family multidrug efflux pump that transports structurally diverse substrates out of the lipid bilayer.”; evidence is other_mammal, claim is stated for humans; evidence is cell_free"
+    },
+    "27": {
+      "mla": "Zhou, Shufeng, et al. \"Herbal Modulation of P-Glycoprotein.\" Drug Metabolism Reviews, vol. 36, no. 1, 2004, pp. 57-104. PubMed, https://doi.org/10.1081/dmr-120028427.",
+      "pmid": "15072439",
+      "doi": "10.1081/dmr-120028427",
+      "url": "https://doi.org/10.1081/dmr-120028427",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:15072439",
+      "caveat": "[It binds lipophilic and amphiphilic substrates within the ...] supports only “P-glycoprotein handles numerous structurally unrelated lipophilic and amphipathic drugs and xenobiotics in the intestine, liver, kidney and ...”; verifier note: Only the lipophilic/amphiphilic substrate half of the atom is supported; the inner-leaflet localization is absent, so the claim holds in a strictly narrower form."
+    },
+    "28": {
+      "mla": "Lee, Young-Joo, et al. \"Limited Role of P-Glycoprotein in the Intestinal Absorption of Cyclosporin A.\" Biological & Pharmaceutical Bulletin, vol. 28, no. 4, 2005, pp. 760-3. PubMed, https://doi.org/10.1248/bpb.28.760.",
+      "pmid": "15802827",
+      "doi": "10.1248/bpb.28.760",
+      "url": "https://doi.org/10.1248/bpb.28.760",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "mixed",
+      "ref_id": "pmid:15802827",
+      "caveat": "[and becomes saturated at the luminal drug concentrations ...] evidence is cell_line; [Its transport capacity is finite] evidence is cell_line"
+    },
+    "29": {
+      "mla": "Kage, Kumie, et al. \"Dominant-Negative Inhibition of Breast Cancer Resistance Protein as Drug Efflux Pump Through the Inhibition of S-S Dependent Homodimerization.\" International Journal of Cancer, vol. 97, no. 5, 2002, pp. 626-30. PubMed, https://doi.org/10.1002/ijc.10100.",
+      "pmid": "11807788",
+      "doi": "10.1002/ijc.10100",
+      "url": "https://doi.org/10.1002/ijc.10100",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:11807788",
+      "caveat": "[BCRP (ABCG2) is a homodimeric ATP-driven efflux transporter] supports only “BCRP forms a disulfide-bridged homodimer, and homodimer formation is essential for its drug-resistance function in transfected cells”; evidence is cell_line"
+    },
+    "30": {
+      "mla": "Kusuhara, Hiroyuki, and Yuichi Sugiyama. \"ATP-binding Cassette, Subfamily G (ABCG Family).\" Pflugers Archiv, vol. 453, no. 5, 2007, pp. 735-44. PubMed, https://doi.org/10.1007/s00424-006-0134-x.",
+      "pmid": "16983557",
+      "doi": "10.1007/s00424-006-0134-x",
+      "url": "https://doi.org/10.1007/s00424-006-0134-x",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "proposition",
+      "ref_id": "pmid:16983557",
+      "caveat": "[BCRP (ABCG2) is a homodimeric ATP-driven efflux transporter] verifier note: The architectural claim needs one step from the family statement to ABCG2 specifically, since the span permits heterodimers and does not mention ATP hydrolysis."
+    },
+    "31": {
+      "mla": "Adachi, Yasuhisa, et al. \"Role of Breast Cancer Resistance Protein (Bcrp1/Abcg2) in the Extrusion of Glucuronide and Sulfate Conjugates from Enterocytes to Intestinal Lumen.\" Molecular Pharmacology, vol. 67, no. 3, 2005, pp. 923-8. PubMed, https://doi.org/10.1124/mol.104.007393.",
+      "pmid": "15598971",
+      "doi": "10.1124/mol.104.007393",
+      "url": "https://doi.org/10.1124/mol.104.007393",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:15598971",
+      "caveat": "[It preferentially extrudes planar aromatic and heterocyclic ...] supports only “Bcrp1 extrudes glucuronide and sulfate conjugates formed in enterocytes into the intestinal lumen”; evidence is mouse, claim is stated for humans"
+    },
+    "32": {
+      "mla": "Ejendal, Karin F. K., and Christine A. Hrycyna. \"Differential Sensitivities of the Human ATP-binding Cassette Transporters ABCG2 and P-Glycoprotein to Cyclosporin A.\" Molecular Pharmacology, vol. 67, no. 3, 2005, pp. 902-11. PubMed, https://doi.org/10.1124/mol.104.001701.",
+      "pmid": "15598974",
+      "doi": "10.1124/mol.104.001701",
+      "url": "https://doi.org/10.1124/mol.104.001701",
+      "source_type": "pubmed",
+      "verdict": "DIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:15598974",
+      "caveat": "[Its substrate specificity overlaps with that of ...] evidence is cell_line"
+    },
+    "33": {
+      "mla": "Yamashita, Shinji, et al. \"New Methods to Evaluate Intestinal Drug Absorption Mediated by Oligopeptide Transporter from in Vitro Study Using Caco-2 Cells.\" Drug Metabolism and Pharmacokinetics, vol. 17, no. 5, 2002, pp. 408-15. PubMed, https://doi.org/10.2133/dmpk.17.408.",
+      "pmid": "15618692",
+      "doi": "10.2133/dmpk.17.408",
+      "url": "https://doi.org/10.2133/dmpk.17.408",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:15618692",
+      "caveat": "[Beta-lactam ring (penicillin, cephalosporin, carbapenem ...] evidence is cell_line; [giving carrier-mediated apical uptake] supports only “cephalexin and L-phenylalanine show concentration-dependent transport across Caco-2 monolayers, at permeability lower than that of ...”; evidence is cell_line; [even when passive permeability is low.] Cephalexin, a beta-lactam, shows saturable concentration-dependent transport in Caco-2 monolayers although its permeability is low relative to passively transported drugs; reading concentration-dependence as PEPT1 carrier-mediated uptake is the one inference step, which the abstract's own PepT1 framing supplies. Evidence is an in vitro cell line."
+    },
+    "34": {
+      "mla": "Ruppin, H., et al. \"Absorption of Short-Chain Fatty Acids by the Colon.\" Gastroenterology, vol. 78, no. 6, 1980, pp. 1500-7. PubMed, pubmed.ncbi.nlm.nih.gov/6768637/.",
+      "pmid": "6768637",
+      "doi": "",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/6768637/",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:6768637",
+      "caveat": "[permit passive transcellular and paracellular absorption.] supports only “permit passive transcellular absorption.”; source does not evidence: paracellular absorption; [Short-chain aliphatic monocarboxylate (C1-C4 acid without ...] supports only “propionate, with limited data for acetate and n-butyrate, is absorbed from the human colon largely by nonionic diffusion of the protonated ...”; verifier note: Nonionic diffusion of the protonated acid is directly measured, but in the colon, for three compounds, with no size or substituent analysis."
+    },
+    "35": {
+      "mla": "Schmitt, M. G., et al. \"Absorption of Short-Chain Fatty Acids from the Human Ileum.\" The American Journal of Digestive Diseases, vol. 22, no. 4, 1977, pp. 340-7. PubMed, https://doi.org/10.1007/BF01072192.",
+      "pmid": "16482",
+      "doi": "10.1007/BF01072192",
+      "url": "https://doi.org/10.1007/BF01072192",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:16482",
+      "caveat": "[C1-C4 acid] supports only “C2-C4 short-chain fatty acids (acetate, propionate and n-butyrate)”; verifier note: Only the C2-C4 short-chain fatty acids are studied, so the atom's C1 endpoint and its broader 'acid' category are unsourced; absorption is also shown to be rate-limited rather than free."
+    },
+    "36": {
+      "mla": "Fine, K. D., et al. \"Effect of Changing Intestinal Flow Rate on a Measurement of Intestinal Permeability.\" Gastroenterology, vol. 108, no. 4, 1995, pp. 983-9. PubMed, https://doi.org/10.1016/0016-5085(95)90193-0.",
+      "pmid": "7698614",
+      "doi": "10.1016/0016-5085(95)90193-0",
+      "url": "https://doi.org/10.1016/0016-5085(95)90193-0",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:7698614",
+      "caveat": "[permit passive transcellular and paracellular absorption.] supports only “A passive aqueous paracellular diffusion pathway exists in the human jejunum, whose effective pore radius varies with luminal flow rate.”; verifier note: The study evidences the paracellular half of the atom in human jejunum but not the transcellular half, and the pathway proves flow-dependent rather than fixed.; [and by the paracellular route, regardless of low ...] supports only “an aqueous paracellular pathway for passive diffusion exists in human jejunum, with an average calculated pore radius of 8 to 13 A that ...”; verifier note: Human jejunal paracellular passive diffusion is directly characterised, but with fixed hydrophilic probes only, so the atom's lipophilicity-independence clause has no evidential basis here."
+    },
+    "37": {
+      "mla": "Aquilonius, S. M., and P. Hartvig. \"Clinical Pharmacokinetics of Cholinesterase Inhibitors.\" Clinical Pharmacokinetics, vol. 11, no. 3, 1986, pp. 236-49. PubMed, https://doi.org/10.2165/00003088-198611030-00005.",
+      "pmid": "3524957",
+      "doi": "10.2165/00003088-198611030-00005",
+      "url": "https://doi.org/10.2165/00003088-198611030-00005",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:3524957",
+      "caveat": "[Permanent quaternary ammonium (fixed positive charge at all ...] verifier note: Low oral bioavailability of permanently ionised quaternary agents is documented, but the atom's ionization claim requires outside chemistry.; [no permanently charged centre] verifier note: The paper establishes that quaternary, permanently charged cholinesterase inhibitors are poorly absorbed; the atom's positive property must be inferred and the paper offers no matched uncharged comparator."
+    },
+    "38": {
+      "mla": "Lanevskij, Kiril, and Remigijus Didziapetris. \"Physicochemical QSAR Analysis of Passive Permeability Across Caco-2 Monolayers.\" Journal of Pharmaceutical Sciences, vol. 108, no. 1, 2019, pp. 78-86. PubMed, https://doi.org/10.1016/j.xphs.2018.10.006.",
+      "pmid": "30321548",
+      "doi": "10.1016/j.xphs.2018.10.006",
+      "url": "https://doi.org/10.1016/j.xphs.2018.10.006",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:30321548",
+      "caveat": "[and by the paracellular route, regardless of low ...] supports only “a size- and charge-specific paracellular pathway contributes to passive permeability across Caco-2 monolayers alongside transcellular ...”; verifier note: The model does include an explicit paracellular route, but it is size- and charge-restricted and log D remains a descriptor, so the atom's 'regardless of low lipophilicity' is unsupported."
+    },
+    "39": {
+      "mla": "Bockus, Andrew T., et al. \"Probing the Physicochemical Boundaries of Cell Permeability and Oral Bioavailability in Lipophilic Macrocycles Inspired by Natural Products.\" Journal of Medicinal Chemistry, vol. 58, no. 11, 2015, pp. 4581-9. PubMed, https://doi.org/10.1021/acs.jmedchem.5b00128.",
+      "pmid": "25950816",
+      "doi": "10.1021/acs.jmedchem.5b00128",
+      "url": "https://doi.org/10.1021/acs.jmedchem.5b00128",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:25950816",
+      "caveat": "[enabling absorption of some large macrocyclic peptides.] supports only “one cyclic hexapeptide bearing a gamma-amino acid showed 21% oral bioavailability in rat”; evidence is rat, claim is stated for humans; [N-methylated amide bonds in cyclic or macrocyclic peptides: ...] evidence is rat, claim is stated for humans; [some large macrocyclic peptides] supports only “some cyclic hexapeptides containing gamma-amino acids are membrane permeable, and one is 21% orally bioavailable in rat”; evidence is rat, claim is stated for humans"
+    },
+    "40": {
+      "mla": "Klein, Victoria G., et al. \"Identifying the Cellular Target of Cordyheptapeptide a and Synthetic Derivatives.\" ACS Chemical Biology, vol. 16, no. 8, 2021, pp. 1354-1364. PubMed, https://doi.org/10.1021/acschembio.1c00094.",
+      "pmid": "34251165",
+      "doi": "10.1021/acschembio.1c00094",
+      "url": "https://doi.org/10.1021/acschembio.1c00094",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:34251165",
+      "caveat": "ALSO CONTRADICTS: N-methylated amide bonds in cyclic or macrocyclic peptides: removing hydrogen-bond-donor NH groups raises ...; [without adding lipophilicity,] evidence is cell_line"
+    },
+    "41": {
+      "mla": "Lin, J. H., et al. \"On the Absorption of Alendronate in Rats.\" Journal of Pharmaceutical Sciences, vol. 83, no. 12, 1994, pp. 1741-6. PubMed, https://doi.org/10.1002/jps.2600831218.",
+      "pmid": "7891304",
+      "doi": "10.1002/jps.2600831218",
+      "url": "https://doi.org/10.1002/jps.2600831218",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:7891304",
+      "caveat": "[Geminal bisphosphonate group (multiple ionizable ...] supports only “bisphosphonate (multiple ionizable phosphonate protons): heavily ionizable at intestinal pH”; I disagree with the reviewer here. Candidate 8833200 is NEITHER for this atom: its only relevant sentence is 'In general, bisphosphonates are poorly absorbed from the gastrointestinal tract as a result of their poor lipophilicity', which asserts poor absorption and poor lipophilicity and never mentions charge, ionization, pKa or pH. Poor absorption is a different claim from being heavily anionic at intestinal pH. One search found a source that does state the charge claim, 7891304 (same author, Merck), which says alendronate 'is completely ionized in the intestine at the physiological pH'. That supports the atom once 'heavily anionic' is read as heavily ionized (the molecule is a zwitterion) and once the claim is limited to alendronate in rats.; source does not establish: 'geminal bisphosphonate group' as such: the abstract describes alendronate as 'a zwitterion with five pKa values'; 'heavily anionic': the abstract says 'completely ionized' and calls the molecule a zwitterion, i.e. it also carries a cationic ammonium, so net charge is not stated; 'across intestinal pH' as a range: the abstract says 'at the physiological pH'; buffered solutions at pH 2-11 were tested only for their effect on absorption, which did not improve; bisphosphonates as a class: alendronate only; human: Sprague-Dawley rats; the atom's causal use of charge: the abstract's own absorption route is paracellular in the upper small intestine and is modifiable (EDTA, ulcerogenic agents)"
+    },
+    "42": {
+      "mla": "Germovsek, Eva, et al. \"What Do I Need to Know About Aminoglycoside Antibiotics?.\" Archives of Disease in Childhood. Education and Practice Edition, vol. 102, no. 2, 2017, pp. 89-93. PubMed, https://doi.org/10.1136/archdischild-2015-309069.",
+      "pmid": "27506599",
+      "doi": "10.1136/archdischild-2015-309069",
+      "url": "https://doi.org/10.1136/archdischild-2015-309069",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "terminology",
+      "ref_id": "pmid:27506599",
+      "caveat": "[giving a large hydrated polar surface] supports only “Aminoglycosides are polar drugs with poor gastrointestinal absorption, requiring parenteral administration.”; verifier note: The review supports polarity and poor oral absorption but provides nothing about a large hydrated polar surface as the explanation.; [large hydrated polar surface] supports only “aminoglycosides are polar drugs with poor gastrointestinal absorption”; verifier note: Polarity and poor absorption are stated; 'large hydrated polar surface' adds three descriptors the source does not supply."
+    },
+    "43": {
+      "mla": "Chatterjee, Jayanta, et al. \"N-Methylation of Peptides: a New Perspective in Medicinal Chemistry.\" Accounts of Chemical Research, vol. 41, no. 10, 2008, pp. 1331-42. PubMed, https://doi.org/10.1021/ar8000603.",
+      "pmid": "18636716",
+      "doi": "10.1021/ar8000603",
+      "url": "https://doi.org/10.1021/ar8000603",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:18636716",
+      "caveat": "[free, non-N-methylated amide NH groups] verifier note: The permeability gain on N-methylation supports the atom's claim about free amide NH groups by one step of contraposition, but the mechanism is not isolated."
+    },
+    "44": {
+      "mla": "Lipinski, C. A., et al. \"Experimental and Computational Approaches to Estimate Solubility and Permeability in Drug Discovery and Development Settings.\" Advanced Drug Delivery Reviews, vol. 46, no. 1-3, 2001, pp. 3-26. PubMed, https://doi.org/10.1016/s0169-409x(00)00129-0.",
+      "pmid": "11259830",
+      "doi": "10.1016/s0169-409x(00)00129-0",
+      "url": "https://doi.org/10.1016/s0169-409x(00)00129-0",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "terminology",
+      "ref_id": "pmid:11259830",
+      "caveat": "[molecular weight above ~600] numeric gap 17%: claim [molecular weight >600 Da] vs source [molecular weight >500 Da]; [and carrying too many hydrogen-bond donors for passive ...] verifier note: Lipinski's abstract states that more than 5 H-bond donors makes poor absorption or permeation more likely, which matches the atom's direction, but it neither isolates the passive route nor treats donor count as deterministic."
+    },
+    "45": {
+      "mla": "Palm, K., et al. \"Polar Molecular Surface Properties Predict the Intestinal Absorption of Drugs in Humans.\" Pharmaceutical Research, vol. 14, no. 5, 1997, pp. 568-71. PubMed, https://doi.org/10.1023/a:1012188625088.",
+      "pmid": "9165525",
+      "doi": "10.1023/a:1012188625088",
+      "url": "https://doi.org/10.1023/a:1012188625088",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "proposition",
+      "ref_id": "pmid:9165525",
+      "caveat": "[TPSA above ~140 A^2 together with more than 5 hydrogen-bond ...] supports only “Drugs less than 10% absorbed in humans had a dynamic polar surface area of 140 A2 or more.”; verifier note: The 140 A2 polar-surface boundary for poorly absorbed drugs is directly stated, but the hydrogen-bond-donor clause and the desolvation/transcellular mechanism are absent.; [and the molecule is also too polar for membrane ...] verifier note: Human absorption is strongly predicted by polar surface area, but membrane partitioning is the inferred mechanism rather than a measured quantity, and the paper leaves a wide indeterminate PSA band."
+    },
+    "46": {
+      "mla": "Xiang, T. X., et al. \"Transport Methods for Probing the Barrier Domain of Lipid Bilayer Membranes.\" Biophysical Journal, vol. 63, no. 1, 1992, pp. 78-88. PubMed, https://doi.org/10.1016/S0006-3495(92)81581-3.",
+      "pmid": "1420875",
+      "doi": "10.1016/S0006-3495(92)81581-3",
+      "url": "https://doi.org/10.1016/S0006-3495(92)81581-3",
+      "source_type": "pubmed",
+      "verdict": "INDIRECT",
+      "supports": "proposition",
+      "ref_id": "pmid:1420875",
+      "caveat": "[and the molecule is also too polar for membrane ...] evidence is cell_free"
+    },
+    "47": {
+      "mla": "Chan, O. H., et al. \"Absorption of Cam-2445, and NK1 Neurokinin Receptor Antagonist: in Vivo, in Situ, and in Vitro Evaluations.\" Journal of Pharmaceutical Sciences, vol. 85, no. 3, 1996, pp. 253-7. PubMed, https://doi.org/10.1021/js9503338.",
+      "pmid": "8699323",
+      "doi": "10.1021/js9503338",
+      "url": "https://doi.org/10.1021/js9503338",
+      "source_type": "pubmed",
+      "verdict": "SCOPE_LIMITED",
+      "supports": "mixed",
+      "ref_id": "pmid:8699323",
+      "caveat": "[so little drug is available in solution to be absorbed ...] supports only “For the single highly permeable, poorly soluble NK1 antagonist Cam-2445 in rats, gastrointestinal dissolution/precipitation rather than ...”; evidence is rat, claim is stated for humans; [dissolution becomes the limiting step] supports only “gastrointestinal dissolution and/or precipitation is the limiting factor for the oral bioavailability of Cam-2445 in rat”; evidence is rat, claim is stated for humans"
+    },
+    "48": {
+      "mla": "Takada, Tappei, et al. \"ABCG2 Dysfunction Increases Serum Uric Acid by Decreased Intestinal Urate Excretion.\" Nucleosides, Nucleotides & Nucleic Acids, vol. 33, no. 4-6, 2014, pp. 275-81. PubMed, https://doi.org/10.1080/15257770.2013.854902.",
+      "pmid": "24940679",
+      "doi": "10.1080/15257770.2013.854902",
+      "url": "https://doi.org/10.1080/15257770.2013.854902",
+      "source_type": "pubmed",
+      "verdict": "CONTRADICTED",
+      "supports": "contradicts",
+      "ref_id": "pmid:24940679",
+      "caveat": "CONTRADICTS: Like P-gp it is saturable; Non-saturability was shown only for an endogenous anion (urate) in mouse vesicles below physiological saturation, so it cannot be generalized to the drug substrates whose intestinal handling the clause concerns. (BCRP, like P-gp, is saturable at luminal ..."
+    },
+    "49": {
+      "mla": "Hu, Z., et al. \"A Novel Emulsifier, Labrasol, Enhances Gastrointestinal Absorption of Gentamicin.\" Life Sciences, vol. 69, no. 24, 2001, pp. 2899-910. PubMed, https://doi.org/10.1016/s0024-3205(01)01375-3.",
+      "pmid": "11720093",
+      "doi": "10.1016/s0024-3205(01)01375-3",
+      "url": "https://doi.org/10.1016/s0024-3205(01)01375-3",
+      "source_type": "pubmed",
+      "verdict": "CONTRADICTED",
+      "supports": "contradicts",
+      "ref_id": "pmid:11720093",
+      "caveat": "CONTRADICTS: that cannot partition into the apical membrane.; The recorded quote states poor absorption and so supports the clause. The abstract's incompatible material is the efflux-from-enterocytes mechanism plus 54.2% bioavailability, which shows the barrier is not absolute; note this holds only with an added ..."
+    },
+    "50": {
+      "mla": "Veber, Daniel F., et al. \"Molecular Properties that Influence the Oral Bioavailability of Drug Candidates.\" Journal of Medicinal Chemistry, vol. 45, no. 12, 2002, pp. 2615-23. PubMed, https://doi.org/10.1021/jm020017n.",
+      "pmid": "12036371",
+      "doi": "10.1021/jm020017n",
+      "url": "https://doi.org/10.1021/jm020017n",
+      "source_type": "pubmed",
+      "verdict": "CONTRADICTED",
+      "supports": "contradicts",
+      "ref_id": "pmid:12036371",
+      "caveat": "CONTRADICTS: molecular weight above ~600; Number check: the clause names ~600 while the source tests the 500 cutoff, so the refutation of molecular weight as a standalone criterion is demonstrated at a different threshold and in rat data. The direction of the finding (MW explained away as a proxy for ..."
+    }
+  },
+  "contradiction_flags": [
+    {
+      "json_path": "relevant_proteins.BCRP.logic",
+      "segment_id": "C-995e9ae351#s4",
+      "segment_text": "Like P-gp it is saturable ",
+      "pmid": "24940679",
+      "doi": "10.1080/15257770.2013.854902",
+      "mla": "Takada, Tappei, et al. \"ABCG2 Dysfunction Increases Serum Uric Acid by Decreased Intestinal Urate Excretion.\" Nucleosides, Nucleotides & Nucleic Acids, vol. 33, no. 4-6, 2014, pp. 275-81. PubMed, https://doi.org/10.1080/15257770.2013.854902.",
+      "contradicting_quote": "First, we revealed that mouse Abcg2 mediates urate transport using the membrane vesicle system. The export process by mouse Abcg2 was ATP-dependent and not saturable under the physiological concentration of urate.",
+      "note": "Non-saturability was shown only for an endogenous anion (urate) in mouse vesicles below physiological saturation, so it cannot be generalized to the drug substrates whose intestinal handling the clause concerns. (BCRP, like P-gp, is saturable at luminal concentrations.; Mouse Abcg2 urate export was ATP-dependent and not saturable under the physiological concentration of urate.)",
+      "source_species": "mouse",
+      "source_system": "in_vivo_animal",
+      "origin": "blind_verification",
+      "scope": "mouse Abcg2 transporting urate, at physiological urate concentrations, in a membrane vesicle system; no drug substrate was tested"
+    },
+    {
+      "json_path": "pathway_rules[3]",
+      "segment_id": "C-5c823a282e#d2",
+      "segment_text": "preferentially extrudes",
+      "pmid": "32193356",
+      "doi": "10.1124/dmd.119.088674",
+      "mla": "Kawahara, Iichiro, et al. \"The Impact of Breast Cancer Resistance Protein (BCRP/ABCG2) on Drug Transport Across Caco-2 Cell Monolayers.\" Drug Metabolism and Disposition: the Biological Fate of Chemicals, vol. 48, no. 6, 2020, pp. 491-498. PubMed, https://doi.org/10.1124/dmd.119.088674.",
+      "contradicting_quote": "These results indicate that BCRP does not play a major role in regulating the permeability of estrone-3-sulfate and ciprofloxacin in Caco-2 cells.",
+      "note": "The negatives include a sulfate conjugate, a named substrate class, so the flag is not baseless, but the same abstract confirms BCRP-dominated efflux for three planar heterocycles; the dispute is per-compound in one cell line, not a refutation of the preference itself. (BCRP preferentially extrudes planar aromatic and heterocyclic compounds and their sulfate and glucuronide conjugates.; Absorptive quotients show BCRP does not play a major role for estrone-3-sulfate (0.21), ciprofloxacin (0.3) or nitrofurantoin (0.37), while topotecan, SN-38 and sulfasalazine had quotients above 0.6.)",
+      "source_species": "human",
+      "source_system": "ex_vivo",
+      "origin": "qc_polarity",
+      "scope": "estrone-3-sulfate and ciprofloxacin in Caco-2 monolayers; the same study finds BCRP contributes substantially to topotecan, SN-38 and sulfasalazine"
+    },
+    {
+      "json_path": "molecular_context.yes_features[1]",
+      "segment_id": "C-aa9eb8dfa8#s1",
+      "segment_text": "Free alpha-amino-acid backbone, or an amino-acid ester appended to a polar scaffold: recognized by PEPT1 ",
+      "pmid": "11007306",
+      "doi": "10.1007/s004240000339",
+      "mla": "Terada, T., et al. \"Structural Requirements for Determining the Substrate Affinity of Peptide Transporters PEPT1 and PEPT2.\" Pflugers Archiv, vol. 440, no. 5, 2000, pp. 679-84. PubMed, https://doi.org/10.1007/s004240000339.",
+      "contradicting_quote": "[14C]Glycylsarcosine uptake by PEPT1- or PEPT2-expressing transfectant was inhibited by di- and tripeptides, but not by amino acids, tetrapeptides or most cyclic dipeptides.",
+      "note": "The recorded quote points the other way, supporting the atom: losing a free alpha-amino group lowers affinity, which is the atom's premise. The refutation is the sentence showing amino acids themselves are not recognized, supplied here. (A free alpha-amino-acid backbone is recognized by PEPT1 through di-/tripeptide-like geometry.; Glycylsarcosine uptake was inhibited by di- and tripeptides but NOT by amino acids; modifying the alpha-amino group reduced affinity at both transporters, and only 8-amino-octanoic acid preferred PEPT1 over PEPT2.)",
+      "source_species": "rat PEPT1/PEPT2 expressed in porcine LLC-PK1 cells",
+      "source_system": "cell_line",
+      "origin": "blind_verification",
+      "scope": "whole atom"
+    },
+    {
+      "json_path": "molecular_context.yes_features[5]",
+      "segment_id": "C-c186485aa2#s1",
+      "segment_text": "N-methylated amide bonds in cyclic or macrocyclic peptides: removing hydrogen-bond-donor NH groups raises passive membrane permeability ",
+      "pmid": "34251165",
+      "doi": "10.1021/acschembio.1c00094",
+      "mla": "Klein, Victoria G., et al. \"Identifying the Cellular Target of Cordyheptapeptide a and Synthetic Derivatives.\" ACS Chemical Biology, vol. 16, no. 8, 2021, pp. 1354-1364. PubMed, https://doi.org/10.1021/acschembio.1c00094.",
+      "contradicting_quote": "Removal of one of the backbone amide N-methyl (N-Me) groups maintained bioactivity, while membrane permeability was also preserved due to the formation of a new intramolecular hydrogen bond in a low dielectric solvent.",
+      "note": "The counterexample is real but singular, and it refutes only the necessity of N-methylation, not its benefit: permeability was preserved, not raised, and only because an intramolecular hydrogen bond sequestered the restored NH. (Removing hydrogen-bond-donor NH groups by N-methylation is what raises passive membrane permeability in cyclic and macrocyclic peptides.; Removal of one backbone amide N-methyl group preserved both bioactivity and membrane permeability, because a new intramolecular hydrogen bond formed.)",
+      "source_species": "human (NCI-60 cell lines)",
+      "source_system": "cell_line",
+      "origin": "blind_verification",
+      "scope": "one lipophilic cyclic heptapeptide (cordyheptapeptide A), where removing a single backbone N-Me let a new intramolecular hydrogen bond form in low-dielectric solvent"
+    },
+    {
+      "json_path": "molecular_context.no_features[2]",
+      "segment_id": "C-55ae9b0e3a#s3",
+      "segment_text": "that cannot partition into the apical membrane.",
+      "pmid": "11720093",
+      "doi": "10.1016/s0024-3205(01)01375-3",
+      "mla": "Hu, Z., et al. \"A Novel Emulsifier, Labrasol, Enhances Gastrointestinal Absorption of Gentamicin.\" Life Sciences, vol. 69, no. 24, 2001, pp. 2899-910. PubMed, https://doi.org/10.1016/s0024-3205(01)01375-3.",
+      "contradicting_quote": "The effect of Labrasol is ascribed to both (1) enhanced GM absorption from the GI lumen into the systemic circulation and (2) inhibition of efflux of GM from the enterocytes to the GI lumen.",
+      "note": "The recorded quote states poor absorption and so supports the clause. The abstract's incompatible material is the efflux-from-enterocytes mechanism plus 54.2% bioavailability, which shows the barrier is not absolute; note this holds only with an added emulsifier in rat colon, so the marker should be read as condition-dependent. (The aminoglycoside scaffold's hydrated polar surface cannot partition into the apical membrane.; With a Labrasol microemulsion, gentamicin reached 54.2% absolute bioavailability from rat colon, and the effect is ascribed partly to inhibition of gentamicin efflux from the enterocytes back to the lumen, which presupposes entry into the cell.)",
+      "source_species": "rat",
+      "source_system": "in_vivo_animal",
+      "origin": "blind_verification",
+      "scope": "whole atom"
+    },
+    {
+      "json_path": "molecular_context.no_features[5]",
+      "segment_id": "C-0a6ed4713b#d2",
+      "segment_text": "molecular weight above ~600",
+      "pmid": "12036371",
+      "doi": "10.1021/jm020017n",
+      "mla": "Veber, Daniel F., et al. \"Molecular Properties that Influence the Oral Bioavailability of Drug Candidates.\" Journal of Medicinal Chemistry, vol. 45, no. 12, 2002, pp. 2615-23. PubMed, https://doi.org/10.1021/jm020017n.",
+      "contradicting_quote": "The commonly applied molecular weight cutoff at 500 does not itself significantly separate compounds with poor oral bioavailability from those with acceptable values in this extensive data set.",
+      "note": "Number check: the clause names ~600 while the source tests the 500 cutoff, so the refutation of molecular weight as a standalone criterion is demonstrated at a different threshold and in rat data. The direction of the finding (MW explained away as a proxy for flexibility and polar surface area) genuinely opposes the clause, but only under that narrower condition. (That molecular weight above ~600 is a criterion marking poor absorption.; In >1100 rat oral bioavailability measurements, the MW 500 cutoff did not by itself separate poorly from acceptably bioavailable compounds; rotatable bonds and polar surface area predicted bioavailability independent of molecular weight.)",
+      "source_species": "rat",
+      "source_system": "in_vivo_animal",
+      "origin": "blind_verification",
+      "scope": "rat oral-bioavailability dataset (>1100 SmithKline Beecham candidates); the cutoff actually tested is molecular weight 500, not ~600"
+    }
+  ],
+  "citation_meta": {
+    "pipeline_version": "1.2",
+    "marker_legend": {
+      "[n]": "the source supports this assertion",
+      "[nt]": "the source confirms the terminology only; it does not establish the assertion",
+      "[nc]": "the source supports this assertion but contradicts something else in this file; see contradiction_flags and the reference's caveat",
+      "[n!]": "the source DISPUTES this assertion. It is not support. The refuting quote is in contradiction_flags"
+    },
+    "source_file": "TDC/knowledge_hia_reasoning_V3.json",
+    "attribution": "Bibliographic metadata retrieved from PubMed (U.S. National Library of Medicine). 49 of 50 references resolve through a DOI link; the remaining 1 have no DOI in PubMed and are addressed by PMID.",
+    "coverage": {
+      "segments": 133,
+      "cited": 92,
+      "uncited": 41,
+      "cited_factual": 33,
+      "cited_terminology_only": 59,
+      "contradictions": 6,
+      "references": 50,
+      "note": "`cited` counts every atom with an admissible reference. `cited_factual` excludes atoms that are bare terms rather than propositions, where the citation confirms vocabulary rather than a finding."
+    }
+  }
+}

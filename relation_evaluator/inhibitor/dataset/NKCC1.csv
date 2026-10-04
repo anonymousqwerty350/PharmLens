@@ -1,0 +1,4 @@
+smiles,label,type,pChEMBL,n_records,chembl_ids
+Cc1csc(NC(=O)CSc2ccc(-c3ccccc3)nn2)n1,0,IC50 (>),4.3,1,CHEMBL1491962
+Cc1csc(N(C)C(=O)CSc2ccc(-c3ccccc3)nn2)n1,0,IC50 (>),4.3,1,CHEMBL2048846
+CNc1nc(-c2ccc3c(c2)CCN3C(=O)c2ccccc2OCc2ccc(Cl)cc2)cs1,1,IC50,6.62,1,CHEMBL4100485
